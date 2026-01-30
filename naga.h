@@ -5,67 +5,16 @@
 #include <stdlib.h>
 
 #define NAGA_FFI_VERSION 28
-
+#define NAGA_NULLABLE
+#define NAGA_UNIMPLEMENTED
 #define NAGA_U32_UNDEFINED UINT32_MAX
 
-/*
-
-ModuleFillFlags
-Module
-
-ModuleFillInfoFlags
-ModuleInfo*
-
-DOTBackOptions
-DOTBackError
-GLSLBackOptions
-GLSLBackPipelineOptions
-GLSLBackError
-HLSLBackOptions
-HLSLBackPipelineOptions
-HLSLBackFragmentEntryPoint
-HLSLBackError
-MSLBackOptions
-MSLBackPipelineOptions
-MSLBackError
-SPVBackPipelineOptions
-SPVBackDebugInfo
-SPVBackCapabilities
-SPVBackError
-
-GLSLFrontOptions
-GLSLFrontParseError
-SPVFrontOptions
-SPVFrontError
-WGSLFrontOptions
-WGSLFrontParseError
-
-BoundsCheckPolicies
-ReflectionInfo
-
-naga_back_dot_write
-naga_back_glsl_write
-naga_back_hlsl_write
-naga_back_msl_write
-naga_back_spv_write
-naga_back_spv_get_capabilities_used
-naga_back_wgsl_write
-
-naga_back_process_overrides
-
-naga_front_glsl_parse
-naga_front_spv_parse
-naga_front_wgsl_parse
-
-naga_valid_validator_new
-naga_valid_validator_reset
-naga_valid_validator_validate
-naga_valid_validator_validate_resolved_overrides
-naga_valid_validator_delete
-
-*/
+// TODO: free everything
+// TODO: divide into ir, back, front, proc
 
 typedef uint8_t Bytes;
+
+struct Empty {};
 
 typedef enum ScalarKind {
 	ScalarKind_Sint = 0,
@@ -458,6 +407,12 @@ typedef struct Module {
 	void *doc_comments;
 } Module;
 
+typedef enum ModuleInfoFillFlags {
+
+} ModuleInfoFillFlags;
+
+typedef struct Empty ModuleInfo;
+
 typedef struct DOTBackOptions {
 	bool cfg_only;
 } DOTBackOptions;
@@ -569,6 +524,8 @@ typedef struct GLSLBackError {
 		GLSLBackResolveArraySizeError resolve_array_size_error;
 	} data;
 } GLSLBackError;
+
+typedef struct Empty GLSLBackReflectionInfo;
 
 typedef enum HLSLBackShaderModel {
 	HLSLBackShaderModel_V5_0,
@@ -695,6 +652,8 @@ typedef struct HLSLBackFragmentEntryPoint {
 	void *result;
 	size_t result_len;
 } HLSLBackFragmentEntryPoint;
+
+typedef struct Empty HLSLBackReflectionInfo;
 
 typedef uint8_t MSLBackSlot;
 
@@ -908,6 +867,8 @@ typedef struct MSLBackError {
 		} entry_point_not_found;
 	} data;
 } MSLBackError;
+
+typedef struct Empty MSLBackTranslationInfo;
 
 typedef enum SPVBackCapability {
 	SPVBackCapability_Matrix = 0,
@@ -1279,6 +1240,8 @@ typedef struct WGSLBackError {
 		} unsupported;
 	} data;
 } WGSLBackError;
+
+typedef struct Empty WGSLReflectionInfo;
 
 typedef struct GLSLFrontDefinesEntry {
 	char *key;
@@ -1652,5 +1615,290 @@ typedef struct WGSLFrontParseError {
 	char **notes;
 	size_t notes_len;
 } WGSLFrontParseError;
+
+typedef enum ConstantEvaluatorErrorTag {
+	ConstantEvaluatorErrorTag_FunctionArg,
+	ConstantEvaluatorErrorTag_GlobalVariable,
+	ConstantEvaluatorErrorTag_LocalVariable,
+	ConstantEvaluatorErrorTag_InvalidArrayLengthArg,
+	ConstantEvaluatorErrorTag_ArrayLengthDynamic,
+	ConstantEvaluatorErrorTag_ArrayLengthOverridden,
+	ConstantEvaluatorErrorTag_Call,
+	ConstantEvaluatorErrorTag_WorkGroupUniformLoadResult,
+	ConstantEvaluatorErrorTag_Atomic,
+	ConstantEvaluatorErrorTag_Derivative,
+	ConstantEvaluatorErrorTag_Load,
+	ConstantEvaluatorErrorTag_ImageExpression,
+	ConstantEvaluatorErrorTag_RayQueryExpression,
+	ConstantEvaluatorErrorTag_SubgroupExpression,
+	ConstantEvaluatorErrorTag_InvalidAccessBase,
+	ConstantEvaluatorErrorTag_InvalidAccessIndex,
+	ConstantEvaluatorErrorTag_InvalidAccessIndexTy,
+	ConstantEvaluatorErrorTag_ArrayLength,
+	ConstantEvaluatorErrorTag_InvalidCastArg,
+	ConstantEvaluatorErrorTag_InvalidUnaryOpArg,
+	ConstantEvaluatorErrorTag_InvalidBinaryOpArgs,
+	ConstantEvaluatorErrorTag_InvalidMathArg,
+	ConstantEvaluatorErrorTag_InvalidMathArgCount,
+	ConstantEvaluatorErrorTag_InvalidRelationalArg,
+	ConstantEvaluatorErrorTag_InvalidClamp,
+	ConstantEvaluatorErrorTag_InvalidVectorComposeLength,
+	ConstantEvaluatorErrorTag_InvalidVectorComposeComponent,
+	ConstantEvaluatorErrorTag_SplatScalarOnly,
+	ConstantEvaluatorErrorTag_SwizzleVectorOnly,
+	ConstantEvaluatorErrorTag_SwizzleOutOfBounds,
+	ConstantEvaluatorErrorTag_TypeNotConstructible,
+	ConstantEvaluatorErrorTag_SubexpressionsAreNotConstant,
+	ConstantEvaluatorErrorTag_NotImplemented,
+	ConstantEvaluatorErrorTag_Overflow,
+	ConstantEvaluatorErrorTag_AutomaticConversionLossy,
+	ConstantEvaluatorErrorTag_DivisionByZero,
+	ConstantEvaluatorErrorTag_RemainderByZero,
+	ConstantEvaluatorErrorTag_ShiftedMoreThan32Bits,
+	ConstantEvaluatorErrorTag_Literal,
+	ConstantEvaluatorErrorTag_Override,
+	ConstantEvaluatorErrorTag_RuntimeExpr,
+	ConstantEvaluatorErrorTag_OverrideExpr,
+	ConstantEvaluatorErrorTag_SelectScalarConditionNotABool,
+	ConstantEvaluatorErrorTag_SelectVecRejectAcceptSizeMismatch,
+	ConstantEvaluatorErrorTag_SelectConditionNotAVecBool,
+	ConstantEvaluatorErrorTag_SelectConditionVecSizeMismatch,
+	ConstantEvaluatorErrorTag_SelectAcceptRejectTypeMismatch,
+} ConstantEvaluatorErrorTag;
+
+typedef struct ConstantEvaluatorError {
+	ConstantEvaluatorErrorTag tag;
+	union {
+		struct {
+			char *from;
+			char *to;
+		} invalid_cast_arg;
+		struct {
+			void *function;
+			size_t expected;
+			size_t actual;
+		} invalid_math_arg_count;
+		void *invalid_relational_arg;
+		struct {
+			size_t expected;
+			size_t actual;
+		} invalid_vector_compose_length;
+		char *not_implemented;
+		char *overflow;
+		struct {
+			char *value;
+			char *to_type;
+		} automatic_conversion_lossy;
+		void *literal;
+		struct {
+			VectorSize reject;
+			VectorSize accept;
+		} select_vec_reject_accept_size_mismatch;
+	} data;
+} ConstantEvaluatorError;
+
+typedef struct SpanContext {
+	GLSLFrontSpan span;
+	char *message;
+} SpanContext;
+
+typedef struct WithSpan {
+	void *inner;
+	SpanContext *spans;
+	size_t spans_len;
+} WithSpan;
+
+typedef struct PiplineConstant {
+	const char *key;
+	double value;
+} PipelineConstant;
+
+typedef enum PipelineConstantErrorTag {
+	PipelineConstantErrorTag_MissingValue,
+	PipelineConstantErrorTag_SrcNeedsToBeFinite,
+	PipelineConstantErrorTag_DstRangeTooSmall,
+	PipelineConstantErrorTag_ConstantEvaluatorError,
+	PipelineConstantErrorTag_ValidationError,
+	PipelineConstantErrorTag_NegativeWorkgroupSize,
+	PipelineConstantErrorTag_NegativeMeshOutputMax,
+} PipelineConstantErrorTag;
+
+typedef struct PipelineConstantError {
+	PipelineConstantErrorTag tag;
+	union {
+		char *missing_value;
+		ConstantEvaluatorError constant_evaluator_error;
+		WithSpan validation_error;
+	} data;
+} PipelineConstantError;
+
+typedef struct Validator {
+	void *raw_validator;
+} Validator;
+
+typedef enum Capabilities {
+	Capabilities_IMMEDIATES = 0x1,
+	Capabilities_FLOAT64 = 0x2,
+	Capabilities_PRIMITIVE_INDEX = 0x4,
+	Capabilities_TEXTURE_AND_SAMPLER_BINDING_ARRAY = 0x8,
+	Capabilities_BUFFER_BINDING_ARRAY = 0x10,
+	Capabilities_STORAGE_TEXTURE_BINDING_ARRAY = 0x20,
+	Capabilities_STORAGE_BUFFER_BINDING_ARRAY = 0x40,
+	Capabilities_CLIP_DISTANCE = 0x80,
+	Capabilities_CULL_DISTANCE = 0x100,
+	Capabilities_STORAGE_TEXTURE_16BIT_NORM_FORMATS = 0x200,
+	Capabilities_MULTIVIEW = 0x400,
+	Capabilities_EARLY_DEPTH_TEST = 0x800,
+	Capabilities_MULTISAMPLED_SHADING = 0x1000,
+	Capabilities_RAY_QUERY = 0x2000,
+	Capabilities_DUAL_SOURCE_BLENDING = 0x4000,
+	Capabilities_CUBE_ARRAY_TEXTURES = 0x8000,
+	Capabilities_SHADER_INT64 = 0x10000,
+	Capabilities_SUBGROUP = 0x20000,
+	Capabilities_SUBGROUP_BARRIER = 0x40000,
+	Capabilities_SUBGROUP_VERTEX_STAGE = 0x80000,
+	Capabilities_SHADER_INT64_ATOMIC_MIN_MAX = 0x100000,
+	Capabilities_SHADER_INT64_ATOMIC_ALL_OPS = 0x200000,
+	Capabilities_SHADER_FLOAT32_ATOMIC = 0x400000,
+	Capabilities_TEXTURE_ATOMIC = 0x800000,
+	Capabilities_TEXTURE_INT64_ATOMIC = 0x1000000,
+	Capabilities_RAY_HIT_VERTEX_POSITION = 0x2000000,
+	Capabilities_SHADER_FLOAT16 = 0x4000000,
+	Capabilities_TEXTURE_EXTERNAL = 0x8000000,
+	Capabilities_SHADER_FLOAT16_IN_FLOAT32 = 0x10000000,
+	Capabilities_SHADER_BARYCENTRICS = 0x20000000,
+	Capabilities_MESH_SHADER = 0x40000000,
+	Capabilities_MESH_SHADER_POINT_TOPOLOGY = 0x80000000,
+	Capabilities_TEXTURE_AND_SAMPLER_BINDING_ARRAY_NON_UNIFORM_INDEXING = 0x100000000,
+	Capabilities_BUFFER_BINDING_ARRAY_NON_UNIFORM_INDEXING = 0x200000000,
+	Capabilities_STORAGE_TEXTURE_BINDING_ARRAY_NON_UNIFORM_INDEXING = 0x400000000,
+	Capabilities_STORAGE_BUFFER_BINDING_ARRAY_NON_UNIFORM_INDEXING = 0x800000000,
+} Capabilities;
+
+typedef enum ValidationFlags {
+	ValidationFlags_EXPRESSIONS = 0x1,
+	ValidationFlags_BLOCKS = 0x2,
+	ValidationFlags_CONTROL_FLOW_UNIFORMITY = 0x4,
+	ValidationFlags_STRUCT_LAYOUTS = 0x8,
+	ValidationFlags_CONSTANTS = 0x10,
+	ValidationFlags_BINDINGS = 0x20,
+} ValidationFlags;
+
+typedef struct GLSLFrontendResult {
+	Module module;
+	GLSLFrontParseErrors errors;
+} GLSLFrontendResult;
+
+typedef struct SPVFrontendResult {
+	Module module;
+	SPVFrontError error;
+} SPVFrontendResult;
+
+typedef struct WGSLFrontendResult {
+	Module module;
+	WGSLFrontParseError error;
+} WGSLFrontendResult;
+
+GLSLFrontendResult naga_front_glsl_parse(
+		GLSLFrontOptions options,
+		const char *source);
+SPVFrontendResult naga_front_spv_parse(
+		SPVFrontOptions options,
+		uint32_t *const source,
+		uint32_t source_length);
+WGSLFrontendResult naga_front_wgsl_parse(
+		WGSLFrontOptions options,
+		const char *source);
+
+typedef struct ValidateResult {
+	ModuleInfo module_info;
+	WithSpan error;
+} ValidateResult;
+
+Validator naga_valid_validator_new(ValidationFlags flags, Capabilities capabilities);
+void naga_valid_validator_reset(Validator *validator);
+ValidateResult naga_valid_validator_validate(Validator *validator, Module *const module);
+ValidateResult naga_valid_validator_validate_resolved_overrides(Validator *validator, Module *const module);
+
+typedef struct DOTWriteResult {
+	char *output;
+	char *error;
+} DOTWriteResult;
+
+typedef struct GLSLWriteResult {
+	GLSLBackReflectionInfo reflection_info;
+	char *output;
+	GLSLBackError error;
+} GLSLWriteResult;
+
+typedef struct HLSLWriteResult {
+	HLSLBackReflectionInfo reflection_info;
+	char *output;
+	HLSLBackError error;
+} HLSLWriteResult;
+
+typedef struct MSLWriteResult {
+	MSLBackTranslationInfo translation_info;
+	char *output;
+	MSLBackError error;
+} MSLWriteResult;
+
+typedef struct SPVWriteResult {
+	uint32_t *output;
+	uint32_t output_count;
+	SPVBackError error;
+} SPVWriteResult;
+
+typedef struct WGSLWriteResult {
+	uint32_t *output;
+	uint32_t output_count;
+	SPVBackError error;
+} WGSLWriteResult;
+
+typedef struct ProcessOverridesResult {
+	Module *module;
+	ModuleInfo *module_info;
+	PipelineConstantError error;
+} ProcessOverridesResult;
+
+DOTWriteResult naga_back_dot_write(
+		Module *const module,
+		ModuleInfo *const module_info,
+		DOTBackOptions options);
+GLSLWriteResult naga_back_glsl_write(
+		Module *const module,
+		ModuleInfo *const module_info,
+		GLSLBackOptions options,
+		GLSLBackPipelineOptions pipeline_options,
+		BoundsCheckPolicies policies);
+HLSLWriteResult naga_back_hlsl_write(
+		Module *const module,
+		ModuleInfo *const module_info,
+		HLSLBackOptions options,
+		HLSLBackPipelineOptions pipeline_options,
+		HLSLBackFragmentEntryPoint *NAGA_NULLABLE fragment_entry_point);
+MSLWriteResult naga_back_msl_write(
+		Module *const module,
+		ModuleInfo *const module_info,
+		MSLBackOptions options,
+		MSLBackPipelineOptions pipeline_options);
+SPVWriteResult naga_back_spv_write(
+		Module *const module,
+		ModuleInfo *const module_info,
+		SPVBackOptions options,
+		SPVBackPipelineOptions pipeline_options);
+WGSLWriteResult naga_back_wgsl_write(
+		Module *const module,
+		ModuleInfo *const module_info,
+		WGSLBackWriterFlags writer_flags);
+ProcessOverridesResult naga_back_process_overrides(
+		Module *const module,
+		ModuleFillFlags module_flags,
+		ModuleInfo *const module_info,
+		ModuleInfoFillFlags module_fill_flags,
+		ShaderStage NAGA_NULLABLE entry_point_stage,
+		const char *NAGA_NULLABLE entry_point_name,
+		PipelineConstant *const constants,
+		uint32_t constants_count);
 
 #endif
