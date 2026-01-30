@@ -9,12 +9,35 @@
 #define NAGA_UNIMPLEMENTED
 #define NAGA_U32_UNDEFINED UINT32_MAX
 
-// TODO: free everything
-// TODO: divide into ir, back, front, proc
+struct Empty {
+	uint8_t _phantom;
+};
+
+#ifndef __cplusplus
+typedef uint8_t bool;
+#endif
+
+// TODO: desctructors to free everything
+
+typedef struct Span {
+	uint32_t start;
+	uint32_t end;
+} Span;
+
+typedef struct SpanContext {
+	Span span;
+	char *message;
+} SpanContext;
+
+typedef struct WithSpan {
+	void *inner;
+	SpanContext *spans;
+	size_t spans_len;
+} WithSpan;
+
+// --- naga::ir ---
 
 typedef uint8_t Bytes;
-
-struct Empty {};
 
 typedef enum ScalarKind {
 	ScalarKind_Sint = 0,
@@ -123,8 +146,6 @@ typedef struct ImageClass {
 		} storage;
 	} data;
 } ImageClass;
-
-#define OPTION_U32_NONE UINT32_MAX
 
 typedef enum AddressSpaceTag {
 	AddressSpaceTag_Function,
@@ -408,14 +429,101 @@ typedef struct Module {
 } Module;
 
 typedef enum ModuleInfoFillFlags {
-
+	ModuleInfoFillFlags_Unimplemented = UINT32_MAX
 } ModuleInfoFillFlags;
 
 typedef struct Empty ModuleInfo;
 
+// --- naga::proc ---
+
+typedef enum ConstantEvaluatorErrorTag {
+	ConstantEvaluatorErrorTag_FunctionArg,
+	ConstantEvaluatorErrorTag_GlobalVariable,
+	ConstantEvaluatorErrorTag_LocalVariable,
+	ConstantEvaluatorErrorTag_InvalidArrayLengthArg,
+	ConstantEvaluatorErrorTag_ArrayLengthDynamic,
+	ConstantEvaluatorErrorTag_ArrayLengthOverridden,
+	ConstantEvaluatorErrorTag_Call,
+	ConstantEvaluatorErrorTag_WorkGroupUniformLoadResult,
+	ConstantEvaluatorErrorTag_Atomic,
+	ConstantEvaluatorErrorTag_Derivative,
+	ConstantEvaluatorErrorTag_Load,
+	ConstantEvaluatorErrorTag_ImageExpression,
+	ConstantEvaluatorErrorTag_RayQueryExpression,
+	ConstantEvaluatorErrorTag_SubgroupExpression,
+	ConstantEvaluatorErrorTag_InvalidAccessBase,
+	ConstantEvaluatorErrorTag_InvalidAccessIndex,
+	ConstantEvaluatorErrorTag_InvalidAccessIndexTy,
+	ConstantEvaluatorErrorTag_ArrayLength,
+	ConstantEvaluatorErrorTag_InvalidCastArg,
+	ConstantEvaluatorErrorTag_InvalidUnaryOpArg,
+	ConstantEvaluatorErrorTag_InvalidBinaryOpArgs,
+	ConstantEvaluatorErrorTag_InvalidMathArg,
+	ConstantEvaluatorErrorTag_InvalidMathArgCount,
+	ConstantEvaluatorErrorTag_InvalidRelationalArg,
+	ConstantEvaluatorErrorTag_InvalidClamp,
+	ConstantEvaluatorErrorTag_InvalidVectorComposeLength,
+	ConstantEvaluatorErrorTag_InvalidVectorComposeComponent,
+	ConstantEvaluatorErrorTag_SplatScalarOnly,
+	ConstantEvaluatorErrorTag_SwizzleVectorOnly,
+	ConstantEvaluatorErrorTag_SwizzleOutOfBounds,
+	ConstantEvaluatorErrorTag_TypeNotConstructible,
+	ConstantEvaluatorErrorTag_SubexpressionsAreNotConstant,
+	ConstantEvaluatorErrorTag_NotImplemented,
+	ConstantEvaluatorErrorTag_Overflow,
+	ConstantEvaluatorErrorTag_AutomaticConversionLossy,
+	ConstantEvaluatorErrorTag_DivisionByZero,
+	ConstantEvaluatorErrorTag_RemainderByZero,
+	ConstantEvaluatorErrorTag_ShiftedMoreThan32Bits,
+	ConstantEvaluatorErrorTag_Literal,
+	ConstantEvaluatorErrorTag_Override,
+	ConstantEvaluatorErrorTag_RuntimeExpr,
+	ConstantEvaluatorErrorTag_OverrideExpr,
+	ConstantEvaluatorErrorTag_SelectScalarConditionNotABool,
+	ConstantEvaluatorErrorTag_SelectVecRejectAcceptSizeMismatch,
+	ConstantEvaluatorErrorTag_SelectConditionNotAVecBool,
+	ConstantEvaluatorErrorTag_SelectConditionVecSizeMismatch,
+	ConstantEvaluatorErrorTag_SelectAcceptRejectTypeMismatch,
+} ConstantEvaluatorErrorTag;
+
+typedef struct ConstantEvaluatorError {
+	ConstantEvaluatorErrorTag tag;
+	union {
+		struct {
+			char *from;
+			char *to;
+		} invalid_cast_arg;
+		struct {
+			void *function;
+			size_t expected;
+			size_t actual;
+		} invalid_math_arg_count;
+		void *invalid_relational_arg;
+		struct {
+			size_t expected;
+			size_t actual;
+		} invalid_vector_compose_length;
+		char *not_implemented;
+		char *overflow;
+		struct {
+			char *value;
+			char *to_type;
+		} automatic_conversion_lossy;
+		void *literal;
+		struct {
+			VectorSize reject;
+			VectorSize accept;
+		} select_vec_reject_accept_size_mismatch;
+	} data;
+} ConstantEvaluatorError;
+
+// --- naga::back::dot ---
+
 typedef struct DOTBackOptions {
 	bool cfg_only;
 } DOTBackOptions;
+
+// --- naga::back::glsl ---
 
 typedef enum GLSLBackVersionTag {
 	GLSLBackVersionTag_Desktop,
@@ -526,6 +634,8 @@ typedef struct GLSLBackError {
 } GLSLBackError;
 
 typedef struct Empty GLSLBackReflectionInfo;
+
+// --- naga::back::hlsl ---
 
 typedef enum HLSLBackShaderModel {
 	HLSLBackShaderModel_V5_0,
@@ -654,6 +764,8 @@ typedef struct HLSLBackFragmentEntryPoint {
 } HLSLBackFragmentEntryPoint;
 
 typedef struct Empty HLSLBackReflectionInfo;
+
+// --- naga::back::msl ---
 
 typedef uint8_t MSLBackSlot;
 
@@ -869,6 +981,8 @@ typedef struct MSLBackError {
 } MSLBackError;
 
 typedef struct Empty MSLBackTranslationInfo;
+
+// --- naga::back::spv ---
 
 typedef enum SPVBackCapability {
 	SPVBackCapability_Matrix = 0,
@@ -1208,6 +1322,8 @@ typedef struct SPVBackError {
 	} data;
 } SPVBackError;
 
+// --- naga::back::wgsl ---
+
 typedef enum WGSLBackWriterFlags {
 	WGSLBackWriterFlags_EXPLICIT_TYPES = 0x1,
 } WGSLBackWriterFlags;
@@ -1243,6 +1359,34 @@ typedef struct WGSLBackError {
 
 typedef struct Empty WGSLReflectionInfo;
 
+// -- naga::back::pipeline_constants ---
+
+typedef struct PiplineConstant {
+	const char *key;
+	double value;
+} PipelineConstant;
+
+typedef enum PipelineConstantErrorTag {
+	PipelineConstantErrorTag_MissingValue,
+	PipelineConstantErrorTag_SrcNeedsToBeFinite,
+	PipelineConstantErrorTag_DstRangeTooSmall,
+	PipelineConstantErrorTag_ConstantEvaluatorError,
+	PipelineConstantErrorTag_ValidationError,
+	PipelineConstantErrorTag_NegativeWorkgroupSize,
+	PipelineConstantErrorTag_NegativeMeshOutputMax,
+} PipelineConstantErrorTag;
+
+typedef struct PipelineConstantError {
+	PipelineConstantErrorTag tag;
+	union {
+		char *missing_value;
+		ConstantEvaluatorError constant_evaluator_error;
+		WithSpan validation_error;
+	} data;
+} PipelineConstantError;
+
+// --- naga::front::glsl ---
+
 typedef struct GLSLFrontDefinesEntry {
 	char *key;
 	char *value;
@@ -1257,11 +1401,6 @@ typedef struct GLSLFrontOptions {
 	ShaderStage stage;
 	GLSLFrontDefines defines;
 } GLSLFrontOptions;
-
-typedef struct GLSLFrontSpan {
-	uint32_t start;
-	uint32_t end;
-} GLSLFrontSpan;
 
 typedef enum GLSLFrontTokenValueTag {
 	GLSLFrontTokenValueTag_Identifier,
@@ -1448,13 +1587,15 @@ typedef struct GLSLFrontErrorKind {
 
 typedef struct GLSLFrontParseError {
 	GLSLFrontErrorKind kind;
-	GLSLFrontSpan span;
+	Span span;
 } GLSLFrontParseError;
 
 typedef struct GLSLFrontParseErrors {
 	GLSLFrontParseError *errors;
 	size_t errors_len;
 } GLSLFrontParseErrors;
+
+// --- naga::front::spv ---
 
 typedef struct SPVFrontOptions {
 	bool adjust_coordinate_space;
@@ -1599,12 +1740,14 @@ typedef struct SPVFrontError {
 	} data;
 } SPVFrontError;
 
+// --- naga::front::wgsl ---
+
 typedef struct WGSLFrontOptions {
 	bool parse_doc_comments;
 } WGSLFrontOptions;
 
 typedef struct WGSLFrontParseErrorLabel {
-	GLSLFrontSpan span;
+	Span span;
 	char *message;
 } WGSLFrontParseErrorLabel;
 
@@ -1616,121 +1759,7 @@ typedef struct WGSLFrontParseError {
 	size_t notes_len;
 } WGSLFrontParseError;
 
-typedef enum ConstantEvaluatorErrorTag {
-	ConstantEvaluatorErrorTag_FunctionArg,
-	ConstantEvaluatorErrorTag_GlobalVariable,
-	ConstantEvaluatorErrorTag_LocalVariable,
-	ConstantEvaluatorErrorTag_InvalidArrayLengthArg,
-	ConstantEvaluatorErrorTag_ArrayLengthDynamic,
-	ConstantEvaluatorErrorTag_ArrayLengthOverridden,
-	ConstantEvaluatorErrorTag_Call,
-	ConstantEvaluatorErrorTag_WorkGroupUniformLoadResult,
-	ConstantEvaluatorErrorTag_Atomic,
-	ConstantEvaluatorErrorTag_Derivative,
-	ConstantEvaluatorErrorTag_Load,
-	ConstantEvaluatorErrorTag_ImageExpression,
-	ConstantEvaluatorErrorTag_RayQueryExpression,
-	ConstantEvaluatorErrorTag_SubgroupExpression,
-	ConstantEvaluatorErrorTag_InvalidAccessBase,
-	ConstantEvaluatorErrorTag_InvalidAccessIndex,
-	ConstantEvaluatorErrorTag_InvalidAccessIndexTy,
-	ConstantEvaluatorErrorTag_ArrayLength,
-	ConstantEvaluatorErrorTag_InvalidCastArg,
-	ConstantEvaluatorErrorTag_InvalidUnaryOpArg,
-	ConstantEvaluatorErrorTag_InvalidBinaryOpArgs,
-	ConstantEvaluatorErrorTag_InvalidMathArg,
-	ConstantEvaluatorErrorTag_InvalidMathArgCount,
-	ConstantEvaluatorErrorTag_InvalidRelationalArg,
-	ConstantEvaluatorErrorTag_InvalidClamp,
-	ConstantEvaluatorErrorTag_InvalidVectorComposeLength,
-	ConstantEvaluatorErrorTag_InvalidVectorComposeComponent,
-	ConstantEvaluatorErrorTag_SplatScalarOnly,
-	ConstantEvaluatorErrorTag_SwizzleVectorOnly,
-	ConstantEvaluatorErrorTag_SwizzleOutOfBounds,
-	ConstantEvaluatorErrorTag_TypeNotConstructible,
-	ConstantEvaluatorErrorTag_SubexpressionsAreNotConstant,
-	ConstantEvaluatorErrorTag_NotImplemented,
-	ConstantEvaluatorErrorTag_Overflow,
-	ConstantEvaluatorErrorTag_AutomaticConversionLossy,
-	ConstantEvaluatorErrorTag_DivisionByZero,
-	ConstantEvaluatorErrorTag_RemainderByZero,
-	ConstantEvaluatorErrorTag_ShiftedMoreThan32Bits,
-	ConstantEvaluatorErrorTag_Literal,
-	ConstantEvaluatorErrorTag_Override,
-	ConstantEvaluatorErrorTag_RuntimeExpr,
-	ConstantEvaluatorErrorTag_OverrideExpr,
-	ConstantEvaluatorErrorTag_SelectScalarConditionNotABool,
-	ConstantEvaluatorErrorTag_SelectVecRejectAcceptSizeMismatch,
-	ConstantEvaluatorErrorTag_SelectConditionNotAVecBool,
-	ConstantEvaluatorErrorTag_SelectConditionVecSizeMismatch,
-	ConstantEvaluatorErrorTag_SelectAcceptRejectTypeMismatch,
-} ConstantEvaluatorErrorTag;
-
-typedef struct ConstantEvaluatorError {
-	ConstantEvaluatorErrorTag tag;
-	union {
-		struct {
-			char *from;
-			char *to;
-		} invalid_cast_arg;
-		struct {
-			void *function;
-			size_t expected;
-			size_t actual;
-		} invalid_math_arg_count;
-		void *invalid_relational_arg;
-		struct {
-			size_t expected;
-			size_t actual;
-		} invalid_vector_compose_length;
-		char *not_implemented;
-		char *overflow;
-		struct {
-			char *value;
-			char *to_type;
-		} automatic_conversion_lossy;
-		void *literal;
-		struct {
-			VectorSize reject;
-			VectorSize accept;
-		} select_vec_reject_accept_size_mismatch;
-	} data;
-} ConstantEvaluatorError;
-
-typedef struct SpanContext {
-	GLSLFrontSpan span;
-	char *message;
-} SpanContext;
-
-typedef struct WithSpan {
-	void *inner;
-	SpanContext *spans;
-	size_t spans_len;
-} WithSpan;
-
-typedef struct PiplineConstant {
-	const char *key;
-	double value;
-} PipelineConstant;
-
-typedef enum PipelineConstantErrorTag {
-	PipelineConstantErrorTag_MissingValue,
-	PipelineConstantErrorTag_SrcNeedsToBeFinite,
-	PipelineConstantErrorTag_DstRangeTooSmall,
-	PipelineConstantErrorTag_ConstantEvaluatorError,
-	PipelineConstantErrorTag_ValidationError,
-	PipelineConstantErrorTag_NegativeWorkgroupSize,
-	PipelineConstantErrorTag_NegativeMeshOutputMax,
-} PipelineConstantErrorTag;
-
-typedef struct PipelineConstantError {
-	PipelineConstantErrorTag tag;
-	union {
-		char *missing_value;
-		ConstantEvaluatorError constant_evaluator_error;
-		WithSpan validation_error;
-	} data;
-} PipelineConstantError;
+// --- naga::valid ---
 
 typedef struct Validator {
 	void *raw_validator;
@@ -1784,6 +1813,8 @@ typedef enum ValidationFlags {
 	ValidationFlags_BINDINGS = 0x20,
 } ValidationFlags;
 
+// --- Wrapper Methods ---
+
 typedef struct GLSLFrontendResult {
 	Module module;
 	GLSLFrontParseErrors errors;
@@ -1799,6 +1830,8 @@ typedef struct WGSLFrontendResult {
 	WGSLFrontParseError error;
 } WGSLFrontendResult;
 
+#ifndef NAGA_FFI_NO_METHODS
+
 GLSLFrontendResult naga_front_glsl_parse(
 		GLSLFrontOptions options,
 		const char *source);
@@ -1810,15 +1843,21 @@ WGSLFrontendResult naga_front_wgsl_parse(
 		WGSLFrontOptions options,
 		const char *source);
 
+#endif
+
 typedef struct ValidateResult {
 	ModuleInfo module_info;
 	WithSpan error;
 } ValidateResult;
 
+#ifndef NAGA_FFI_NO_METHODS
+
 Validator naga_valid_validator_new(ValidationFlags flags, Capabilities capabilities);
 void naga_valid_validator_reset(Validator *validator);
 ValidateResult naga_valid_validator_validate(Validator *validator, Module *const module);
 ValidateResult naga_valid_validator_validate_resolved_overrides(Validator *validator, Module *const module);
+
+#endif
 
 typedef struct DOTWriteResult {
 	char *output;
@@ -1861,6 +1900,8 @@ typedef struct ProcessOverridesResult {
 	PipelineConstantError error;
 } ProcessOverridesResult;
 
+#ifndef NAGA_FFI_NO_METHODS
+
 DOTWriteResult naga_back_dot_write(
 		Module *const module,
 		ModuleInfo *const module_info,
@@ -1900,5 +1941,7 @@ ProcessOverridesResult naga_back_process_overrides(
 		const char *NAGA_NULLABLE entry_point_name,
 		PipelineConstant *const constants,
 		uint32_t constants_count);
+
+#endif
 
 #endif
