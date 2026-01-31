@@ -856,11 +856,3 @@ pub fn module_to_ffi(module: naga::ir::Module, flags: ffi::ModuleFillFlags) -> f
     }
 }
 
-pub fn module_info_to_ffi(module_info: naga::valid::ModuleInfo) -> ffi::ModuleInfo {
-    let module_info = Box::new(module_info);
-    let module_info = Box::leak(module_info);
-    let module_info_ptr = module_info as *mut naga::valid::ModuleInfo;
-    ffi::ModuleInfo {
-        _inner_module_info: module_info_ptr as *mut c_void,
-    }
-}

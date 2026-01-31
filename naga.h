@@ -1891,7 +1891,7 @@ typedef struct WGSLFrontParseError {
 // --- naga::valid ---
 
 typedef struct Validator {
-	void *raw_validator;
+	void *_inner_validator;
 } Validator;
 
 typedef enum Capabilities {
