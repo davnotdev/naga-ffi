@@ -6,6 +6,10 @@ pub mod ir;
 pub mod proc;
 pub mod valid;
 
+pub use ir::*;
+pub use proc::*;
+pub use valid::*;
+
 // TODO: these should allocate and we should have a deallocate for these
 
 unsafe fn slice_to_ffi<T, O, F: FnOnce(&T) -> O>(v: &[T], f: F) -> *mut O {

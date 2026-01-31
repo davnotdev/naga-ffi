@@ -177,6 +177,88 @@ typedef struct AddressSpace {
 	} data;
 } AddressSpace;
 
+typedef enum MathFunction {
+	MathFunction_Abs,
+	MathFunction_Min,
+	MathFunction_Max,
+	MathFunction_Clamp,
+	MathFunction_Saturate,
+	MathFunction_Cos,
+	MathFunction_Cosh,
+	MathFunction_Sin,
+	MathFunction_Sinh,
+	MathFunction_Tan,
+	MathFunction_Tanh,
+	MathFunction_Acos,
+	MathFunction_Asin,
+	MathFunction_Atan,
+	MathFunction_Atan2,
+	MathFunction_Asinh,
+	MathFunction_Acosh,
+	MathFunction_Atanh,
+	MathFunction_Radians,
+	MathFunction_Degrees,
+	MathFunction_Ceil,
+	MathFunction_Floor,
+	MathFunction_Round,
+	MathFunction_Fract,
+	MathFunction_Trunc,
+	MathFunction_Modf,
+	MathFunction_Frexp,
+	MathFunction_Ldexp,
+	MathFunction_Exp,
+	MathFunction_Exp2,
+	MathFunction_Log,
+	MathFunction_Log2,
+	MathFunction_Pow,
+	MathFunction_Dot,
+	MathFunction_Dot4I8Packed,
+	MathFunction_Dot4U8Packed,
+	MathFunction_Outer,
+	MathFunction_Cross,
+	MathFunction_Distance,
+	MathFunction_Length,
+	MathFunction_Normalize,
+	MathFunction_FaceForward,
+	MathFunction_Reflect,
+	MathFunction_Refract,
+	MathFunction_Sign,
+	MathFunction_Fma,
+	MathFunction_Mix,
+	MathFunction_Step,
+	MathFunction_SmoothStep,
+	MathFunction_Sqrt,
+	MathFunction_InverseSqrt,
+	MathFunction_Inverse,
+	MathFunction_Transpose,
+	MathFunction_Determinant,
+	MathFunction_QuantizeToF16,
+	MathFunction_CountTrailingZeros,
+	MathFunction_CountLeadingZeros,
+	MathFunction_CountOneBits,
+	MathFunction_ReverseBits,
+	MathFunction_ExtractBits,
+	MathFunction_InsertBits,
+	MathFunction_FirstTrailingBit,
+	MathFunction_FirstLeadingBit,
+	MathFunction_Pack4x8snorm,
+	MathFunction_Pack4x8unorm,
+	MathFunction_Pack2x16snorm,
+	MathFunction_Pack2x16unorm,
+	MathFunction_Pack2x16float,
+	MathFunction_Pack4xI8,
+	MathFunction_Pack4xU8,
+	MathFunction_Pack4xI8Clamp,
+	MathFunction_Pack4xU8Clamp,
+	MathFunction_Unpack4x8snorm,
+	MathFunction_Unpack4x8unorm,
+	MathFunction_Unpack2x16snorm,
+	MathFunction_Unpack2x16unorm,
+	MathFunction_Unpack2x16float,
+	MathFunction_Unpack4xI8,
+	MathFunction_Unpack4xU8,
+} MathFunction;
+
 typedef enum Interpolation {
 	Interpolation_Perspective,
 	Interpolation_Linear,
@@ -526,11 +608,11 @@ typedef struct ConstantEvaluatorError {
 			char *to;
 		} invalid_cast_arg;
 		struct {
-			struct Empty *NAGA_UNIMPLEMENTED function;
+			MathFunction function;
 			size_t expected;
 			size_t actual;
 		} invalid_math_arg_count;
-		void *invalid_relational_arg;
+		struct Empty *NAGA_UNIMPLEMENTED invalid_relational_arg;
 		struct {
 			size_t expected;
 			size_t actual;
@@ -541,7 +623,7 @@ typedef struct ConstantEvaluatorError {
 			char *value;
 			char *to_type;
 		} automatic_conversion_lossy;
-		void *literal;
+		struct Empty *NAGA_UNIMPLEMENTED literal;
 		struct {
 			VectorSize reject;
 			VectorSize accept;
