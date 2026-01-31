@@ -3,6 +3,7 @@ use std::{env, path::PathBuf};
 fn main() {
     let bindings = bindgen::Builder::default()
         .header("naga.h")
+        .derive_default(true)
         .parse_callbacks(Box::new(bindgen::CargoCallbacks::new()))
         .clang_arg("-DNAGA_FFI_NO_METHODS")
         .generate()

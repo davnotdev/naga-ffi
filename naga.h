@@ -7,7 +7,13 @@
 #define NAGA_FFI_VERSION 28
 #define NAGA_NULLABLE
 #define NAGA_UNIMPLEMENTED
-#define NAGA_U32_UNDEFINED UINT32_MAX
+
+#define DEFINE_OPTIONAL(T) \
+	struct {               \
+		bool some;         \
+		T value;           \
+	}
+#define DEFINE_HANDLE_INDEX(T) size_t
 
 struct Empty {
 	uint8_t _phantom;
@@ -39,6 +45,9 @@ typedef struct WithSpan {
 
 typedef uint8_t Bytes;
 
+typedef struct Type Type;
+typedef struct Override Override;
+
 typedef enum ScalarKind {
 	ScalarKind_Sint = 0,
 	ScalarKind_Uint = 1,
@@ -69,7 +78,8 @@ typedef struct ArraySize {
 	ArraySizeTag tag;
 	union {
 		uint32_t constant;
-		void *pending;
+		DEFINE_HANDLE_INDEX(Override)
+		pending;
 	} data;
 } ArraySize;
 
@@ -249,11 +259,20 @@ typedef struct Binding {
 } Binding;
 
 typedef struct StructMember {
-	char *name;
-	void *ty;
-	Binding *binding;
+	char *NAGA_NULLABLE name;
+	DEFINE_HANDLE_INDEX(Type)
+	ty;
+	DEFINE_OPTIONAL(Binding)
+	binding;
 	uint32_t offset;
 } StructMember;
+
+typedef enum ImageDimension {
+	D1,
+	D2,
+	D3,
+	Cube,
+} ImageDimension;
 
 typedef enum TypeInnerTag {
 	TypeInnerTag_Scalar,
@@ -286,7 +305,8 @@ typedef struct TypeInner {
 		} matrix;
 		Scalar atomic;
 		struct {
-			void *base;
+			DEFINE_HANDLE_INDEX(Type)
+			base;
 			AddressSpace space;
 		} pointer;
 		struct {
@@ -295,7 +315,8 @@ typedef struct TypeInner {
 			AddressSpace space;
 		} value_pointer;
 		struct {
-			void *base;
+			DEFINE_HANDLE_INDEX(Type)
+			base;
 			ArraySize size;
 			uint32_t stride;
 		} array;
@@ -305,7 +326,7 @@ typedef struct TypeInner {
 			uint32_t span;
 		} struct_;
 		struct {
-			void *dim;
+			ImageDimension dim;
 			bool arrayed;
 			ImageClass class_;
 		} image;
@@ -319,28 +340,32 @@ typedef struct TypeInner {
 			bool vertex_return;
 		} ray_query;
 		struct {
-			void *base;
+			DEFINE_HANDLE_INDEX(Type)
+			base;
 			ArraySize size;
 		} binding_array;
 	} data;
 } TypeInner;
 
 typedef struct Type {
-	char *name;
+	char *NAGA_NULLABLE name;
 	TypeInner inner;
 } Type;
 
 typedef struct Constant {
-	char *name;
-	void *ty;
-	void *init;
+	char *NAGA_NULLABLE name;
+	DEFINE_HANDLE_INDEX(Type)
+	ty;
+	struct Empty *NAGA_UNIMPLEMENTED init;
 } Constant;
 
 typedef struct Override {
-	char *name;
-	uint16_t id;
-	void *ty;
-	void *init;
+	char *NAGA_NULLABLE name;
+	DEFINE_OPTIONAL(uint16_t)
+	id;
+	DEFINE_HANDLE_INDEX(Type)
+	ty;
+	struct Empty *NAGA_UNIMPLEMENTED init;
 } Override;
 
 typedef struct ResourceBinding {
@@ -349,11 +374,13 @@ typedef struct ResourceBinding {
 } ResourceBinding;
 
 typedef struct GlobalVariable {
-	char *name;
+	char *NAGA_NULLABLE name;
 	AddressSpace space;
-	ResourceBinding *binding;
-	void *ty;
-	void *init;
+	DEFINE_OPTIONAL(ResourceBinding)
+	binding;
+	DEFINE_HANDLE_INDEX(Type)
+	ty;
+	struct Empty *NAGA_UNIMPLEMENTED init;
 } GlobalVariable;
 
 typedef enum ConservativeDepth {
@@ -387,12 +414,13 @@ typedef enum ShaderStage {
 typedef struct EntryPoint {
 	char *name;
 	ShaderStage stage;
-	EarlyDepthTest *early_depth_test;
+	DEFINE_OPTIONAL(EarlyDepthTest)
+	early_depth_test;
 	uint32_t workgroup_size[3];
-	void *workgroup_size_overrides[3];
-	void *function;
-	void *mesh_info;
-	void *task_payload;
+	struct Empty *NAGA_UNIMPLEMENTED workgroup_size_overrides[3];
+	struct Empty *NAGA_UNIMPLEMENTED function;
+	struct Empty *NAGA_UNIMPLEMENTED mesh_info;
+	struct Empty *NAGA_UNIMPLEMENTED task_payload;
 } EntryPoint;
 
 typedef enum ModuleFillFlags {
@@ -407,32 +435,36 @@ typedef enum ModuleFillFlags {
 } ModuleFillFlags;
 
 typedef struct Module {
+	void *_inner_module;
+
 	Type *types;
 	size_t types_len;
-	void *special_types;
+	struct Empty *NAGA_UNIMPLEMENTED special_types;
 	Constant *constants;
 	size_t constants_len;
 	Override *overrides;
 	size_t overrides_len;
 	GlobalVariable *global_variables;
 	size_t global_variables_len;
-	void *global_expressions;
+	struct Empty *NAGA_UNIMPLEMENTED global_expressions;
 	size_t global_expressions_len;
-	void *functions;
+	struct Empty *NAGA_UNIMPLEMENTED functions;
 	size_t functions_len;
 	EntryPoint *entry_points;
 	size_t entry_points_len;
-	void *diagnostic_filters;
+	struct Empty *NAGA_UNIMPLEMENTED diagnostic_filters;
 	size_t diagnostic_filters_len;
-	void *diagnostic_filter_leaf;
-	void *doc_comments;
+	struct Empty *NAGA_UNIMPLEMENTED diagnostic_filter_leaf;
+	struct Empty *NAGA_UNIMPLEMENTED doc_comments;
 } Module;
 
 typedef enum ModuleInfoFillFlags {
 	ModuleInfoFillFlags_Unimplemented = UINT32_MAX
 } ModuleInfoFillFlags;
 
-typedef struct Empty ModuleInfo;
+typedef struct ModuleInfo {
+	void *_inner_module_info;
+} ModuleInfo;
 
 // --- naga::proc ---
 
@@ -494,7 +526,7 @@ typedef struct ConstantEvaluatorError {
 			char *to;
 		} invalid_cast_arg;
 		struct {
-			void *function;
+			struct Empty *NAGA_UNIMPLEMENTED function;
 			size_t expected;
 			size_t actual;
 		} invalid_math_arg_count;
@@ -516,6 +548,19 @@ typedef struct ConstantEvaluatorError {
 		} select_vec_reject_accept_size_mismatch;
 	} data;
 } ConstantEvaluatorError;
+
+typedef enum BoundsCheckPolicy {
+	BoundsCheckPolicy_Restrict,
+	BoundsCheckPolicy_ReadZeroSkipWrite,
+	BoundsCheckPolicy_Unchecked,
+} BoundsCheckPolicy;
+
+typedef struct BoundsCheckPolicies {
+	BoundsCheckPolicy index;
+	BoundsCheckPolicy buffer;
+	BoundsCheckPolicy image_load;
+	BoundsCheckPolicy binding_array;
+} BoundsCheckPolicies;
 
 // --- naga::back::dot ---
 
@@ -624,7 +669,7 @@ typedef enum GLSLBackErrorTag {
 typedef struct GLSLBackError {
 	GLSLBackErrorTag tag;
 	union {
-		void *fmt_error;
+		char *fmt_error;
 		GLSLBackFeatures missing_features;
 		char *unsupported_external;
 		Scalar unsupported_scalar;
@@ -673,8 +718,12 @@ typedef struct HLSLBackSamplerHeapBindTargets {
 	HLSLBackBindTarget comparison_samplers;
 } HLSLBackSamplerHeapBindTargets;
 
+typedef struct HLSLBackSamplerIndexBufferKey {
+	uint32_t group;
+} HLSLBackSamplerIndexBufferKey;
+
 typedef struct HLSLBackSamplerIndexBufferBindingMapEntry {
-	void *key;
+	HLSLBackSamplerIndexBufferKey key;
 	HLSLBackBindTarget value;
 } HLSLBackSamplerIndexBufferBindingMapEntry;
 
@@ -683,9 +732,15 @@ typedef struct HLSLBackSamplerIndexBufferBindingMap {
 	size_t entries_len;
 } HLSLBackSamplerIndexBufferBindingMap;
 
+typedef struct HLSLBackOffsetsBindTarget {
+	uint8_t space;
+	uint32_t register_;
+	uint32_t size;
+} HLSLBackOffsetsBindTarget;
+
 typedef struct HLSLBackDynamicStorageBufferOffsetsTargetsEntry {
 	uint32_t key;
-	void *value;
+	HLSLBackOffsetsBindTarget value;
 } HLSLBackDynamicStorageBufferOffsetsTargetsEntry;
 
 typedef struct HLSLBackDynamicStorageBufferOffsetsTargets {
@@ -695,7 +750,7 @@ typedef struct HLSLBackDynamicStorageBufferOffsetsTargets {
 
 typedef struct HLSLBackExternalTextureBindingMapEntry {
 	ResourceBinding key;
-	void *value;
+	HLSLBackOffsetsBindTarget *value;
 } HLSLBackExternalTextureBindingMapEntry;
 
 typedef struct HLSLBackExternalTextureBindingMap {
@@ -742,7 +797,7 @@ typedef enum HLSLBackErrorTag {
 typedef struct HLSLBackError {
 	HLSLBackErrorTag tag;
 	union {
-		void *io_error;
+		char *io_error;
 		Scalar unsupported_scalar;
 		char *unimplemented;
 		char *custom;
@@ -759,8 +814,7 @@ typedef struct HLSLBackError {
 } HLSLBackError;
 
 typedef struct HLSLBackFragmentEntryPoint {
-	void *result;
-	size_t result_len;
+	char *ep_name;
 } HLSLBackFragmentEntryPoint;
 
 typedef struct Empty HLSLBackReflectionInfo;
@@ -888,7 +942,7 @@ typedef struct MSLBackOptions {
 	size_t inline_samplers_len;
 	bool spirv_cross_compatibility;
 	bool fake_missing_bindings;
-	void *bounds_check_policies;
+	BoundsCheckPolicies *bounds_check_policies;
 	bool zero_initialize_workgroup_memory;
 	bool force_loop_bounding;
 } MSLBackOptions;
@@ -1243,19 +1297,6 @@ typedef struct SPVBackBindingMap {
 	size_t entries_len;
 } SPVBackBindingMap;
 
-typedef enum BoundsCheckPolicy {
-	BoundsCheckPolicy_Restrict,
-	BoundsCheckPolicy_ReadZeroSkipWrite,
-	BoundsCheckPolicy_Unchecked,
-} BoundsCheckPolicy;
-
-typedef struct BoundsCheckPolicies {
-	BoundsCheckPolicy index;
-	BoundsCheckPolicy buffer;
-	BoundsCheckPolicy image_load;
-	BoundsCheckPolicy binding_array;
-} BoundsCheckPolicies;
-
 typedef enum SPVBackZeroInitializeWorkgroupMemoryMode {
 	SPVBackZeroInitializeWorkgroupMemoryMode_Native,
 	SPVBackZeroInitializeWorkgroupMemoryMode_Polyfill,
@@ -1402,6 +1443,12 @@ typedef struct GLSLFrontOptions {
 	GLSLFrontDefines defines;
 } GLSLFrontOptions;
 
+typedef enum GLSLFrontPrecision {
+	Low,
+	Medium,
+	High,
+} GLSLFrontPrecision;
+
 typedef enum GLSLFrontTokenValueTag {
 	GLSLFrontTokenValueTag_Identifier,
 	GLSLFrontTokenValueTag_FloatConstant,
@@ -1494,8 +1541,8 @@ typedef struct GLSLFrontTokenValue {
 		StorageAccess memory_qualifier;
 		Interpolation interpolation;
 		Sampling sampling;
-		void *precision_qualifier;
-		void *type_name;
+		GLSLFrontPrecision precision_qualifier;
+		Type *type_name;
 	} data;
 } GLSLFrontTokenValue;
 

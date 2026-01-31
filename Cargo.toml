@@ -6,8 +6,23 @@ edition = "2024"
 [lib]
 crate-type = ["staticlib"]
 
+[features]
+# default = []
+default = ["glsl-in", "spv-in", "wgsl-in", "dot-out", "glsl-out", "hlsl-out", "msl-out", "spv-out", "wgsl-out"]
+glsl-in = ["naga/glsl-in"]
+spv-in = ["naga/spv-in"]
+wgsl-in = ["naga/wgsl-in"]
+
+dot-out = ["naga/dot-out"]
+glsl-out = ["naga/glsl-out"]
+hlsl-out = ["naga/hlsl-out"]
+msl-out = ["naga/msl-out"]
+spv-out = ["naga/spv-out"]
+wgsl-out = ["naga/glsl-out"]
+
 [dependencies]
-naga = "28"
+naga = { version = "28", default-feature = false, features = [] }
+static_assertions = "1.1.0"
 
 [build-dependencies]
 bindgen = "0.72.1"
