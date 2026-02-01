@@ -1508,6 +1508,15 @@ typedef struct PipelineConstantError {
 	} data;
 } PipelineConstantError;
 
+// --- naga::front::atmoic_upgrade ---
+typedef enum AtomicUpgradeFrontError {
+	AtomicUpgradeFront_Unsupported,
+	AtomicUpgradeFront_UnexpectedEndOfIndices,
+	AtomicUpgradeFront_GlobalInitUnsupported,
+	AtomicUpgradeFront_GlobalVariableMissing,
+	AtomicUpgradeFront_CompareExchangeNonScalarBaseType,
+} AtomicUpgradeFrontError;
+
 // --- naga::front::glsl ---
 
 typedef struct GLSLFrontDefinesEntry {
@@ -1530,6 +1539,18 @@ typedef enum GLSLFrontPrecision {
 	Medium,
 	High,
 } GLSLFrontPrecision;
+
+typedef struct GLSLFrontInteger {
+	uint64_t value;
+	bool signed_;
+	int32_t width;
+
+} GLSLFrontInteger;
+
+typedef struct GLSLFrontFloat {
+	float value;
+	int32_t width;
+} GLSLFrontFloat;
 
 typedef enum GLSLFrontTokenValueTag {
 	GLSLFrontTokenValueTag_Identifier,
@@ -1617,25 +1638,32 @@ typedef struct GLSLFrontTokenValue {
 	GLSLFrontTokenValueTag tag;
 	union {
 		char *identifier;
-		double float_constant;
-		int64_t int_constant;
+		GLSLFrontFloat float_constant;
+		GLSLFrontInteger int_constant;
 		bool bool_constant;
 		StorageAccess memory_qualifier;
 		Interpolation interpolation;
 		Sampling sampling;
 		GLSLFrontPrecision precision_qualifier;
-		Type *type_name;
+		Type type_name;
 	} data;
 } GLSLFrontTokenValue;
 
-typedef enum GLSLFrontExpectedToken {
-	GLSLFrontExpectedToken_Token,
-	GLSLFrontExpectedToken_TypeName,
-	GLSLFrontExpectedToken_Identifier,
-	GLSLFrontExpectedToken_IntLiteral,
-	GLSLFrontExpectedToken_FloatLiteral,
-	GLSLFrontExpectedToken_BoolLiteral,
-	GLSLFrontExpectedToken_Eof,
+typedef enum GLSLFrontExpectedTokenTag {
+	GLSLFrontExpectedTokenTag_Token,
+	GLSLFrontExpectedTokenTag_TypeName,
+	GLSLFrontExpectedTokenTag_Identifier,
+	GLSLFrontExpectedTokenTag_IntLiteral,
+	GLSLFrontExpectedTokenTag_FloatLiteral,
+	GLSLFrontExpectedTokenTag_BoolLiteral,
+	GLSLFrontExpectedTokenTag_Eof,
+} GLSLFrontExpectedTokenTag;
+
+typedef struct GLSLFrontExpectedToken {
+	GLSLFrontExpectedTokenTag tag;
+	union {
+		GLSLFrontTokenValue token;
+	} data;
 } GLSLFrontExpectedToken;
 
 typedef enum GLSLFrontPreprocessorError {
@@ -1709,7 +1737,8 @@ typedef struct GLSLFrontErrorKind {
 		} unsupported_f16_matrix_in_std140;
 		char *variable_already_declared;
 		char *semantic_error;
-		GLSLFrontPreprocessorError preprocessor_error;
+		// Requires questionable `pp_rs` dependency
+		struct Empty *preprocessor_error;
 		char *internal_error;
 	} data;
 } GLSLFrontErrorKind;
@@ -1729,13 +1758,31 @@ typedef struct GLSLFrontParseErrors {
 typedef struct SPVFrontOptions {
 	bool adjust_coordinate_space;
 	bool strict_capabilities;
-	char *block_ctx_dump_prefix;
+	char *NAGA_NULLABLE block_ctx_dump_prefix;
 } SPVFrontOptions;
 
-typedef struct SPVFrontInstruction {
-	uint16_t op;
-	uint16_t wc;
-} SPVFrontInstruction;
+typedef enum SPVFrontModuleState {
+	SPVFrontModuleState_Empty,
+	SPVFrontModuleState_Capability,
+	SPVFrontModuleState_Extension,
+	SPVFrontModuleState_ExtInstImport,
+	SPVFrontModuleState_MemoryModel,
+	SPVFrontModuleState_EntryPoint,
+	SPVFrontModuleState_ExecutionMode,
+	SPVFrontModuleState_Source,
+	SPVFrontModuleState_Name,
+	SPVFrontModuleState_ModuleProcessed,
+	SPVFrontModuleState_Annotation,
+	SPVFrontModuleState_Type,
+	SPVFrontModuleState_Function,
+} SPVFrontModuleState;
+
+// private fields
+//
+// typedef struct SPVFrontInstruction {
+// 	uint16_t op;
+// 	uint16_t wc;
+// } SPVFrontInstruction;
 
 typedef enum SPVFrontErrorTag {
 	SPVFrontErrorTag_InvalidHeader,
@@ -1807,15 +1854,16 @@ typedef struct SPVFrontError {
 		uint16_t unknown_instruction;
 		uint32_t unknown_capability;
 		struct {
-			void *module_state;
+			SPVFrontModuleState module_state;
 			uint16_t op;
 		} unsupported_instruction;
-		void *unsupported_capability;
+		uint32_t unsupported_capability;
 		char *unsupported_extension;
 		char *unsupported_ext_set;
 		uint32_t unsupported_ext_inst_set;
 		uint32_t unsupported_ext_inst;
-		void *unsupported_type;
+		DEFINE_HANDLE_INDEX(Type)
+		unsupported_type;
 		uint32_t unsupported_execution_model;
 		uint32_t unsupported_execution_mode;
 		uint32_t unsupported_storage_class;
@@ -1845,27 +1893,32 @@ typedef struct SPVFrontError {
 		uint32_t invalid_inner_type;
 		uint32_t invalid_vector_size;
 		uint32_t invalid_access_type;
-		void *invalid_access;
+		struct Empty *NAGA_NULLABLE invalid_access;
 		uint32_t invalid_access_index;
 		uint32_t invalid_index_type;
 		uint32_t invalid_binding;
-		void *invalid_global_var;
-		void *invalid_image_expression;
-		void *invalid_image_base_type;
-		void *invalid_image;
-		void *invalid_as_type;
-		void *invalid_vector_type;
-		void *inconsistent_comparison_sampling;
+		struct Empty *NAGA_NULLABLE invalid_global_var;
+		struct Empty *NAGA_NULLABLE invalid_image_expression;
+		DEFINE_HANDLE_INDEX(Type)
+		invalid_image_base_type;
+		DEFINE_HANDLE_INDEX(Type)
+		invalid_image;
+		DEFINE_HANDLE_INDEX(Type)
+		invalid_as_type;
+		DEFINE_HANDLE_INDEX(Type)
+		invalid_vector_type;
+		DEFINE_HANDLE_INDEX(GlobalVariable)
+		inconsistent_comparison_sampling;
 		uint32_t wrong_function_result_type;
 		uint32_t wrong_function_argument_type;
-		void *missing_decoration;
+		uint32_t missing_decoration;
 		uint32_t control_flow_graph_cycle;
 		uint32_t function_call_cycle;
 		uint32_t invalid_array_size;
 		uint32_t invalid_barrier_scope;
 		uint32_t invalid_barrier_memory_semantics;
 		uint32_t spec_id_too_high;
-		void *atomic_upgrade_error;
+		AtomicUpgradeFrontError atomic_upgrade_error;
 	} data;
 } SPVFrontError;
 
@@ -1884,8 +1937,6 @@ typedef struct WGSLFrontParseError {
 	char *message;
 	WGSLFrontParseErrorLabel *labels;
 	size_t labels_len;
-	char **notes;
-	size_t notes_len;
 } WGSLFrontParseError;
 
 // --- naga::valid ---

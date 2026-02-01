@@ -574,10 +574,7 @@ pub fn type_inner_to_ffi(type_inner: &naga::ir::TypeInner) -> ffi::TypeInner {
             tag: ffi::TypeInnerTag_TypeInnerTag_ValuePointer,
             data: ffi::TypeInner__bindgen_ty_1 {
                 value_pointer: ffi::TypeInner__bindgen_ty_1__bindgen_ty_4 {
-                    size: size
-                        .as_ref()
-                        .map(|s| vector_size_to_ffi(s))
-                        .unwrap_or_default(),
+                    size: size.as_ref().map(vector_size_to_ffi).unwrap_or_default(),
                     scalar: scalar_to_ffi(scalar),
                     space: address_space_to_ffi(space),
                 },
@@ -855,4 +852,3 @@ pub fn module_to_ffi(module: naga::ir::Module, flags: ffi::ModuleFillFlags) -> f
         }
     }
 }
-
