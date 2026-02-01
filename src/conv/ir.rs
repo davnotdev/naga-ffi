@@ -116,6 +116,15 @@ pub fn storage_access_to_ffi(storage_access: &naga::ir::StorageAccess) -> ffi::S
     result
 }
 
+pub fn relational_function_to_ffi(func: naga::ir::RelationalFunction) -> ffi::RelationalFunction {
+    match func {
+        naga::RelationalFunction::All => ffi::RelationalFunction_RelationalFunction_All,
+        naga::RelationalFunction::Any => ffi::RelationalFunction_RelationalFunction_Any,
+        naga::RelationalFunction::IsNan => ffi::RelationalFunction_RelationalFunction_IsNan,
+        naga::RelationalFunction::IsInf => ffi::RelationalFunction_RelationalFunction_IsInf,
+    }
+}
+
 pub fn image_class_to_ffi(image_class: &naga::ir::ImageClass) -> ffi::ImageClass {
     match image_class {
         naga::ImageClass::Sampled { kind, multi } => ffi::ImageClass {

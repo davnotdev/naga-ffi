@@ -15,6 +15,13 @@
 	}
 #define DEFINE_HANDLE_INDEX(T) size_t
 
+#define DEFINE_WITH_SPAN(T) \
+	struct {                \
+		T *inner;           \
+		SpanContext *spans; \
+		size_t spans_len;   \
+	}
+
 struct Empty {
 	uint8_t _phantom;
 };
@@ -24,6 +31,8 @@ typedef uint8_t bool;
 #endif
 
 // TODO: desctructors to free everything
+// TODO: validator errors
+// TODO: implement *::ReflectionInfo
 
 typedef struct Span {
 	uint32_t start;
@@ -34,12 +43,6 @@ typedef struct SpanContext {
 	Span span;
 	char *message;
 } SpanContext;
-
-typedef struct WithSpan {
-	void *inner;
-	SpanContext *spans;
-	size_t spans_len;
-} WithSpan;
 
 // --- naga::ir ---
 
@@ -132,6 +135,13 @@ typedef enum StorageAccess {
 	StorageAccess_STORE = 0x2,
 	StorageAccess_ATOMIC = 0x4,
 } StorageAccess;
+
+typedef enum RelationalFunction {
+	RelationalFunction_All,
+	RelationalFunction_Any,
+	RelationalFunction_IsNan,
+	RelationalFunction_IsInf,
+} RelationalFunction;
 
 typedef enum ImageClassTag {
 	ImageClassTag_Sampled,
@@ -644,6 +654,11 @@ typedef struct BoundsCheckPolicies {
 	BoundsCheckPolicy binding_array;
 } BoundsCheckPolicies;
 
+typedef enum ResolveArraySizeError {
+	ResolveArraySizeError_ExpectedPositiveArrayLength,
+	ResolveArraySizeError_NonConstArrayLength,
+} ResolveArraySizeError;
+
 // --- naga::back::dot ---
 
 typedef struct DOTBackOptions {
@@ -696,7 +711,8 @@ typedef struct GLSLBackOptions {
 typedef struct GLSLBackPipelineOptions {
 	ShaderStage shader_stage;
 	char *entry_point;
-	uint32_t multiview;
+	DEFINE_OPTIONAL(uint32_t)
+	multiview;
 } GLSLBackPipelineOptions;
 
 typedef enum GLSLBackFeatures {
@@ -728,11 +744,6 @@ typedef enum GLSLBackFeatures {
 	GLSLBackFeatures_SHADER_BARYCENTRICS = 0x4000000,
 } GLSLBackFeatures;
 
-typedef enum GLSLBackResolveArraySizeError {
-	GLSLBackResolveArraySizeError_ExpectedPositiveArrayLength,
-	GLSLBackResolveArraySizeError_NonConstArrayLength,
-} GLSLBackResolveArraySizeError;
-
 typedef enum GLSLBackErrorTag {
 	GLSLBackErrorTag_FmtError,
 	GLSLBackErrorTag_MissingFeatures,
@@ -756,11 +767,11 @@ typedef struct GLSLBackError {
 		char *unsupported_external;
 		Scalar unsupported_scalar;
 		char *custom;
-		GLSLBackResolveArraySizeError resolve_array_size_error;
+		ResolveArraySizeError resolve_array_size_error;
 	} data;
 } GLSLBackError;
 
-typedef struct Empty GLSLBackReflectionInfo;
+typedef struct Empty GLSLBackReflectionInfo NAGA_UNIMPLEMENTED;
 
 // --- naga::back::hlsl ---
 
@@ -860,11 +871,6 @@ typedef struct HLSLBackPipelineOptions {
 	char *entry_point_name;
 } HLSLBackPipelineOptions;
 
-typedef enum ResolveArraySizeError {
-	HLSLBackResolveArraySizeError_ExpectedPositiveArrayLength,
-	HLSLBackResolveArraySizeError_NonConstArrayLength,
-} HLSLBackResolveArraySizeError;
-
 typedef enum HLSLBackErrorTag {
 	HLSLBackErrorTag_IoError,
 	HLSLBackErrorTag_UnsupportedScalar,
@@ -883,7 +889,7 @@ typedef struct HLSLBackError {
 		Scalar unsupported_scalar;
 		char *unimplemented;
 		char *custom;
-		HLSLBackResolveArraySizeError resolve_array_size_error;
+		ResolveArraySizeError resolve_array_size_error;
 		struct {
 			ShaderStage stage;
 			char *name;
@@ -899,7 +905,7 @@ typedef struct HLSLBackFragmentEntryPoint {
 	char *ep_name;
 } HLSLBackFragmentEntryPoint;
 
-typedef struct Empty HLSLBackReflectionInfo;
+typedef struct Empty HLSLBackReflectionInfo NAGA_UNIMPLEMENTED;
 
 // --- naga::back::msl ---
 
@@ -1116,7 +1122,7 @@ typedef struct MSLBackError {
 	} data;
 } MSLBackError;
 
-typedef struct Empty MSLBackTranslationInfo;
+typedef struct Empty MSLBackTranslationInfo NAGA_UNIMPLEMENTED;
 
 // --- naga::back::spv ---
 
@@ -1349,7 +1355,7 @@ typedef enum SPVBackCapability {
 	SPVBackCapability_CacheControlsINTEL = 6441,
 } SPVBackCapability;
 
-typedef struct SPVBackCapabilities {
+typedef struct SPVBackCapabilitySet {
 	SPVBackCapability *capabilities;
 	size_t capabilities_len;
 } SPVBackCapabilities;
@@ -1366,7 +1372,8 @@ typedef enum SPVBackWriterFlags {
 typedef struct SPVBackBindingInfo {
 	uint32_t descriptor_set;
 	uint32_t binding;
-	uint32_t binding_array_size;
+	DEFINE_OPTIONAL(uint32_t)
+	binding_array_size;
 } SPVBackBindingInfo;
 
 typedef struct SPVBackBindingMapEntry {
@@ -1411,13 +1418,15 @@ typedef struct SPVBackOptions {
 	SPVBackWriterFlags flags;
 	bool fake_missing_bindings;
 	SPVBackBindingMap binding_map;
-	SPVBackCapabilities *capabilities;
+	DEFINE_OPTIONAL(SPVBackCapabilities)
+	capabilities;
 	BoundsCheckPolicies bounds_check_policies;
 	SPVBackZeroInitializeWorkgroupMemoryMode zero_initialize_workgroup_memory;
 	bool force_loop_bounding;
 	bool ray_query_initialization_tracking;
 	bool use_storage_input_output_16;
-	SPVBackDebugInfo *debug_info;
+	DEFINE_OPTIONAL(SPVBackDebugInfo)
+	debug_info;
 } SPVBackOptions;
 
 typedef struct SPVBackPipelineOptions {
@@ -1426,22 +1435,31 @@ typedef struct SPVBackPipelineOptions {
 } SPVBackPipelineOptions;
 
 typedef enum SPVBackErrorTag {
-	SPVBackErrorTag_Unimplemented,
-	SPVBackErrorTag_UnsupportedCapability,
-	SPVBackErrorTag_UnsupportedInstruction,
-	SPVBackErrorTag_UnsupportedExtension,
-	SPVBackErrorTag_UnsupportedType,
-	SPVBackErrorTag_UnsupportedExecutionModel,
-	SPVBackErrorTag_InvalidId,
-	SPVBackErrorTag_InvalidOperand,
-	SPVBackErrorTag_InvalidDecoration,
-	SPVBackErrorTag_IncompleteData,
+	SPVBackErrorTag_EntryPointNotFound,
+	SPVBackErrorTag_UnsupportedVersion,
+	SPVBackErrorTag_MissingCapabilities,
+	SPVBackErrorTag_FeatureNotImplemented,
+	SPVBackErrorTag_Validation,
+	SPVBackErrorTag_Override,
+	SPVBackErrorTag_ResolveArraySizeError,
+	SPVBackErrorTag_SpirvVersionTooLow,
+	SPVBackErrorTag_MissingBinding,
 } SPVBackErrorTag;
 
 typedef struct SPVBackError {
 	SPVBackErrorTag tag;
 	union {
-		char *message;
+		uint8_t unsupported_version[2];
+		struct {
+			char *error;
+			SPVBackCapability *capabilities;
+			uint32_t capabilities_len;
+		} missing_capabilities;
+		char *feature_not_implemented;
+		char *validation;
+		ResolveArraySizeError resolve_array_size_error;
+		uint8_t spirv_version_too_low[2];
+		ResourceBinding missing_binding;
 	} data;
 } SPVBackError;
 
@@ -1450,13 +1468,6 @@ typedef struct SPVBackError {
 typedef enum WGSLBackWriterFlags {
 	WGSLBackWriterFlags_EXPLICIT_TYPES = 0x1,
 } WGSLBackWriterFlags;
-
-typedef enum WGSLBackRelationalFunction {
-	WGSLBackRelationalFunction_All,
-	WGSLBackRelationalFunction_Any,
-	WGSLBackRelationalFunction_IsNan,
-	WGSLBackRelationalFunction_IsInf,
-} WGSLBackRelationalFunction;
 
 typedef enum WGSLBackErrorTag {
 	WGSLBackErrorTag_FmtError,
@@ -1469,18 +1480,16 @@ typedef enum WGSLBackErrorTag {
 typedef struct WGSLBackError {
 	WGSLBackErrorTag tag;
 	union {
-		void *fmt_error;
+		char *fmt_error;
 		char *custom;
 		char *unimplemented;
-		WGSLBackRelationalFunction unsupported_relational_function;
+		RelationalFunction unsupported_relational_function;
 		struct {
 			char *kind;
 			char *value;
 		} unsupported;
 	} data;
 } WGSLBackError;
-
-typedef struct Empty WGSLReflectionInfo;
 
 // -- naga::back::pipeline_constants ---
 
@@ -1504,11 +1513,12 @@ typedef struct PipelineConstantError {
 	union {
 		char *missing_value;
 		ConstantEvaluatorError constant_evaluator_error;
-		WithSpan validation_error;
+		struct Empty *NAGA_UNIMPLEMENTED validation_error;
 	} data;
 } PipelineConstantError;
 
 // --- naga::front::atmoic_upgrade ---
+
 typedef enum AtomicUpgradeFrontError {
 	AtomicUpgradeFront_Unsupported,
 	AtomicUpgradeFront_UnexpectedEndOfIndices,
@@ -1738,7 +1748,7 @@ typedef struct GLSLFrontErrorKind {
 		char *variable_already_declared;
 		char *semantic_error;
 		// Requires questionable `pp_rs` dependency
-		struct Empty *preprocessor_error;
+		struct Empty *NAGA_UNIMPLEMENTED preprocessor_error;
 		char *internal_error;
 	} data;
 } GLSLFrontErrorKind;
@@ -1893,12 +1903,12 @@ typedef struct SPVFrontError {
 		uint32_t invalid_inner_type;
 		uint32_t invalid_vector_size;
 		uint32_t invalid_access_type;
-		struct Empty *NAGA_NULLABLE invalid_access;
+		struct Empty *NAGA_UNIMPLEMENTED invalid_access;
 		uint32_t invalid_access_index;
 		uint32_t invalid_index_type;
 		uint32_t invalid_binding;
-		struct Empty *NAGA_NULLABLE invalid_global_var;
-		struct Empty *NAGA_NULLABLE invalid_image_expression;
+		struct Empty *NAGA_UNIMPLEMENTED invalid_global_var;
+		struct Empty *NAGA_UNIMPLEMENTED invalid_image_expression;
 		DEFINE_HANDLE_INDEX(Type)
 		invalid_image_base_type;
 		DEFINE_HANDLE_INDEX(Type)
@@ -2027,7 +2037,7 @@ WGSLFrontendResult naga_front_wgsl_parse(
 
 typedef struct ValidateResult {
 	ModuleInfo module_info;
-	WithSpan error;
+	struct Empty *NAGA_UNIMPLEMENTED error;
 } ValidateResult;
 
 #ifndef NAGA_FFI_NO_METHODS

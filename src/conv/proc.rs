@@ -251,3 +251,16 @@ pub fn bound_check_policies_to_ffi(
         binding_array: bound_check_policy_to_ffi(&policies.binding_array),
     }
 }
+
+pub fn resolve_array_size_error_to_ffi(
+    error: &naga::proc::ResolveArraySizeError,
+) -> ffi::ResolveArraySizeError {
+    match error {
+        naga::proc::ResolveArraySizeError::ExpectedPositiveArrayLength => {
+            ffi::ResolveArraySizeError_ResolveArraySizeError_ExpectedPositiveArrayLength
+        }
+        naga::proc::ResolveArraySizeError::NonConstArrayLength => {
+            ffi::ResolveArraySizeError_ResolveArraySizeError_NonConstArrayLength
+        }
+    }
+}

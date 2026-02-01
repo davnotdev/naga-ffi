@@ -4,6 +4,8 @@ pub mod ffi;
 use naga::{back, front, valid};
 use static_assertions as sa;
 
+// TODO: feature the conversion functions!
+
 #[cfg(feature = "glsl-in")]
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn naga_front_glsl_parse(

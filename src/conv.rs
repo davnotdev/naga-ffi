@@ -56,15 +56,3 @@ fn span_context_to_ffi(span_context: &naga::SpanContext) -> ffi::SpanContext {
         message: unsafe { string_to_ffi(&span_context.1) },
     }
 }
-
-fn with_span_to_ffi<T, F>(with_span: &naga::WithSpan<T>, inner_fn: F) -> ffi::WithSpan
-where
-    F: FnOnce(&T) -> *mut std::ffi::c_void,
-{
-    todo!()
-    // ffi::WithSpan {
-    //     inner: inner_fn(&with_span.inner),
-    //     spans: slice_to_ffi(with_span.spans.as_slice(), span_context_to_ffi),
-    //     spans_len: with_span.spans.len(),
-    // }
-}

@@ -431,104 +431,104 @@ pub fn glsl_front_error_kind_to_ffi(
     let default_data = ffi::GLSLFrontErrorKind__bindgen_ty_1::default();
 
     match error_kind {
-    naga::front::glsl::ErrorKind::EndOfFile => ffi::GLSLFrontErrorKind {
-        tag: ffi::GLSLFrontErrorKindTag_GLSLFrontErrorKindTag_EndOfFile,
-        data: default_data,
-    },
-    naga::front::glsl::ErrorKind::InvalidProfile(error) => ffi::GLSLFrontErrorKind {
-        tag: ffi::GLSLFrontErrorKindTag_GLSLFrontErrorKindTag_InvalidProfile,
-        data: ffi::GLSLFrontErrorKind__bindgen_ty_1 {
-            invalid_profile: unsafe { string_to_ffi(error) }
+        naga::front::glsl::ErrorKind::EndOfFile => ffi::GLSLFrontErrorKind {
+            tag: ffi::GLSLFrontErrorKindTag_GLSLFrontErrorKindTag_EndOfFile,
+            data: default_data,
         },
-    },
-    naga::front::glsl::ErrorKind::InvalidVersion(version) => ffi::GLSLFrontErrorKind {
-        tag: ffi::GLSLFrontErrorKindTag_GLSLFrontErrorKindTag_InvalidVersion,
-        data: ffi::GLSLFrontErrorKind__bindgen_ty_1 {
-            invalid_version: *version
-        },
-    },
-    naga::front::glsl::ErrorKind::InvalidToken(token_value, expected_tokens) => ffi::GLSLFrontErrorKind {
-        tag: ffi::GLSLFrontErrorKindTag_GLSLFrontErrorKindTag_InvalidToken,
-        data: ffi::GLSLFrontErrorKind__bindgen_ty_1 {
-            invalid_token: ffi::GLSLFrontErrorKind__bindgen_ty_1__bindgen_ty_1 {
-                token: glsl_front_token_value_to_ffi(token_value),
-                expected: unsafe { slice_to_ffi(expected_tokens.as_slice(), glsl_front_expected_token_to_ffi) },
-                expected_len: expected_tokens.len(),
+        naga::front::glsl::ErrorKind::InvalidProfile(error) => ffi::GLSLFrontErrorKind {
+            tag: ffi::GLSLFrontErrorKindTag_GLSLFrontErrorKindTag_InvalidProfile,
+            data: ffi::GLSLFrontErrorKind__bindgen_ty_1 {
+                invalid_profile: unsafe { string_to_ffi(error) }
             },
         },
-    },
-    naga::front::glsl::ErrorKind::NotImplemented(error) => ffi::GLSLFrontErrorKind {
-        tag: ffi::GLSLFrontErrorKindTag_GLSLFrontErrorKindTag_NotImplemented,
-        data: ffi::GLSLFrontErrorKind__bindgen_ty_1 {
-            internal_error: unsafe { string_to_ffi(error) }
-        },
-    },
-    naga::front::glsl::ErrorKind::UnknownVariable(error) => ffi::GLSLFrontErrorKind {
-        tag: ffi::GLSLFrontErrorKindTag_GLSLFrontErrorKindTag_UnknownVariable,
-        data: ffi::GLSLFrontErrorKind__bindgen_ty_1 {
-            internal_error: unsafe { string_to_ffi(error) }
-        },
-    },
-    naga::front::glsl::ErrorKind::UnknownType(error) => ffi::GLSLFrontErrorKind {
-        tag: ffi::GLSLFrontErrorKindTag_GLSLFrontErrorKindTag_UnknownType,
-        data: ffi::GLSLFrontErrorKind__bindgen_ty_1 {
-            internal_error: unsafe { string_to_ffi(error) }
-        },
-    },
-    naga::front::glsl::ErrorKind::UnknownField(error) => ffi::GLSLFrontErrorKind {
-        tag: ffi::GLSLFrontErrorKindTag_GLSLFrontErrorKindTag_UnknownField,
-        data: ffi::GLSLFrontErrorKind__bindgen_ty_1 {
-            internal_error: unsafe { string_to_ffi(error) }
-        },
-    },
-    naga::front::glsl::ErrorKind::UnknownLayoutQualifier(error) => ffi::GLSLFrontErrorKind {
-        tag: ffi::GLSLFrontErrorKindTag_GLSLFrontErrorKindTag_UnknownLayoutQualifier,
-        data: ffi::GLSLFrontErrorKind__bindgen_ty_1 {
-            internal_error: unsafe { string_to_ffi(error) }
-        },
-    },
-    naga::front::glsl::ErrorKind::UnsupportedMatrixWithTwoRowsInStd140 { columns } => ffi::GLSLFrontErrorKind {
-        tag: ffi::GLSLFrontErrorKindTag_GLSLFrontErrorKindTag_UnsupportedMatrixWithTwoRowsInStd140,
-        data: ffi::GLSLFrontErrorKind__bindgen_ty_1 {
-            unsupported_matrix_with_two_rows_in_std140: ffi::GLSLFrontErrorKind__bindgen_ty_1__bindgen_ty_2 {
-                columns: *columns,
+        naga::front::glsl::ErrorKind::InvalidVersion(version) => ffi::GLSLFrontErrorKind {
+            tag: ffi::GLSLFrontErrorKindTag_GLSLFrontErrorKindTag_InvalidVersion,
+            data: ffi::GLSLFrontErrorKind__bindgen_ty_1 {
+                invalid_version: *version
             },
         },
-    },
-    naga::front::glsl::ErrorKind::UnsupportedF16MatrixInStd140 { columns, rows } => ffi::GLSLFrontErrorKind {
-        tag: ffi::GLSLFrontErrorKindTag_GLSLFrontErrorKindTag_UnsupportedF16MatrixInStd140,
-        data: ffi::GLSLFrontErrorKind__bindgen_ty_1 {
-            unsupported_f16_matrix_in_std140: ffi::GLSLFrontErrorKind__bindgen_ty_1__bindgen_ty_3 {
-                columns: *columns,
-                rows: *rows,
+        naga::front::glsl::ErrorKind::InvalidToken(token_value, expected_tokens) => ffi::GLSLFrontErrorKind {
+            tag: ffi::GLSLFrontErrorKindTag_GLSLFrontErrorKindTag_InvalidToken,
+            data: ffi::GLSLFrontErrorKind__bindgen_ty_1 {
+                invalid_token: ffi::GLSLFrontErrorKind__bindgen_ty_1__bindgen_ty_1 {
+                    token: glsl_front_token_value_to_ffi(token_value),
+                    expected: unsafe { slice_to_ffi(expected_tokens.as_slice(), glsl_front_expected_token_to_ffi) },
+                    expected_len: expected_tokens.len(),
+                },
             },
         },
-    },
-    naga::front::glsl::ErrorKind::VariableAlreadyDeclared(error) => ffi::GLSLFrontErrorKind {
-        tag: ffi::GLSLFrontErrorKindTag_GLSLFrontErrorKindTag_VariableAlreadyDeclared,
-        data: ffi::GLSLFrontErrorKind__bindgen_ty_1 {
-            internal_error: unsafe { string_to_ffi(error) }
+        naga::front::glsl::ErrorKind::NotImplemented(error) => ffi::GLSLFrontErrorKind {
+            tag: ffi::GLSLFrontErrorKindTag_GLSLFrontErrorKindTag_NotImplemented,
+            data: ffi::GLSLFrontErrorKind__bindgen_ty_1 {
+                internal_error: unsafe { string_to_ffi(error) }
+            },
         },
-    },
-    naga::front::glsl::ErrorKind::SemanticError(cow) => ffi::GLSLFrontErrorKind {
-        tag: ffi::GLSLFrontErrorKindTag_GLSLFrontErrorKindTag_SemanticError,
-        data: ffi::GLSLFrontErrorKind__bindgen_ty_1 {
-            semantic_error: unsafe { string_to_ffi(cow.as_ref()) },
+        naga::front::glsl::ErrorKind::UnknownVariable(error) => ffi::GLSLFrontErrorKind {
+            tag: ffi::GLSLFrontErrorKindTag_GLSLFrontErrorKindTag_UnknownVariable,
+            data: ffi::GLSLFrontErrorKind__bindgen_ty_1 {
+                internal_error: unsafe { string_to_ffi(error) }
+            },
         },
-    },
-    naga::front::glsl::ErrorKind::PreprocessorError(_) => ffi::GLSLFrontErrorKind {
-        tag: ffi::GLSLFrontErrorKindTag_GLSLFrontErrorKindTag_PreprocessorError,
-        data: ffi::GLSLFrontErrorKind__bindgen_ty_1 {
-            preprocessor_error: EMPTY_MUT
+        naga::front::glsl::ErrorKind::UnknownType(error) => ffi::GLSLFrontErrorKind {
+            tag: ffi::GLSLFrontErrorKindTag_GLSLFrontErrorKindTag_UnknownType,
+            data: ffi::GLSLFrontErrorKind__bindgen_ty_1 {
+                internal_error: unsafe { string_to_ffi(error) }
+            },
         },
-    },
-    naga::front::glsl::ErrorKind::InternalError(error) => ffi::GLSLFrontErrorKind {
-        tag: ffi::GLSLFrontErrorKindTag_GLSLFrontErrorKindTag_InternalError,
-        data: ffi::GLSLFrontErrorKind__bindgen_ty_1 {
-            internal_error: unsafe { string_to_ffi(error) }
+        naga::front::glsl::ErrorKind::UnknownField(error) => ffi::GLSLFrontErrorKind {
+            tag: ffi::GLSLFrontErrorKindTag_GLSLFrontErrorKindTag_UnknownField,
+            data: ffi::GLSLFrontErrorKind__bindgen_ty_1 {
+                internal_error: unsafe { string_to_ffi(error) }
+            },
         },
-    },
-}
+        naga::front::glsl::ErrorKind::UnknownLayoutQualifier(error) => ffi::GLSLFrontErrorKind {
+            tag: ffi::GLSLFrontErrorKindTag_GLSLFrontErrorKindTag_UnknownLayoutQualifier,
+            data: ffi::GLSLFrontErrorKind__bindgen_ty_1 {
+                internal_error: unsafe { string_to_ffi(error) }
+            },
+        },
+        naga::front::glsl::ErrorKind::UnsupportedMatrixWithTwoRowsInStd140 { columns } => ffi::GLSLFrontErrorKind {
+            tag: ffi::GLSLFrontErrorKindTag_GLSLFrontErrorKindTag_UnsupportedMatrixWithTwoRowsInStd140,
+            data: ffi::GLSLFrontErrorKind__bindgen_ty_1 {
+                unsupported_matrix_with_two_rows_in_std140: ffi::GLSLFrontErrorKind__bindgen_ty_1__bindgen_ty_2 {
+                    columns: *columns,
+                },
+            },
+        },
+        naga::front::glsl::ErrorKind::UnsupportedF16MatrixInStd140 { columns, rows } => ffi::GLSLFrontErrorKind {
+            tag: ffi::GLSLFrontErrorKindTag_GLSLFrontErrorKindTag_UnsupportedF16MatrixInStd140,
+            data: ffi::GLSLFrontErrorKind__bindgen_ty_1 {
+                unsupported_f16_matrix_in_std140: ffi::GLSLFrontErrorKind__bindgen_ty_1__bindgen_ty_3 {
+                    columns: *columns,
+                    rows: *rows,
+                },
+            },
+        },
+        naga::front::glsl::ErrorKind::VariableAlreadyDeclared(error) => ffi::GLSLFrontErrorKind {
+            tag: ffi::GLSLFrontErrorKindTag_GLSLFrontErrorKindTag_VariableAlreadyDeclared,
+            data: ffi::GLSLFrontErrorKind__bindgen_ty_1 {
+                internal_error: unsafe { string_to_ffi(error) }
+            },
+        },
+        naga::front::glsl::ErrorKind::SemanticError(cow) => ffi::GLSLFrontErrorKind {
+            tag: ffi::GLSLFrontErrorKindTag_GLSLFrontErrorKindTag_SemanticError,
+            data: ffi::GLSLFrontErrorKind__bindgen_ty_1 {
+                semantic_error: unsafe { string_to_ffi(cow.as_ref()) },
+            },
+        },
+        naga::front::glsl::ErrorKind::PreprocessorError(_) => ffi::GLSLFrontErrorKind {
+            tag: ffi::GLSLFrontErrorKindTag_GLSLFrontErrorKindTag_PreprocessorError,
+            data: ffi::GLSLFrontErrorKind__bindgen_ty_1 {
+                preprocessor_error: EMPTY_MUT
+            },
+        },
+        naga::front::glsl::ErrorKind::InternalError(error) => ffi::GLSLFrontErrorKind {
+            tag: ffi::GLSLFrontErrorKindTag_GLSLFrontErrorKindTag_InternalError,
+            data: ffi::GLSLFrontErrorKind__bindgen_ty_1 {
+                internal_error: unsafe { string_to_ffi(error) }
+            },
+        },
+    }
 }
 
 pub fn glsl_front_parse_errors_to_ffi(
