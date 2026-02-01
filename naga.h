@@ -15,13 +15,6 @@
 	}
 #define DEFINE_HANDLE_INDEX(T) size_t
 
-#define DEFINE_WITH_SPAN(T) \
-	struct {                \
-		T *inner;           \
-		SpanContext *spans; \
-		size_t spans_len;   \
-	}
-
 struct Empty {
 	uint8_t _phantom;
 };
@@ -659,6 +652,60 @@ typedef enum ResolveArraySizeError {
 	ResolveArraySizeError_NonConstArrayLength,
 } ResolveArraySizeError;
 
+// --- naga::valid ---
+
+typedef struct Validator {
+	void *_inner_validator;
+} Validator;
+
+typedef enum Capabilities {
+	Capabilities_IMMEDIATES = 0x1,
+	Capabilities_FLOAT64 = 0x2,
+	Capabilities_PRIMITIVE_INDEX = 0x4,
+	Capabilities_TEXTURE_AND_SAMPLER_BINDING_ARRAY = 0x8,
+	Capabilities_BUFFER_BINDING_ARRAY = 0x10,
+	Capabilities_STORAGE_TEXTURE_BINDING_ARRAY = 0x20,
+	Capabilities_STORAGE_BUFFER_BINDING_ARRAY = 0x40,
+	Capabilities_CLIP_DISTANCE = 0x80,
+	Capabilities_CULL_DISTANCE = 0x100,
+	Capabilities_STORAGE_TEXTURE_16BIT_NORM_FORMATS = 0x200,
+	Capabilities_MULTIVIEW = 0x400,
+	Capabilities_EARLY_DEPTH_TEST = 0x800,
+	Capabilities_MULTISAMPLED_SHADING = 0x1000,
+	Capabilities_RAY_QUERY = 0x2000,
+	Capabilities_DUAL_SOURCE_BLENDING = 0x4000,
+	Capabilities_CUBE_ARRAY_TEXTURES = 0x8000,
+	Capabilities_SHADER_INT64 = 0x10000,
+	Capabilities_SUBGROUP = 0x20000,
+	Capabilities_SUBGROUP_BARRIER = 0x40000,
+	Capabilities_SUBGROUP_VERTEX_STAGE = 0x80000,
+	Capabilities_SHADER_INT64_ATOMIC_MIN_MAX = 0x100000,
+	Capabilities_SHADER_INT64_ATOMIC_ALL_OPS = 0x200000,
+	Capabilities_SHADER_FLOAT32_ATOMIC = 0x400000,
+	Capabilities_TEXTURE_ATOMIC = 0x800000,
+	Capabilities_TEXTURE_INT64_ATOMIC = 0x1000000,
+	Capabilities_RAY_HIT_VERTEX_POSITION = 0x2000000,
+	Capabilities_SHADER_FLOAT16 = 0x4000000,
+	Capabilities_TEXTURE_EXTERNAL = 0x8000000,
+	Capabilities_SHADER_FLOAT16_IN_FLOAT32 = 0x10000000,
+	Capabilities_SHADER_BARYCENTRICS = 0x20000000,
+	Capabilities_MESH_SHADER = 0x40000000,
+	Capabilities_MESH_SHADER_POINT_TOPOLOGY = 0x80000000,
+	Capabilities_TEXTURE_AND_SAMPLER_BINDING_ARRAY_NON_UNIFORM_INDEXING = 0x100000000,
+	Capabilities_BUFFER_BINDING_ARRAY_NON_UNIFORM_INDEXING = 0x200000000,
+	Capabilities_STORAGE_TEXTURE_BINDING_ARRAY_NON_UNIFORM_INDEXING = 0x400000000,
+	Capabilities_STORAGE_BUFFER_BINDING_ARRAY_NON_UNIFORM_INDEXING = 0x800000000,
+} Capabilities;
+
+typedef enum ValidationFlags {
+	ValidationFlags_EXPRESSIONS = 0x1,
+	ValidationFlags_BLOCKS = 0x2,
+	ValidationFlags_CONTROL_FLOW_UNIFORMITY = 0x4,
+	ValidationFlags_STRUCT_LAYOUTS = 0x8,
+	ValidationFlags_CONSTANTS = 0x10,
+	ValidationFlags_BINDINGS = 0x20,
+} ValidationFlags;
+
 // --- naga::back::dot ---
 
 typedef struct DOTBackOptions {
@@ -909,6 +956,61 @@ typedef struct Empty HLSLBackReflectionInfo NAGA_UNIMPLEMENTED;
 
 // --- naga::back::msl ---
 
+typedef enum MSLBackSamplerAddress {
+	MSLBackSamplerAddress_Repeat,
+	MSLBackSamplerAddress_MirroredRepeat,
+	MSLBackSamplerAddress_ClampToEdge,
+	MSLBackSamplerAddress_ClampToZero,
+	MSLBackSamplerAddress_ClampToBorder,
+} MSLBackSamplerAddress;
+
+typedef enum MSLBackSamplerBorderColor {
+	MSLBackSamplerBorderColor_TransparentBlack,
+	MSLBackSamplerBorderColor_OpaqueBlack,
+	MSLBackSamplerBorderColor_OpaqueWhite,
+} MSLBackSamplerBorderColor;
+
+typedef enum MSLBackSamplerCompareFunc {
+	MSLBackSamplerCompareFunc_Never,
+	MSLBackSamplerCompareFunc_Less,
+	MSLBackSamplerCompareFunc_LessEqual,
+	MSLBackSamplerCompareFunc_Greater,
+	MSLBackSamplerCompareFunc_GreaterEqual,
+	MSLBackSamplerCompareFunc_Equal,
+	MSLBackSamplerCompareFunc_NotEqual,
+	MSLBackSamplerCompareFunc_Always,
+} MSLBackSamplerCompareFunc;
+
+typedef enum MSLBackSamplerCoord {
+	MSLBackSamplerCoord_Normalized,
+	MSLBackSamplerCoord_Pixel,
+} MSLBackSamplerCoord;
+
+typedef enum MSLBackSamplerFilter {
+	MSLBackSamplerFilter_Nearest,
+	MSLBackSamplerFilter_Linear,
+} MSLBackSamplerFilter;
+
+typedef struct MSLBackFloatRange {
+	float start;
+	float end;
+} MSLBackFloatFloat;
+
+typedef struct MSLBackInlineSampler {
+	MSLBackSamplerCoord coord;
+	MSLBackSamplerAddress address[3];
+	MSLBackSamplerBorderColor border_color;
+	MSLBackSamplerFilter mag_filter;
+	MSLBackSamplerFilter min_filter;
+	DEFINE_OPTIONAL(MSLBackSamplerFilter)
+	mip_filter;
+	DEFINE_OPTIONAL(MSLBackFloatFloat)
+	lod_clamp;
+	DEFINE_OPTIONAL(uint32_t)
+	max_anisotropy;
+	MSLBackSamplerCompareFunc compare_func;
+} MSLBackInlineSampler;
+
 typedef uint8_t MSLBackSlot;
 
 typedef enum MSLBackVertexFormat {
@@ -981,15 +1083,19 @@ typedef struct MSLBackBindSamplerTarget {
 	MSLBackBindSamplerTargetTag tag;
 	union {
 		MSLBackSlot resource;
-		uint32_t inline_;
+		uint8_t inline_;
 	} data;
 } MSLBackBindSamplerTarget;
 
 typedef struct MSLBackBindTarget {
-	MSLBackSlot buffer;
-	MSLBackSlot texture;
-	MSLBackBindSamplerTarget *sampler;
-	MSLBackBindExternalTextureTarget *external_texture;
+	DEFINE_OPTIONAL(MSLBackSlot)
+	buffer;
+	DEFINE_OPTIONAL(MSLBackSlot)
+	texture;
+	DEFINE_OPTIONAL(MSLBackBindSamplerTarget)
+	sampler;
+	DEFINE_OPTIONAL(MSLBackBindExternalTextureTarget)
+	external_texture;
 	bool mutable_;
 } MSLBackBindTarget;
 
@@ -1005,12 +1111,14 @@ typedef struct MSLBackBindingMap {
 
 typedef struct MSLBackEntryPointResources {
 	MSLBackBindingMap resources;
-	MSLBackSlot immediates_buffer;
-	MSLBackSlot sizes_buffer;
+	DEFINE_OPTIONAL(MSLBackSlot)
+	immediates_buffer;
+	DEFINE_OPTIONAL(MSLBackSlot)
+	sizes_buffer;
 } MSLBackEntryPointResources;
 
 typedef struct MSLBackEntryPointResourceMapEntry {
-	void *key;
+	char *key;
 	MSLBackEntryPointResources value;
 } MSLBackEntryPointResourceMapEntry;
 
@@ -1019,10 +1127,6 @@ typedef struct MSLBackEntryPointResourceMap {
 	size_t entries_len;
 } MSLBackEntryPointResourceMap;
 
-typedef struct MSLBackInlineSampler {
-	void *data;
-} MSLBackInlineSampler;
-
 typedef struct MSLBackOptions {
 	uint8_t lang_version[2];
 	MSLBackEntryPointResourceMap per_entry_point_map;
@@ -1030,7 +1134,7 @@ typedef struct MSLBackOptions {
 	size_t inline_samplers_len;
 	bool spirv_cross_compatibility;
 	bool fake_missing_bindings;
-	BoundsCheckPolicies *bounds_check_policies;
+	BoundsCheckPolicies bounds_check_policies;
 	bool zero_initialize_workgroup_memory;
 	bool force_loop_bounding;
 } MSLBackOptions;
@@ -1043,9 +1147,15 @@ typedef struct MSLBackVertexBufferMapping {
 	size_t attributes_len;
 } MSLBackVertexBufferMapping;
 
+typedef struct MSLBackShaderStageString {
+	ShaderStage shader_stage;
+	char *string;
+
+} MSLBackShaderStageString;
+
 typedef struct MSLBackPipelineOptions {
-	ShaderStage entry_point_stage;
-	char *entry_point_name;
+	DEFINE_OPTIONAL(MSLBackShaderStageString)
+	entry_point;
 	bool allow_and_force_point_size;
 	bool vertex_pulling_transform;
 	MSLBackVertexBufferMapping *vertex_buffer_mappings;
@@ -1066,11 +1176,6 @@ typedef struct MSLBackEntryPointError {
 		ResourceBinding missing_bind_target;
 	} data;
 } MSLBackEntryPointError;
-
-typedef enum MSLBackResolveArraySizeError {
-	MSLBackResolveArraySizeError_ExpectedPositiveArrayLength,
-	MSLBackResolveArraySizeError_NonConstArrayLength,
-} MSLBackResolveArraySizeError;
 
 typedef enum MSLBackErrorTag {
 	MSLBackErrorTag_Format,
@@ -1099,26 +1204,25 @@ typedef enum MSLBackErrorTag {
 typedef struct MSLBackError {
 	MSLBackErrorTag tag;
 	union {
-		void *format;
+		char *format;
 		MSLBackBindTarget unimplemented_bind_target;
-		void *unsupported_compose;
-		void *unsupported_binary_op;
+		DEFINE_HANDLE_INDEX(Type)
+		unsupported_compose;
+		struct Empty *NAGA_UNIMPLEMENTED unsupported_binary_op;
 		char *unsupported_call;
 		char *feature_not_implemented;
 		char *generic_validation;
 		BuiltIn unsupported_built_in;
-		void *capability_not_supported;
+		Capabilities capability_not_supported;
 		char *unsupported_attribute;
 		char *unsupported_function;
 		ShaderStage unsupported_writeable_storage_texture;
 		char *unsupported_array_of;
-		void *unsupported_array_of_type;
+		DEFINE_HANDLE_INDEX(Type)
+		unsupported_array_of_type;
 		TypeInner unsupported_bit_cast;
-		MSLBackResolveArraySizeError resolve_array_size_error;
-		struct {
-			ShaderStage stage;
-			char *name;
-		} entry_point_not_found;
+		ResolveArraySizeError resolve_array_size_error;
+		MSLBackShaderStageString entry_point_not_found;
 	} data;
 } MSLBackError;
 
@@ -1948,60 +2052,6 @@ typedef struct WGSLFrontParseError {
 	WGSLFrontParseErrorLabel *labels;
 	size_t labels_len;
 } WGSLFrontParseError;
-
-// --- naga::valid ---
-
-typedef struct Validator {
-	void *_inner_validator;
-} Validator;
-
-typedef enum Capabilities {
-	Capabilities_IMMEDIATES = 0x1,
-	Capabilities_FLOAT64 = 0x2,
-	Capabilities_PRIMITIVE_INDEX = 0x4,
-	Capabilities_TEXTURE_AND_SAMPLER_BINDING_ARRAY = 0x8,
-	Capabilities_BUFFER_BINDING_ARRAY = 0x10,
-	Capabilities_STORAGE_TEXTURE_BINDING_ARRAY = 0x20,
-	Capabilities_STORAGE_BUFFER_BINDING_ARRAY = 0x40,
-	Capabilities_CLIP_DISTANCE = 0x80,
-	Capabilities_CULL_DISTANCE = 0x100,
-	Capabilities_STORAGE_TEXTURE_16BIT_NORM_FORMATS = 0x200,
-	Capabilities_MULTIVIEW = 0x400,
-	Capabilities_EARLY_DEPTH_TEST = 0x800,
-	Capabilities_MULTISAMPLED_SHADING = 0x1000,
-	Capabilities_RAY_QUERY = 0x2000,
-	Capabilities_DUAL_SOURCE_BLENDING = 0x4000,
-	Capabilities_CUBE_ARRAY_TEXTURES = 0x8000,
-	Capabilities_SHADER_INT64 = 0x10000,
-	Capabilities_SUBGROUP = 0x20000,
-	Capabilities_SUBGROUP_BARRIER = 0x40000,
-	Capabilities_SUBGROUP_VERTEX_STAGE = 0x80000,
-	Capabilities_SHADER_INT64_ATOMIC_MIN_MAX = 0x100000,
-	Capabilities_SHADER_INT64_ATOMIC_ALL_OPS = 0x200000,
-	Capabilities_SHADER_FLOAT32_ATOMIC = 0x400000,
-	Capabilities_TEXTURE_ATOMIC = 0x800000,
-	Capabilities_TEXTURE_INT64_ATOMIC = 0x1000000,
-	Capabilities_RAY_HIT_VERTEX_POSITION = 0x2000000,
-	Capabilities_SHADER_FLOAT16 = 0x4000000,
-	Capabilities_TEXTURE_EXTERNAL = 0x8000000,
-	Capabilities_SHADER_FLOAT16_IN_FLOAT32 = 0x10000000,
-	Capabilities_SHADER_BARYCENTRICS = 0x20000000,
-	Capabilities_MESH_SHADER = 0x40000000,
-	Capabilities_MESH_SHADER_POINT_TOPOLOGY = 0x80000000,
-	Capabilities_TEXTURE_AND_SAMPLER_BINDING_ARRAY_NON_UNIFORM_INDEXING = 0x100000000,
-	Capabilities_BUFFER_BINDING_ARRAY_NON_UNIFORM_INDEXING = 0x200000000,
-	Capabilities_STORAGE_TEXTURE_BINDING_ARRAY_NON_UNIFORM_INDEXING = 0x400000000,
-	Capabilities_STORAGE_BUFFER_BINDING_ARRAY_NON_UNIFORM_INDEXING = 0x800000000,
-} Capabilities;
-
-typedef enum ValidationFlags {
-	ValidationFlags_EXPRESSIONS = 0x1,
-	ValidationFlags_BLOCKS = 0x2,
-	ValidationFlags_CONTROL_FLOW_UNIFORMITY = 0x4,
-	ValidationFlags_STRUCT_LAYOUTS = 0x8,
-	ValidationFlags_CONSTANTS = 0x10,
-	ValidationFlags_BINDINGS = 0x20,
-} ValidationFlags;
 
 // --- Wrapper Methods ---
 
