@@ -1,9 +1,5 @@
 use super::*;
 
-// } WGSLFrontOptions;
-// } WGSLFrontParseErrorLabel;
-// } WGSLFrontParseError;
-
 pub fn wgsl_front_options_to_ffi(options: &naga::front::wgsl::Options) -> ffi::WGSLFrontOptions {
     ffi::WGSLFrontOptions {
         parse_doc_comments: bool_to_ffi(options.parse_doc_comments),

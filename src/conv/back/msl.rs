@@ -428,7 +428,7 @@ pub fn msl_back_pipeline_options_to_ffi(
             value: options
                 .entry_point
                 .as_ref()
-                .map(|(shader_stage, s)| ffi::MSLBackShaderStageString {
+                .map(|(shader_stage, s)| ffi::ShaderStageString {
                     shader_stage: shader_stage_to_ffi(shader_stage),
                     string: unsafe { string_to_ffi(s) },
                 })
@@ -604,7 +604,7 @@ pub fn msl_back_error_to_ffi(error: &naga::back::msl::Error) -> ffi::MSLBackErro
         naga::back::msl::Error::EntryPointNotFound(shader_stage, s) => ffi::MSLBackError {
             tag: ffi::MSLBackErrorTag_MSLBackErrorTag_EntryPointNotFound,
             data: ffi::MSLBackError__bindgen_ty_1 {
-                entry_point_not_found: ffi::MSLBackShaderStageString {
+                entry_point_not_found: ffi::ShaderStageString {
                     shader_stage: shader_stage_to_ffi(shader_stage),
                     string: unsafe { string_to_ffi(s) },
                 },

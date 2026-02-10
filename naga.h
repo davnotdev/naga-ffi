@@ -26,6 +26,7 @@ typedef uint8_t bool;
 // TODO: desctructors to free everything
 // TODO: validator errors
 // TODO: implement *::ReflectionInfo
+// TODO: naga::compact
 
 typedef struct Span {
 	uint32_t start;
@@ -838,8 +839,10 @@ typedef enum HLSLBackShaderModel {
 typedef struct HLSLBackBindTarget {
 	uint8_t space;
 	uint32_t register_;
-	uint32_t binding_array_size;
-	uint32_t dynamic_storage_buffer_offsets_index;
+	DEFINE_OPTIONAL(uint32_t)
+	binding_array_size;
+	DEFINE_OPTIONAL(uint32_t)
+	dynamic_storage_buffer_offsets_index;
 	bool restrict_indexing;
 } HLSLBackBindTarget;
 
@@ -888,9 +891,14 @@ typedef struct HLSLBackDynamicStorageBufferOffsetsTargets {
 	size_t entries_len;
 } HLSLBackDynamicStorageBufferOffsetsTargets;
 
+typedef struct HLSLBackExternalTextureBindTarget {
+	HLSLBackBindTarget planes[3];
+	HLSLBackBindTarget params;
+} HLSLBackExternalTextureBindTarget;
+
 typedef struct HLSLBackExternalTextureBindingMapEntry {
 	ResourceBinding key;
-	HLSLBackOffsetsBindTarget *value;
+	HLSLBackExternalTextureBindTarget value;
 } HLSLBackExternalTextureBindingMapEntry;
 
 typedef struct HLSLBackExternalTextureBindingMap {
@@ -902,8 +910,10 @@ typedef struct HLSLBackOptions {
 	HLSLBackShaderModel shader_model;
 	HLSLBackBindingMap binding_map;
 	bool fake_missing_bindings;
-	HLSLBackBindTarget *special_constants_binding;
-	HLSLBackBindTarget *immediates_target;
+	DEFINE_OPTIONAL(HLSLBackBindTarget)
+	special_constants_binding;
+	DEFINE_OPTIONAL(HLSLBackBindTarget)
+	immediates_target;
 	HLSLBackSamplerHeapBindTargets sampler_heap_target;
 	HLSLBackSamplerIndexBufferBindingMap sampler_buffer_binding_map;
 	HLSLBackDynamicStorageBufferOffsetsTargets dynamic_storage_buffer_offsets_targets;
@@ -913,9 +923,15 @@ typedef struct HLSLBackOptions {
 	bool force_loop_bounding;
 } HLSLBackOptions;
 
+typedef struct ShaderStageString {
+	ShaderStage shader_stage;
+	char *string;
+
+} ShaderStageString;
+
 typedef struct HLSLBackPipelineOptions {
-	ShaderStage entry_point_stage;
-	char *entry_point_name;
+	DEFINE_OPTIONAL(ShaderStageString)
+	entry_point;
 } HLSLBackPipelineOptions;
 
 typedef enum HLSLBackErrorTag {
@@ -949,7 +965,8 @@ typedef struct HLSLBackError {
 } HLSLBackError;
 
 typedef struct HLSLBackFragmentEntryPoint {
-	char *ep_name;
+	struct Empty *NAGA_UNIMPLEMENTED module;
+	struct Empty *NAGA_UNIMPLEMENTED func;
 } HLSLBackFragmentEntryPoint;
 
 typedef struct Empty HLSLBackReflectionInfo NAGA_UNIMPLEMENTED;
@@ -1147,14 +1164,8 @@ typedef struct MSLBackVertexBufferMapping {
 	size_t attributes_len;
 } MSLBackVertexBufferMapping;
 
-typedef struct MSLBackShaderStageString {
-	ShaderStage shader_stage;
-	char *string;
-
-} MSLBackShaderStageString;
-
 typedef struct MSLBackPipelineOptions {
-	DEFINE_OPTIONAL(MSLBackShaderStageString)
+	DEFINE_OPTIONAL(ShaderStageString)
 	entry_point;
 	bool allow_and_force_point_size;
 	bool vertex_pulling_transform;
@@ -1222,7 +1233,7 @@ typedef struct MSLBackError {
 		unsupported_array_of_type;
 		TypeInner unsupported_bit_cast;
 		ResolveArraySizeError resolve_array_size_error;
-		MSLBackShaderStageString entry_point_not_found;
+		ShaderStageString entry_point_not_found;
 	} data;
 } MSLBackError;
 
