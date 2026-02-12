@@ -6,6 +6,12 @@ pub fn wgsl_front_options_to_ffi(options: &naga::front::wgsl::Options) -> ffi::W
     }
 }
 
+pub fn wgsl_front_options_to_naga(options: &ffi::WGSLFrontOptions) -> naga::front::wgsl::Options {
+    naga::front::wgsl::Options {
+        parse_doc_comments: bool_to_naga(options.parse_doc_comments),
+    }
+}
+
 pub fn wgsl_front_parse_error_to_ffi(
     error: &naga::front::wgsl::ParseError,
 ) -> ffi::WGSLFrontParseError {

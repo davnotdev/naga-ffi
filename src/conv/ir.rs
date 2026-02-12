@@ -707,6 +707,15 @@ pub fn resource_binding_to_ffi(
     }
 }
 
+pub fn resource_binding_to_naga(
+    resource_binding: &ffi::ResourceBinding,
+) -> naga::ir::ResourceBinding {
+    naga::ir::ResourceBinding {
+        group: resource_binding.group,
+        binding: resource_binding.binding,
+    }
+}
+
 pub fn global_variable_to_ffi(global_variable: &naga::ir::GlobalVariable) -> ffi::GlobalVariable {
     ffi::GlobalVariable {
         name: global_variable
@@ -766,6 +775,17 @@ pub fn shader_stage_to_ffi(shader_stage: &naga::ir::ShaderStage) -> ffi::ShaderS
         naga::ShaderStage::Mesh => ffi::ShaderStage_ShaderStage_Mesh,
         naga::ShaderStage::Fragment => ffi::ShaderStage_ShaderStage_Fragment,
         naga::ShaderStage::Compute => ffi::ShaderStage_ShaderStage_Compute,
+    }
+}
+
+pub fn shader_stage_to_naga(shader_stage: &ffi::ShaderStage) -> naga::ShaderStage {
+    match *shader_stage {
+        ffi::ShaderStage_ShaderStage_Vertex => naga::ShaderStage::Vertex,
+        ffi::ShaderStage_ShaderStage_Task => naga::ShaderStage::Task,
+        ffi::ShaderStage_ShaderStage_Mesh => naga::ShaderStage::Mesh,
+        ffi::ShaderStage_ShaderStage_Fragment => naga::ShaderStage::Fragment,
+        ffi::ShaderStage_ShaderStage_Compute => naga::ShaderStage::Compute,
+        _ => panic!("Unknown ShaderStage"),
     }
 }
 

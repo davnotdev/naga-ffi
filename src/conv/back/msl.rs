@@ -1,137 +1,137 @@
 use super::*;
 
-fn msl_back_sampler_address_to_ffi(
-    address: &naga::back::msl::sampler::Address,
-) -> ffi::MSLBackSamplerAddress {
+fn msl_back_sampler_address_to_naga(
+    address: ffi::MSLBackSamplerAddress,
+) -> naga::back::msl::sampler::Address {
     match address {
-        naga::back::msl::sampler::Address::Repeat => {
-            ffi::MSLBackSamplerAddress_MSLBackSamplerAddress_Repeat
+        ffi::MSLBackSamplerAddress_MSLBackSamplerAddress_Repeat => {
+            naga::back::msl::sampler::Address::Repeat
         }
-        naga::back::msl::sampler::Address::MirroredRepeat => {
-            ffi::MSLBackSamplerAddress_MSLBackSamplerAddress_MirroredRepeat
+        ffi::MSLBackSamplerAddress_MSLBackSamplerAddress_MirroredRepeat => {
+            naga::back::msl::sampler::Address::MirroredRepeat
         }
-        naga::back::msl::sampler::Address::ClampToEdge => {
-            ffi::MSLBackSamplerAddress_MSLBackSamplerAddress_ClampToEdge
+        ffi::MSLBackSamplerAddress_MSLBackSamplerAddress_ClampToEdge => {
+            naga::back::msl::sampler::Address::ClampToEdge
         }
-        naga::back::msl::sampler::Address::ClampToZero => {
-            ffi::MSLBackSamplerAddress_MSLBackSamplerAddress_ClampToZero
+        ffi::MSLBackSamplerAddress_MSLBackSamplerAddress_ClampToZero => {
+            naga::back::msl::sampler::Address::ClampToZero
         }
-        naga::back::msl::sampler::Address::ClampToBorder => {
-            ffi::MSLBackSamplerAddress_MSLBackSamplerAddress_ClampToBorder
+        ffi::MSLBackSamplerAddress_MSLBackSamplerAddress_ClampToBorder => {
+            naga::back::msl::sampler::Address::ClampToBorder
         }
+        _ => panic!("Unknown MSLBackSamplerAddress"),
     }
 }
 
-fn msl_back_sampler_border_color_to_ffi(
-    color: &naga::back::msl::sampler::BorderColor,
-) -> ffi::MSLBackSamplerBorderColor {
+fn msl_back_sampler_border_color_to_naga(
+    color: ffi::MSLBackSamplerBorderColor,
+) -> naga::back::msl::sampler::BorderColor {
     match color {
-        naga::back::msl::sampler::BorderColor::TransparentBlack => {
-            ffi::MSLBackSamplerBorderColor_MSLBackSamplerBorderColor_TransparentBlack
+        ffi::MSLBackSamplerBorderColor_MSLBackSamplerBorderColor_TransparentBlack => {
+            naga::back::msl::sampler::BorderColor::TransparentBlack
         }
-        naga::back::msl::sampler::BorderColor::OpaqueBlack => {
-            ffi::MSLBackSamplerBorderColor_MSLBackSamplerBorderColor_OpaqueBlack
+        ffi::MSLBackSamplerBorderColor_MSLBackSamplerBorderColor_OpaqueBlack => {
+            naga::back::msl::sampler::BorderColor::OpaqueBlack
         }
-        naga::back::msl::sampler::BorderColor::OpaqueWhite => {
-            ffi::MSLBackSamplerBorderColor_MSLBackSamplerBorderColor_OpaqueWhite
+        ffi::MSLBackSamplerBorderColor_MSLBackSamplerBorderColor_OpaqueWhite => {
+            naga::back::msl::sampler::BorderColor::OpaqueWhite
         }
+        _ => panic!("Unknown MSLBackSamplerBorderColor"),
     }
 }
 
-fn msl_back_sampler_compare_func_to_ffi(
-    func: &naga::back::msl::sampler::CompareFunc,
-) -> ffi::MSLBackSamplerCompareFunc {
+fn msl_back_sampler_compare_func_to_naga(
+    func: ffi::MSLBackSamplerCompareFunc,
+) -> naga::back::msl::sampler::CompareFunc {
     match func {
-        naga::back::msl::sampler::CompareFunc::Never => {
-            ffi::MSLBackSamplerCompareFunc_MSLBackSamplerCompareFunc_Never
+        ffi::MSLBackSamplerCompareFunc_MSLBackSamplerCompareFunc_Never => {
+            naga::back::msl::sampler::CompareFunc::Never
         }
-        naga::back::msl::sampler::CompareFunc::Less => {
-            ffi::MSLBackSamplerCompareFunc_MSLBackSamplerCompareFunc_Less
+        ffi::MSLBackSamplerCompareFunc_MSLBackSamplerCompareFunc_Less => {
+            naga::back::msl::sampler::CompareFunc::Less
         }
-        naga::back::msl::sampler::CompareFunc::LessEqual => {
-            ffi::MSLBackSamplerCompareFunc_MSLBackSamplerCompareFunc_LessEqual
+        ffi::MSLBackSamplerCompareFunc_MSLBackSamplerCompareFunc_LessEqual => {
+            naga::back::msl::sampler::CompareFunc::LessEqual
         }
-        naga::back::msl::sampler::CompareFunc::Greater => {
-            ffi::MSLBackSamplerCompareFunc_MSLBackSamplerCompareFunc_Greater
+        ffi::MSLBackSamplerCompareFunc_MSLBackSamplerCompareFunc_Greater => {
+            naga::back::msl::sampler::CompareFunc::Greater
         }
-        naga::back::msl::sampler::CompareFunc::GreaterEqual => {
-            ffi::MSLBackSamplerCompareFunc_MSLBackSamplerCompareFunc_GreaterEqual
+        ffi::MSLBackSamplerCompareFunc_MSLBackSamplerCompareFunc_GreaterEqual => {
+            naga::back::msl::sampler::CompareFunc::GreaterEqual
         }
-        naga::back::msl::sampler::CompareFunc::Equal => {
-            ffi::MSLBackSamplerCompareFunc_MSLBackSamplerCompareFunc_Equal
+        ffi::MSLBackSamplerCompareFunc_MSLBackSamplerCompareFunc_Equal => {
+            naga::back::msl::sampler::CompareFunc::Equal
         }
-        naga::back::msl::sampler::CompareFunc::NotEqual => {
-            ffi::MSLBackSamplerCompareFunc_MSLBackSamplerCompareFunc_NotEqual
+        ffi::MSLBackSamplerCompareFunc_MSLBackSamplerCompareFunc_NotEqual => {
+            naga::back::msl::sampler::CompareFunc::NotEqual
         }
-        naga::back::msl::sampler::CompareFunc::Always => {
-            ffi::MSLBackSamplerCompareFunc_MSLBackSamplerCompareFunc_Always
+        ffi::MSLBackSamplerCompareFunc_MSLBackSamplerCompareFunc_Always => {
+            naga::back::msl::sampler::CompareFunc::Always
         }
+        _ => panic!("Unknown MSLBackSamplerCompareFunc"),
     }
 }
 
-fn msl_back_sampler_coord_to_ffi(
-    coord: &naga::back::msl::sampler::Coord,
-) -> ffi::MSLBackSamplerCoord {
+fn msl_back_sampler_coord_to_naga(
+    coord: ffi::MSLBackSamplerCoord,
+) -> naga::back::msl::sampler::Coord {
     match coord {
-        naga::back::msl::sampler::Coord::Normalized => {
-            ffi::MSLBackSamplerCoord_MSLBackSamplerCoord_Normalized
+        ffi::MSLBackSamplerCoord_MSLBackSamplerCoord_Normalized => {
+            naga::back::msl::sampler::Coord::Normalized
         }
-        naga::back::msl::sampler::Coord::Pixel => {
-            ffi::MSLBackSamplerCoord_MSLBackSamplerCoord_Pixel
+        ffi::MSLBackSamplerCoord_MSLBackSamplerCoord_Pixel => {
+            naga::back::msl::sampler::Coord::Pixel
         }
+        _ => panic!("Unknown MSLBackSamplerCoord"),
     }
 }
 
-fn msl_back_sampler_filter_to_ffi(
-    filter: &naga::back::msl::sampler::Filter,
-) -> ffi::MSLBackSamplerFilter {
+fn msl_back_sampler_filter_to_naga(
+    filter: ffi::MSLBackSamplerFilter,
+) -> naga::back::msl::sampler::Filter {
     match filter {
-        naga::back::msl::sampler::Filter::Nearest => {
-            ffi::MSLBackSamplerFilter_MSLBackSamplerFilter_Nearest
+        ffi::MSLBackSamplerFilter_MSLBackSamplerFilter_Nearest => {
+            naga::back::msl::sampler::Filter::Nearest
         }
-        naga::back::msl::sampler::Filter::Linear => {
-            ffi::MSLBackSamplerFilter_MSLBackSamplerFilter_Linear
+        ffi::MSLBackSamplerFilter_MSLBackSamplerFilter_Linear => {
+            naga::back::msl::sampler::Filter::Linear
         }
+        _ => panic!("Unknown MSLBackSamplerFilter"),
     }
 }
 
-fn msl_back_inline_sampler_to_ffi(
-    sampler: &naga::back::msl::sampler::InlineSampler,
-) -> ffi::MSLBackInlineSampler {
-    ffi::MSLBackInlineSampler {
-        coord: msl_back_sampler_coord_to_ffi(&sampler.coord),
+fn msl_back_inline_sampler_to_naga(
+    sampler: &ffi::MSLBackInlineSampler,
+) -> naga::back::msl::sampler::InlineSampler {
+    naga::back::msl::sampler::InlineSampler {
+        coord: msl_back_sampler_coord_to_naga(sampler.coord),
         address: [
-            msl_back_sampler_address_to_ffi(&sampler.address[0]),
-            msl_back_sampler_address_to_ffi(&sampler.address[1]),
-            msl_back_sampler_address_to_ffi(&sampler.address[2]),
+            msl_back_sampler_address_to_naga(sampler.address[0]),
+            msl_back_sampler_address_to_naga(sampler.address[1]),
+            msl_back_sampler_address_to_naga(sampler.address[2]),
         ],
-        border_color: msl_back_sampler_border_color_to_ffi(&sampler.border_color),
-        mag_filter: msl_back_sampler_filter_to_ffi(&sampler.mag_filter),
-        min_filter: msl_back_sampler_filter_to_ffi(&sampler.min_filter),
-        mip_filter: ffi::MSLBackInlineSampler__bindgen_ty_1 {
-            some: bool_to_ffi(sampler.mip_filter.is_some()),
-            value: sampler
-                .mip_filter
-                .as_ref()
-                .map(msl_back_sampler_filter_to_ffi)
-                .unwrap_or_default(),
+        border_color: msl_back_sampler_border_color_to_naga(sampler.border_color),
+        mag_filter: msl_back_sampler_filter_to_naga(sampler.mag_filter),
+        min_filter: msl_back_sampler_filter_to_naga(sampler.min_filter),
+        mip_filter: if bool_to_naga(sampler.mip_filter.some) {
+            Some(msl_back_sampler_filter_to_naga(sampler.mip_filter.value))
+        } else {
+            None
         },
-        lod_clamp: ffi::MSLBackInlineSampler__bindgen_ty_2 {
-            some: bool_to_ffi(sampler.lod_clamp.is_some()),
-            value: sampler
-                .lod_clamp
-                .as_ref()
-                .map(|range| ffi::MSLBackFloatRange {
-                    start: range.start,
-                    end: range.end,
-                })
-                .unwrap_or_default(),
+        lod_clamp: if bool_to_naga(sampler.lod_clamp.some) {
+            Some(std::ops::Range {
+                start: sampler.lod_clamp.value.start,
+                end: sampler.lod_clamp.value.end,
+            })
+        } else {
+            None
         },
-        max_anisotropy: ffi::MSLBackInlineSampler__bindgen_ty_3 {
-            some: bool_to_ffi(sampler.max_anisotropy.is_some()),
-            value: sampler.max_anisotropy.map(|n| n.get()).unwrap_or_default(),
+        max_anisotropy: if bool_to_naga(sampler.max_anisotropy.some) {
+            std::num::NonZeroU32::new(sampler.max_anisotropy.value)
+        } else {
+            None
         },
-        compare_func: msl_back_sampler_compare_func_to_ffi(&sampler.compare_func),
+        compare_func: msl_back_sampler_compare_func_to_naga(sampler.compare_func),
     }
 }
 
@@ -261,6 +261,15 @@ pub fn msl_back_vertex_format_to_ffi(
     }
 }
 
+pub fn msl_back_bind_external_texture_target_to_naga(
+    target: &ffi::MSLBackBindExternalTextureTarget,
+) -> naga::back::msl::BindExternalTextureTarget {
+    naga::back::msl::BindExternalTextureTarget {
+        planes: target.planes,
+        params: target.params,
+    }
+}
+
 pub fn msl_back_vertex_buffer_step_mode_to_ffi(
     mode: &naga::back::msl::VertexBufferStepMode,
 ) -> ffi::MSLBackVertexBufferStepMode {
@@ -277,6 +286,20 @@ pub fn msl_back_vertex_buffer_step_mode_to_ffi(
     }
 }
 
+pub fn msl_back_bind_sampler_target_to_naga(
+    target: &ffi::MSLBackBindSamplerTarget,
+) -> naga::back::msl::BindSamplerTarget {
+    match target.tag {
+        ffi::MSLBackBindSamplerTargetTag_MSLBackBindSamplerTargetTag_Resource => {
+            naga::back::msl::BindSamplerTarget::Resource(unsafe { target.data.resource })
+        }
+        ffi::MSLBackBindSamplerTargetTag_MSLBackBindSamplerTargetTag_Inline => {
+            naga::back::msl::BindSamplerTarget::Inline(unsafe { target.data.inline_ })
+        }
+        _ => panic!("Unknown MSLBackBindSamplerTarget"),
+    }
+}
+
 pub fn msl_back_attribute_mapping_to_ffi(
     mapping: &naga::back::msl::AttributeMapping,
 ) -> ffi::MSLBackAttributeMapping {
@@ -287,12 +310,56 @@ pub fn msl_back_attribute_mapping_to_ffi(
     }
 }
 
+pub fn msl_back_bind_target_to_naga(
+    target: &ffi::MSLBackBindTarget,
+) -> naga::back::msl::BindTarget {
+    naga::back::msl::BindTarget {
+        buffer: if bool_to_naga(target.buffer.some) {
+            Some(target.buffer.value)
+        } else {
+            None
+        },
+        texture: if bool_to_naga(target.texture.some) {
+            Some(target.texture.value)
+        } else {
+            None
+        },
+        sampler: if bool_to_naga(target.sampler.some) {
+            Some(msl_back_bind_sampler_target_to_naga(&target.sampler.value))
+        } else {
+            None
+        },
+        external_texture: if bool_to_naga(target.external_texture.some) {
+            Some(msl_back_bind_external_texture_target_to_naga(
+                &target.external_texture.value,
+            ))
+        } else {
+            None
+        },
+        mutable: bool_to_naga(target.mutable_),
+    }
+}
+
 pub fn msl_back_bind_external_texture_target_to_ffi(
     target: &naga::back::msl::BindExternalTextureTarget,
 ) -> ffi::MSLBackBindExternalTextureTarget {
     ffi::MSLBackBindExternalTextureTarget {
         planes: target.planes,
         params: target.params,
+    }
+}
+
+pub fn msl_back_binding_map_to_naga(map: &ffi::MSLBackBindingMap) -> naga::back::msl::BindingMap {
+    unsafe {
+        std::slice::from_raw_parts(map.entries, map.entries_len)
+            .iter()
+            .map(|entry| {
+                (
+                    resource_binding_to_naga(&entry.key),
+                    msl_back_bind_target_to_naga(&entry.value),
+                )
+            })
+            .collect()
     }
 }
 
@@ -308,6 +375,40 @@ pub fn msl_back_bind_sampler_target_to_ffi(
             tag: ffi::MSLBackBindSamplerTargetTag_MSLBackBindSamplerTargetTag_Inline,
             data: ffi::MSLBackBindSamplerTarget__bindgen_ty_1 { inline_: *inline },
         },
+    }
+}
+
+pub fn msl_back_entry_point_resources_to_naga(
+    resources: &ffi::MSLBackEntryPointResources,
+) -> naga::back::msl::EntryPointResources {
+    naga::back::msl::EntryPointResources {
+        resources: msl_back_binding_map_to_naga(&resources.resources),
+        immediates_buffer: if bool_to_naga(resources.immediates_buffer.some) {
+            Some(resources.immediates_buffer.value)
+        } else {
+            None
+        },
+        sizes_buffer: if bool_to_naga(resources.sizes_buffer.some) {
+            Some(resources.sizes_buffer.value)
+        } else {
+            None
+        },
+    }
+}
+
+pub fn msl_back_entry_point_resource_map_to_naga(
+    map: &ffi::MSLBackEntryPointResourceMap,
+) -> naga::back::msl::EntryPointResourceMap {
+    unsafe {
+        std::slice::from_raw_parts(map.entries, map.entries_len)
+            .iter()
+            .map(|entry| {
+                (
+                    string_to_naga(entry.key),
+                    msl_back_entry_point_resources_to_naga(&entry.value),
+                )
+            })
+            .collect()
     }
 }
 
@@ -341,65 +442,23 @@ pub fn msl_back_bind_target_to_ffi(target: &naga::back::msl::BindTarget) -> ffi:
     }
 }
 
-pub fn msl_back_binding_map_to_ffi(map: &naga::back::msl::BindingMap) -> ffi::MSLBackBindingMap {
-    let entries = map.iter().collect::<Vec<_>>();
-    ffi::MSLBackBindingMap {
-        entries: unsafe {
-            slice_to_ffi(&entries, |(key, value)| ffi::MSLBackBindingMapEntry {
-                key: resource_binding_to_ffi(key),
-                value: msl_back_bind_target_to_ffi(value),
-            })
-        },
-        entries_len: entries.len(),
-    }
-}
-
-pub fn msl_back_entry_point_resources_to_ffi(
-    resources: &naga::back::msl::EntryPointResources,
-) -> ffi::MSLBackEntryPointResources {
-    ffi::MSLBackEntryPointResources {
-        resources: msl_back_binding_map_to_ffi(&resources.resources),
-        immediates_buffer: ffi::MSLBackEntryPointResources__bindgen_ty_1 {
-            some: bool_to_ffi(resources.immediates_buffer.is_some()),
-            value: resources.immediates_buffer.unwrap_or_default(),
-        },
-        sizes_buffer: ffi::MSLBackEntryPointResources__bindgen_ty_2 {
-            some: bool_to_ffi(resources.sizes_buffer.is_some()),
-            value: resources.sizes_buffer.unwrap_or_default(),
-        },
-    }
-}
-
-pub fn msl_back_entry_point_resource_map_to_ffi(
-    map: &naga::back::msl::EntryPointResourceMap,
-) -> ffi::MSLBackEntryPointResourceMap {
-    let entries = map.iter().collect::<Vec<_>>();
-    ffi::MSLBackEntryPointResourceMap {
-        entries: unsafe {
-            slice_to_ffi(&entries, |(key, value)| {
-                ffi::MSLBackEntryPointResourceMapEntry {
-                    key: string_to_ffi(key),
-                    value: msl_back_entry_point_resources_to_ffi(value),
-                }
-            })
-        },
-        entries_len: entries.len(),
-    }
-}
-
-pub fn msl_back_options_to_ffi(options: &naga::back::msl::Options) -> ffi::MSLBackOptions {
-    ffi::MSLBackOptions {
-        lang_version: [options.lang_version.0, options.lang_version.1],
-        per_entry_point_map: msl_back_entry_point_resource_map_to_ffi(&options.per_entry_point_map),
+pub fn msl_back_options_to_naga(options: &ffi::MSLBackOptions) -> naga::back::msl::Options {
+    naga::back::msl::Options {
+        lang_version: (options.lang_version[0], options.lang_version[1]),
+        per_entry_point_map: msl_back_entry_point_resource_map_to_naga(
+            &options.per_entry_point_map,
+        ),
         inline_samplers: unsafe {
-            slice_to_ffi(&options.inline_samplers, msl_back_inline_sampler_to_ffi)
+            std::slice::from_raw_parts(options.inline_samplers, options.inline_samplers_len)
+                .iter()
+                .map(msl_back_inline_sampler_to_naga)
+                .collect()
         },
-        inline_samplers_len: options.inline_samplers.len(),
-        spirv_cross_compatibility: bool_to_ffi(options.spirv_cross_compatibility),
-        fake_missing_bindings: bool_to_ffi(options.fake_missing_bindings),
-        bounds_check_policies: bound_check_policies_to_ffi(&options.bounds_check_policies),
-        zero_initialize_workgroup_memory: bool_to_ffi(options.zero_initialize_workgroup_memory),
-        force_loop_bounding: bool_to_ffi(options.force_loop_bounding),
+        spirv_cross_compatibility: bool_to_naga(options.spirv_cross_compatibility),
+        fake_missing_bindings: bool_to_naga(options.fake_missing_bindings),
+        bounds_check_policies: bound_check_policies_to_naga(&options.bounds_check_policies),
+        zero_initialize_workgroup_memory: bool_to_naga(options.zero_initialize_workgroup_memory),
+        force_loop_bounding: bool_to_naga(options.force_loop_bounding),
     }
 }
 

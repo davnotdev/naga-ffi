@@ -3,11 +3,13 @@ use super::*;
 use std::ffi::{c_char, c_void};
 
 pub mod back;
+pub mod compact;
 pub mod front;
 pub mod ir;
 pub mod proc;
 pub mod valid;
 
+pub use compact::*;
 pub use ir::*;
 pub use proc::*;
 pub use valid::*;
@@ -33,10 +35,6 @@ unsafe fn string_to_ffi(s: &str) -> *mut c_char {
     todo!()
 }
 
-// unsafe fn unsafe_copy<T>(val: T) -> T {
-
-// }
-
 fn bool_to_ffi(b: bool) -> u8 {
     if b { 1 } else { 0 }
 }
@@ -55,4 +53,20 @@ fn span_context_to_ffi(span_context: &naga::SpanContext) -> ffi::SpanContext {
         span: span_to_ffi(&span_context.0),
         message: unsafe { string_to_ffi(&span_context.1) },
     }
+}
+
+fn bool_to_naga(b: u8) -> bool {
+    match b {
+        0 => false,
+        1 => true,
+        n => panic!("{} is not a valid bool", n),
+    }
+}
+
+unsafe fn slice_to_naga<T, O, F: FnOnce(&T) -> O>(v: &[T], f: F) -> *mut O {
+    todo!()
+}
+
+unsafe fn string_to_naga(s: *mut c_char) -> String {
+    todo!()
 }

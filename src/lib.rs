@@ -63,6 +63,14 @@ pub unsafe extern "C" fn naga_valid_validator_validate_resolved_overrides(
     todo!()
 }
 
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn naga_compact_compact(
+    module: *mut ffi::Module,
+    keep_unused: ffi::KeepUnused,
+) {
+    todo!()
+}
+
 #[cfg(feature = "dot-out")]
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn naga_back_dot_write(

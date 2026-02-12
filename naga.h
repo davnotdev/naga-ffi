@@ -26,7 +26,6 @@ typedef uint8_t bool;
 // TODO: desctructors to free everything
 // TODO: validator errors
 // TODO: implement *::ReflectionInfo
-// TODO: naga::compact
 
 typedef struct Span {
 	uint32_t start;
@@ -1540,8 +1539,10 @@ typedef struct SPVBackOptions {
 	bool force_loop_bounding;
 	bool ray_query_initialization_tracking;
 	bool use_storage_input_output_16;
-	DEFINE_OPTIONAL(SPVBackDebugInfo)
-	debug_info;
+	// DEFINE_OPTIONAL(SPVBackDebugInfo)
+	// debug_info;
+    // NOTE: This type has an awkward lifetime on a borrowed string slice.
+    struct Empty* debug_info;
 } SPVBackOptions;
 
 typedef struct SPVBackPipelineOptions {
@@ -2064,6 +2065,13 @@ typedef struct WGSLFrontParseError {
 	size_t labels_len;
 } WGSLFrontParseError;
 
+// --- naga::compact
+
+typedef enum KeepUnused {
+	KeepUnused_No,
+	KeepUnused_Yes,
+} KeepUnused;
+
 // --- Wrapper Methods ---
 
 typedef struct GLSLFrontendResult {
@@ -2107,6 +2115,12 @@ Validator naga_valid_validator_new(ValidationFlags flags, Capabilities capabilit
 void naga_valid_validator_reset(Validator *validator);
 ValidateResult naga_valid_validator_validate(Validator *validator, Module *const module);
 ValidateResult naga_valid_validator_validate_resolved_overrides(Validator *validator, Module *const module);
+
+#endif
+
+#ifndef NAGA_FFI_NO_METHODS
+
+void naga_compact_compact(Module *module, KeepUnused keep_unused);
 
 #endif
 

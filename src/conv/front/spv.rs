@@ -1,14 +1,14 @@
 use super::*;
 
-pub fn spv_front_options_to_ffi(options: &naga::front::spv::Options) -> ffi::SPVFrontOptions {
-    ffi::SPVFrontOptions {
-        adjust_coordinate_space: bool_to_ffi(options.adjust_coordinate_space),
-        strict_capabilities: bool_to_ffi(options.strict_capabilities),
-        block_ctx_dump_prefix: options
-            .block_ctx_dump_prefix
-            .as_ref()
-            .map(|s| unsafe { string_to_ffi(s) })
-            .unwrap_or_default(),
+pub fn spv_front_options_to_naga(options: &ffi::SPVFrontOptions) -> naga::front::spv::Options {
+    naga::front::spv::Options {
+        adjust_coordinate_space: bool_to_naga(options.adjust_coordinate_space),
+        strict_capabilities: bool_to_naga(options.strict_capabilities),
+        block_ctx_dump_prefix: if options.block_ctx_dump_prefix.is_null() {
+            None
+        } else {
+            Some(unsafe { string_to_naga(options.block_ctx_dump_prefix) })
+        },
     }
 }
 

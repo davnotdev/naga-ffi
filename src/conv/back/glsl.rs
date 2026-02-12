@@ -1,42 +1,39 @@
 use super::*;
 
-pub fn glsl_back_version_to_ffi(version: &naga::back::glsl::Version) -> ffi::GLSLBackVersion {
-    match version {
-        naga::back::glsl::Version::Desktop(version) => ffi::GLSLBackVersion {
-            tag: ffi::GLSLBackVersionTag_GLSLBackVersionTag_Desktop,
-            data: ffi::GLSLBackVersion__bindgen_ty_1 { desktop: *version },
-        },
-        naga::back::glsl::Version::Embedded { version, is_webgl } => ffi::GLSLBackVersion {
-            tag: ffi::GLSLBackVersionTag_GLSLBackVersionTag_Desktop,
-            data: ffi::GLSLBackVersion__bindgen_ty_1 {
-                embedded: ffi::GLSLBackVersion__bindgen_ty_1__bindgen_ty_1 {
-                    version: *version,
-                    is_webgl: bool_to_ffi(*is_webgl),
-                },
-            },
-        },
+pub fn glsl_back_version_to_naga(version: &ffi::GLSLBackVersion) -> naga::back::glsl::Version {
+    match version.tag {
+        ffi::GLSLBackVersionTag_GLSLBackVersionTag_Desktop => {
+            naga::back::glsl::Version::Desktop(unsafe { version.data.desktop })
+        }
+        ffi::GLSLBackVersionTag_GLSLBackVersionTag_Embedded => {
+            naga::back::glsl::Version::Embedded {
+                version: unsafe { version.data.embedded.version },
+                is_webgl: bool_to_naga(unsafe { version.data.embedded.is_webgl }),
+            }
+        }
+        _ => panic!("Unknown GLSLBackVersionTag"),
     }
 }
 
-pub fn glsl_back_writer_flags_to_ffi(
-    flags: naga::back::glsl::WriterFlags,
-) -> ffi::GLSLBackWriterFlags {
-    let mut result: ffi::GLSLBackWriterFlags = 0;
+pub fn glsl_back_writer_flags_to_naga(
+    flags: ffi::GLSLBackWriterFlags,
+) -> naga::back::glsl::WriterFlags {
+    let mut result = naga::back::glsl::WriterFlags::empty();
 
-    if flags.contains(naga::back::glsl::WriterFlags::ADJUST_COORDINATE_SPACE) {
-        result |= ffi::GLSLBackWriterFlags_GLSLBackWriterFlags_ADJUST_COORDINATE_SPACE;
+    if flags & ffi::GLSLBackWriterFlags_GLSLBackWriterFlags_ADJUST_COORDINATE_SPACE != 0 {
+        result |= naga::back::glsl::WriterFlags::ADJUST_COORDINATE_SPACE;
     }
-    if flags.contains(naga::back::glsl::WriterFlags::TEXTURE_SHADOW_LOD) {
-        result |= ffi::GLSLBackWriterFlags_GLSLBackWriterFlags_TEXTURE_SHADOW_LOD;
+    if flags & ffi::GLSLBackWriterFlags_GLSLBackWriterFlags_TEXTURE_SHADOW_LOD != 0 {
+        result |= naga::back::glsl::WriterFlags::TEXTURE_SHADOW_LOD;
     }
-    if flags.contains(naga::back::glsl::WriterFlags::DRAW_PARAMETERS) {
-        result |= ffi::GLSLBackWriterFlags_GLSLBackWriterFlags_DRAW_PARAMETERS;
+    if flags & ffi::GLSLBackWriterFlags_GLSLBackWriterFlags_DRAW_PARAMETERS != 0 {
+        result |= naga::back::glsl::WriterFlags::DRAW_PARAMETERS;
     }
-    if flags.contains(naga::back::glsl::WriterFlags::INCLUDE_UNUSED_ITEMS) {
-        result |= ffi::GLSLBackWriterFlags_GLSLBackWriterFlags_INCLUDE_UNUSED_ITEMS;
+    if flags & ffi::GLSLBackWriterFlags_GLSLBackWriterFlags_INCLUDE_UNUSED_ITEMS != 0 {
+        result |= naga::back::glsl::WriterFlags::INCLUDE_UNUSED_ITEMS;
     }
-    if flags.contains(naga::back::glsl::WriterFlags::FORCE_POINT_SIZE) {
-        result |= ffi::GLSLBackWriterFlags_GLSLBackWriterFlags_FORCE_POINT_SIZE;
+    if flags & ffi::GLSLBackWriterFlags_GLSLBackWriterFlags_FORCE_POINT_SIZE != 0 {
+        result |= naga::back::glsl::WriterFlags::FORCE_POINT_SIZE;
     }
 
     sa::const_assert_eq!(
@@ -51,26 +48,14 @@ pub fn glsl_back_writer_flags_to_ffi(
     result
 }
 
-pub fn glsl_back_binding_map_to_ffi(map: &naga::back::glsl::BindingMap) -> ffi::GLSLBackBindingMap {
-    ffi::GLSLBackBindingMap {
-        entries: unsafe {
-            slice_to_ffi(&map.iter().collect::<Vec<_>>(), |(resource, binding)| {
-                ffi::GLSLBackBindingMapEntry {
-                    key: resource_binding_to_ffi(resource),
-                    value: **binding,
-                }
-            })
-        },
-        entries_len: map.len(),
-    }
-}
-
-pub fn glsl_back_options_to_ffi(options: &naga::back::glsl::Options) -> ffi::GLSLBackOptions {
-    ffi::GLSLBackOptions {
-        version: glsl_back_version_to_ffi(&options.version),
-        writer_flags: glsl_back_writer_flags_to_ffi(options.writer_flags),
-        binding_map: glsl_back_binding_map_to_ffi(&options.binding_map),
-        zero_initialize_workgroup_memory: bool_to_ffi(options.zero_initialize_workgroup_memory),
+pub fn glsl_back_binding_map_to_naga(
+    map: &ffi::GLSLBackBindingMap,
+) -> naga::back::glsl::BindingMap {
+    unsafe {
+        std::slice::from_raw_parts(map.entries, map.entries_len)
+            .iter()
+            .map(|entry| (resource_binding_to_naga(&entry.key), entry.value))
+            .collect()
     }
 }
 

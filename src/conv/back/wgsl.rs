@@ -1,12 +1,12 @@
 use super::*;
 
-pub fn wgsl_back_writer_flags_to_ffi(
-    flags: naga::back::wgsl::WriterFlags,
-) -> ffi::WGSLBackWriterFlags {
-    let mut result: ffi::WGSLBackWriterFlags = 0;
+pub fn wgsl_back_writer_flags_to_naga(
+    flags: ffi::WGSLBackWriterFlags,
+) -> naga::back::wgsl::WriterFlags {
+    let mut result = naga::back::wgsl::WriterFlags::empty();
 
-    if flags.contains(naga::back::wgsl::WriterFlags::EXPLICIT_TYPES) {
-        result |= ffi::WGSLBackWriterFlags_WGSLBackWriterFlags_EXPLICIT_TYPES;
+    if flags & ffi::WGSLBackWriterFlags_WGSLBackWriterFlags_EXPLICIT_TYPES != 0 {
+        result |= naga::back::wgsl::WriterFlags::EXPLICIT_TYPES;
     }
 
     sa::const_assert_eq!(

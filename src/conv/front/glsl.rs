@@ -1,28 +1,20 @@
 use super::*;
 
-pub fn glsl_front_defines_to_ffi(
-    defines: &naga::FastHashMap<String, String>,
-) -> ffi::GLSLFrontDefines {
-    // TODO: OPT Avoid double clone
-    let s = defines
-        .iter()
-        .map(|(k, v)| (k.clone(), v.clone()))
-        .collect::<Vec<_>>();
+pub fn glsl_front_defines_to_naga(
+    defines: &ffi::GLSLFrontDefines,
+) -> naga::FastHashMap<String, String> {
     unsafe {
-        ffi::GLSLFrontDefines {
-            entries: slice_to_ffi(&s, |(k, v)| ffi::GLSLFrontDefinesEntry {
-                key: string_to_ffi(k),
-                value: string_to_ffi(v),
-            }),
-            entries_len: s.len(),
-        }
+        std::slice::from_raw_parts(defines.entries, defines.entries_len)
+            .iter()
+            .map(|entry| (string_to_naga(entry.key), string_to_naga(entry.value)))
+            .collect()
     }
 }
 
-pub fn glsl_front_options_to_ffi(options: &naga::front::glsl::Options) -> ffi::GLSLFrontOptions {
-    ffi::GLSLFrontOptions {
-        stage: shader_stage_to_ffi(&options.stage),
-        defines: glsl_front_defines_to_ffi(&options.defines),
+pub fn glsl_front_options_to_naga(options: &ffi::GLSLFrontOptions) -> naga::front::glsl::Options {
+    naga::front::glsl::Options {
+        stage: shader_stage_to_naga(&options.stage),
+        defines: glsl_front_defines_to_naga(&options.defines),
     }
 }
 

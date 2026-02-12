@@ -252,6 +252,32 @@ pub fn bound_check_policies_to_ffi(
     }
 }
 
+pub fn bound_check_policy_to_naga(policy: ffi::BoundsCheckPolicy) -> naga::proc::BoundsCheckPolicy {
+    match policy {
+        ffi::BoundsCheckPolicy_BoundsCheckPolicy_Restrict => {
+            naga::proc::BoundsCheckPolicy::Restrict
+        }
+        ffi::BoundsCheckPolicy_BoundsCheckPolicy_ReadZeroSkipWrite => {
+            naga::proc::BoundsCheckPolicy::ReadZeroSkipWrite
+        }
+        ffi::BoundsCheckPolicy_BoundsCheckPolicy_Unchecked => {
+            naga::proc::BoundsCheckPolicy::Unchecked
+        }
+        _ => panic!("Unknown BoundsCheckPolicy"),
+    }
+}
+
+pub fn bound_check_policies_to_naga(
+    policies: &ffi::BoundsCheckPolicies,
+) -> naga::proc::BoundsCheckPolicies {
+    naga::proc::BoundsCheckPolicies {
+        index: bound_check_policy_to_naga(policies.index),
+        buffer: bound_check_policy_to_naga(policies.buffer),
+        image_load: bound_check_policy_to_naga(policies.image_load),
+        binding_array: bound_check_policy_to_naga(policies.binding_array),
+    }
+}
+
 pub fn resolve_array_size_error_to_ffi(
     error: &naga::proc::ResolveArraySizeError,
 ) -> ffi::ResolveArraySizeError {

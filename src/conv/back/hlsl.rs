@@ -17,180 +17,197 @@ pub fn hlsl_back_shader_model_to_ffi(
     }
 }
 
-pub fn hlsl_back_bind_target_to_ffi(
-    target: &naga::back::hlsl::BindTarget,
-) -> ffi::HLSLBackBindTarget {
-    ffi::HLSLBackBindTarget {
+pub fn hlsl_back_shader_model_to_naga(
+    model: ffi::HLSLBackShaderModel,
+) -> naga::back::hlsl::ShaderModel {
+    match model {
+        ffi::HLSLBackShaderModel_HLSLBackShaderModel_V5_0 => naga::back::hlsl::ShaderModel::V5_0,
+        ffi::HLSLBackShaderModel_HLSLBackShaderModel_V5_1 => naga::back::hlsl::ShaderModel::V5_1,
+        ffi::HLSLBackShaderModel_HLSLBackShaderModel_V6_0 => naga::back::hlsl::ShaderModel::V6_0,
+        ffi::HLSLBackShaderModel_HLSLBackShaderModel_V6_1 => naga::back::hlsl::ShaderModel::V6_1,
+        ffi::HLSLBackShaderModel_HLSLBackShaderModel_V6_2 => naga::back::hlsl::ShaderModel::V6_2,
+        ffi::HLSLBackShaderModel_HLSLBackShaderModel_V6_3 => naga::back::hlsl::ShaderModel::V6_3,
+        ffi::HLSLBackShaderModel_HLSLBackShaderModel_V6_4 => naga::back::hlsl::ShaderModel::V6_4,
+        ffi::HLSLBackShaderModel_HLSLBackShaderModel_V6_5 => naga::back::hlsl::ShaderModel::V6_5,
+        ffi::HLSLBackShaderModel_HLSLBackShaderModel_V6_6 => naga::back::hlsl::ShaderModel::V6_6,
+        ffi::HLSLBackShaderModel_HLSLBackShaderModel_V6_7 => naga::back::hlsl::ShaderModel::V6_7,
+        _ => panic!("Unknown HLSLBackShaderModel"),
+    }
+}
+
+pub fn hlsl_back_bind_target_to_naga(
+    target: &ffi::HLSLBackBindTarget,
+) -> naga::back::hlsl::BindTarget {
+    naga::back::hlsl::BindTarget {
         space: target.space,
-        register_: target.register,
-        binding_array_size: ffi::HLSLBackBindTarget__bindgen_ty_1 {
-            some: bool_to_ffi(target.binding_array_size.is_some()),
-            value: target.binding_array_size.unwrap_or_default(),
+        register: target.register_,
+        binding_array_size: if bool_to_naga(target.binding_array_size.some) {
+            Some(target.binding_array_size.value)
+        } else {
+            None
         },
-        dynamic_storage_buffer_offsets_index: ffi::HLSLBackBindTarget__bindgen_ty_2 {
-            some: bool_to_ffi(target.dynamic_storage_buffer_offsets_index.is_some()),
-            value: target
-                .dynamic_storage_buffer_offsets_index
-                .unwrap_or_default(),
+        dynamic_storage_buffer_offsets_index: if bool_to_naga(
+            target.dynamic_storage_buffer_offsets_index.some,
+        ) {
+            Some(target.dynamic_storage_buffer_offsets_index.value)
+        } else {
+            None
         },
-        restrict_indexing: bool_to_ffi(target.restrict_indexing),
+        restrict_indexing: bool_to_naga(target.restrict_indexing),
     }
 }
 
-pub fn hlsl_back_binding_map_to_ffi(map: &naga::back::hlsl::BindingMap) -> ffi::HLSLBackBindingMap {
-    ffi::HLSLBackBindingMap {
-        entries: unsafe {
-            slice_to_ffi(&map.iter().collect::<Vec<_>>(), |&(k, v)| {
-                ffi::HLSLBackBindingMapEntry {
-                    key: resource_binding_to_ffi(k),
-                    value: hlsl_back_bind_target_to_ffi(v),
-                }
+pub fn hlsl_back_binding_map_to_naga(
+    map: &ffi::HLSLBackBindingMap,
+) -> naga::back::hlsl::BindingMap {
+    unsafe {
+        std::slice::from_raw_parts(map.entries, map.entries_len)
+            .iter()
+            .map(|entry| {
+                (
+                    resource_binding_to_naga(&entry.key),
+                    hlsl_back_bind_target_to_naga(&entry.value),
+                )
             })
-        },
-        entries_len: map.len(),
+            .collect()
     }
 }
 
-pub fn hlsl_back_sampler_heap_bind_targets_to_ffi(
-    targets: &naga::back::hlsl::SamplerHeapBindTargets,
-) -> ffi::HLSLBackSamplerHeapBindTargets {
-    ffi::HLSLBackSamplerHeapBindTargets {
-        standard_samplers: hlsl_back_bind_target_to_ffi(&targets.standard_samplers),
-        comparison_samplers: hlsl_back_bind_target_to_ffi(&targets.comparison_samplers),
+pub fn hlsl_back_sampler_heap_bind_targets_to_naga(
+    targets: &ffi::HLSLBackSamplerHeapBindTargets,
+) -> naga::back::hlsl::SamplerHeapBindTargets {
+    naga::back::hlsl::SamplerHeapBindTargets {
+        standard_samplers: hlsl_back_bind_target_to_naga(&targets.standard_samplers),
+        comparison_samplers: hlsl_back_bind_target_to_naga(&targets.comparison_samplers),
     }
 }
 
-pub fn hlsl_back_sampler_index_buffer_key_to_ffi(
-    key: &naga::back::hlsl::SamplerIndexBufferKey,
-) -> ffi::HLSLBackSamplerIndexBufferKey {
-    ffi::HLSLBackSamplerIndexBufferKey { group: key.group }
+pub fn hlsl_back_sampler_index_buffer_key_to_naga(
+    key: &ffi::HLSLBackSamplerIndexBufferKey,
+) -> naga::back::hlsl::SamplerIndexBufferKey {
+    naga::back::hlsl::SamplerIndexBufferKey { group: key.group }
 }
 
-pub fn hlsl_back_sampler_index_buffer_binding_map_to_ffi(
-    map: &naga::back::hlsl::SamplerIndexBufferBindingMap,
-) -> ffi::HLSLBackSamplerIndexBufferBindingMap {
-    ffi::HLSLBackSamplerIndexBufferBindingMap {
-        entries: unsafe {
-            slice_to_ffi(&map.iter().collect::<Vec<_>>(), |&(k, v)| {
-                ffi::HLSLBackSamplerIndexBufferBindingMapEntry {
-                    key: hlsl_back_sampler_index_buffer_key_to_ffi(k),
-                    value: hlsl_back_bind_target_to_ffi(v),
-                }
+pub fn hlsl_back_sampler_index_buffer_binding_map_to_naga(
+    map: &ffi::HLSLBackSamplerIndexBufferBindingMap,
+) -> naga::back::hlsl::SamplerIndexBufferBindingMap {
+    unsafe {
+        std::slice::from_raw_parts(map.entries, map.entries_len)
+            .iter()
+            .map(|entry| {
+                (
+                    hlsl_back_sampler_index_buffer_key_to_naga(&entry.key),
+                    hlsl_back_bind_target_to_naga(&entry.value),
+                )
             })
-        },
-        entries_len: map.len(),
+            .collect()
     }
 }
 
-pub fn hlsl_back_offsets_bind_target_to_ffi(
-    target: &naga::back::hlsl::OffsetsBindTarget,
-) -> ffi::HLSLBackOffsetsBindTarget {
-    ffi::HLSLBackOffsetsBindTarget {
+pub fn hlsl_back_offsets_bind_target_to_naga(
+    target: &ffi::HLSLBackOffsetsBindTarget,
+) -> naga::back::hlsl::OffsetsBindTarget {
+    naga::back::hlsl::OffsetsBindTarget {
         space: target.space,
-        register_: target.register,
+        register: target.register_,
         size: target.size,
     }
 }
 
-pub fn hlsl_back_dynamic_storage_buffer_offsets_targets_to_ffi(
-    targets: &naga::back::hlsl::DynamicStorageBufferOffsetsTargets,
-) -> ffi::HLSLBackDynamicStorageBufferOffsetsTargets {
-    ffi::HLSLBackDynamicStorageBufferOffsetsTargets {
-        entries: unsafe {
-            slice_to_ffi(&targets.iter().collect::<Vec<_>>(), |&(k, v)| {
-                ffi::HLSLBackDynamicStorageBufferOffsetsTargetsEntry {
-                    key: *k,
-                    value: hlsl_back_offsets_bind_target_to_ffi(v),
-                }
+pub fn hlsl_back_dynamic_storage_buffer_offsets_targets_to_naga(
+    targets: &ffi::HLSLBackDynamicStorageBufferOffsetsTargets,
+) -> naga::back::hlsl::DynamicStorageBufferOffsetsTargets {
+    unsafe {
+        std::slice::from_raw_parts(targets.entries, targets.entries_len)
+            .iter()
+            .map(|entry| {
+                (
+                    entry.key,
+                    hlsl_back_offsets_bind_target_to_naga(&entry.value),
+                )
             })
-        },
-        entries_len: targets.len(),
+            .collect()
     }
 }
 
-pub fn hlsl_back_external_texture_bind_target(
-    target: naga::back::hlsl::ExternalTextureBindTarget,
-) -> ffi::HLSLBackExternalTextureBindTarget {
-    ffi::HLSLBackExternalTextureBindTarget {
+pub fn hlsl_back_external_texture_bind_target_to_naga(
+    target: &ffi::HLSLBackExternalTextureBindTarget,
+) -> naga::back::hlsl::ExternalTextureBindTarget {
+    naga::back::hlsl::ExternalTextureBindTarget {
         planes: [
-            hlsl_back_bind_target_to_ffi(&target.planes[0]),
-            hlsl_back_bind_target_to_ffi(&target.planes[1]),
-            hlsl_back_bind_target_to_ffi(&target.planes[2]),
+            hlsl_back_bind_target_to_naga(&target.planes[0]),
+            hlsl_back_bind_target_to_naga(&target.planes[1]),
+            hlsl_back_bind_target_to_naga(&target.planes[2]),
         ],
-        params: hlsl_back_bind_target_to_ffi(&target.params),
+        params: hlsl_back_bind_target_to_naga(&target.params),
     }
 }
 
-pub fn hlsl_back_external_texture_binding_map_to_ffi(
-    map: &naga::back::hlsl::ExternalTextureBindingMap,
-) -> ffi::HLSLBackExternalTextureBindingMap {
-    ffi::HLSLBackExternalTextureBindingMap {
-        entries: unsafe {
-            slice_to_ffi(&map.iter().collect::<Vec<_>>(), |&(k, v)| {
-                ffi::HLSLBackExternalTextureBindingMapEntry {
-                    key: resource_binding_to_ffi(k),
-                    value: hlsl_back_external_texture_bind_target(*v),
-                }
+pub fn hlsl_back_external_texture_binding_map_to_naga(
+    map: &ffi::HLSLBackExternalTextureBindingMap,
+) -> naga::back::hlsl::ExternalTextureBindingMap {
+    unsafe {
+        std::slice::from_raw_parts(map.entries, map.entries_len)
+            .iter()
+            .map(|entry| {
+                (
+                    resource_binding_to_naga(&entry.key),
+                    hlsl_back_external_texture_bind_target_to_naga(&entry.value),
+                )
             })
-        },
-        entries_len: map.len(),
+            .collect()
     }
 }
 
-pub fn hlsl_back_options_to_ffi(options: &naga::back::hlsl::Options) -> ffi::HLSLBackOptions {
-    ffi::HLSLBackOptions {
-        shader_model: hlsl_back_shader_model_to_ffi(&options.shader_model),
-        binding_map: hlsl_back_binding_map_to_ffi(&options.binding_map),
-        fake_missing_bindings: bool_to_ffi(options.fake_missing_bindings),
-        special_constants_binding: ffi::HLSLBackOptions__bindgen_ty_1 {
-            some: bool_to_ffi(options.special_constants_binding.is_some()),
-            value: options
-                .special_constants_binding
-                .as_ref()
-                .map(hlsl_back_bind_target_to_ffi)
-                .unwrap_or_default(),
+pub fn hlsl_back_options_to_naga(options: &ffi::HLSLBackOptions) -> naga::back::hlsl::Options {
+    naga::back::hlsl::Options {
+        shader_model: hlsl_back_shader_model_to_naga(options.shader_model),
+        binding_map: hlsl_back_binding_map_to_naga(&options.binding_map),
+        fake_missing_bindings: bool_to_naga(options.fake_missing_bindings),
+        special_constants_binding: if bool_to_naga(options.special_constants_binding.some) {
+            Some(hlsl_back_bind_target_to_naga(
+                &options.special_constants_binding.value,
+            ))
+        } else {
+            None
         },
-        immediates_target: ffi::HLSLBackOptions__bindgen_ty_2 {
-            some: bool_to_ffi(options.immediates_target.is_some()),
-            value: options
-                .immediates_target
-                .as_ref()
-                .map(hlsl_back_bind_target_to_ffi)
-                .unwrap_or_default(),
+        immediates_target: if bool_to_naga(options.immediates_target.some) {
+            Some(hlsl_back_bind_target_to_naga(
+                &options.immediates_target.value,
+            ))
+        } else {
+            None
         },
-        sampler_heap_target: hlsl_back_sampler_heap_bind_targets_to_ffi(
+        sampler_heap_target: hlsl_back_sampler_heap_bind_targets_to_naga(
             &options.sampler_heap_target,
         ),
-        sampler_buffer_binding_map: hlsl_back_sampler_index_buffer_binding_map_to_ffi(
+        sampler_buffer_binding_map: hlsl_back_sampler_index_buffer_binding_map_to_naga(
             &options.sampler_buffer_binding_map,
         ),
         dynamic_storage_buffer_offsets_targets:
-            hlsl_back_dynamic_storage_buffer_offsets_targets_to_ffi(
+            hlsl_back_dynamic_storage_buffer_offsets_targets_to_naga(
                 &options.dynamic_storage_buffer_offsets_targets,
             ),
-        external_texture_binding_map: hlsl_back_external_texture_binding_map_to_ffi(
+        external_texture_binding_map: hlsl_back_external_texture_binding_map_to_naga(
             &options.external_texture_binding_map,
         ),
-        zero_initialize_workgroup_memory: bool_to_ffi(options.zero_initialize_workgroup_memory),
-        restrict_indexing: bool_to_ffi(options.restrict_indexing),
-        force_loop_bounding: bool_to_ffi(options.force_loop_bounding),
+        zero_initialize_workgroup_memory: bool_to_naga(options.zero_initialize_workgroup_memory),
+        restrict_indexing: bool_to_naga(options.restrict_indexing),
+        force_loop_bounding: bool_to_naga(options.force_loop_bounding),
     }
 }
 
-pub fn hlsl_back_pipeline_options_to_ffi(
-    options: &naga::back::hlsl::PipelineOptions,
-) -> ffi::HLSLBackPipelineOptions {
-    ffi::HLSLBackPipelineOptions {
-        entry_point: ffi::HLSLBackPipelineOptions__bindgen_ty_1 {
-            some: bool_to_ffi(options.entry_point.is_some()),
-            value: options
-                .entry_point
-                .as_ref()
-                .map(|entry_point| ffi::ShaderStageString {
-                    shader_stage: shader_stage_to_ffi(&entry_point.0),
-                    string: unsafe { string_to_ffi(&entry_point.1) },
-                })
-                .unwrap_or_default(),
+pub fn hlsl_back_pipeline_options_to_naga(
+    options: &ffi::HLSLBackPipelineOptions,
+) -> naga::back::hlsl::PipelineOptions {
+    naga::back::hlsl::PipelineOptions {
+        entry_point: if bool_to_naga(options.entry_point.some) {
+            Some((
+                shader_stage_to_naga(&options.entry_point.value.shader_stage),
+                unsafe { string_to_naga(options.entry_point.value.string) },
+            ))
+        } else {
+            None
         },
     }
 }
