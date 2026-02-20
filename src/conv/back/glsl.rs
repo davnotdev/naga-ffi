@@ -48,6 +48,15 @@ pub fn glsl_back_writer_flags_to_naga(
     result
 }
 
+pub fn glsl_back_options_to_naga(options: &ffi::GLSLBackOptions) -> naga::back::glsl::Options {
+    naga::back::glsl::Options {
+        version: glsl_back_version_to_naga(&options.version),
+        writer_flags: glsl_back_writer_flags_to_naga(options.writer_flags),
+        binding_map: glsl_back_binding_map_to_naga(&options.binding_map),
+        zero_initialize_workgroup_memory: bool_to_naga(options.zero_initialize_workgroup_memory),
+    }
+}
+
 pub fn glsl_back_binding_map_to_naga(
     map: &ffi::GLSLBackBindingMap,
 ) -> naga::back::glsl::BindingMap {
@@ -59,18 +68,16 @@ pub fn glsl_back_binding_map_to_naga(
     }
 }
 
-pub fn glsl_back_pipeline_options_to_ffi(
-    options: &naga::back::glsl::PipelineOptions,
-) -> ffi::GLSLBackPipelineOptions {
-    ffi::GLSLBackPipelineOptions {
-        shader_stage: shader_stage_to_ffi(&options.shader_stage),
-        entry_point: unsafe { string_to_ffi(&options.entry_point) },
-        multiview: ffi::GLSLBackPipelineOptions__bindgen_ty_1 {
-            some: bool_to_ffi(options.multiview.is_some()),
-            value: options
-                .multiview
-                .map(|multiview| multiview.get())
-                .unwrap_or_default(),
+pub fn glsl_back_pipeline_options_to_naga(
+    options: &ffi::GLSLBackPipelineOptions,
+) -> naga::back::glsl::PipelineOptions {
+    naga::back::glsl::PipelineOptions {
+        shader_stage: shader_stage_to_naga(&options.shader_stage),
+        entry_point: string_to_naga(options.entry_point),
+        multiview: if bool_to_naga(options.multiview.some) {
+            std::num::NonZeroU32::new(options.multiview.value)
+        } else {
+            None
         },
     }
 }

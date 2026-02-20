@@ -1,9 +1,9 @@
 use super::*;
 
-pub mod atmoic_upgrade;
-pub mod glsl;
-pub mod spv;
-pub mod wgsl;
+mod atmoic_upgrade;
+mod glsl;
+mod spv;
+mod wgsl;
 
 pub use atmoic_upgrade::*;
 pub use glsl::*;

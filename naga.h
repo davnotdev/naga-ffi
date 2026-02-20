@@ -10,7 +10,7 @@
 
 #define DEFINE_OPTIONAL(T) \
 	struct {               \
-		bool some;         \
+		Bool some;         \
 		T value;           \
 	}
 #define DEFINE_HANDLE_INDEX(T) size_t
@@ -18,10 +18,7 @@
 struct Empty {
 	uint8_t _phantom;
 };
-
-#ifndef __cplusplus
-typedef uint8_t bool;
-#endif
+typedef uint8_t Bool;
 
 // TODO: desctructors to free everything
 // TODO: validator errors
@@ -148,10 +145,10 @@ typedef struct ImageClass {
 	union {
 		struct {
 			ScalarKind kind;
-			bool multi;
+			Bool multi;
 		} sampled;
 		struct {
-			bool multi;
+			Bool multi;
 		} depth;
 		struct {
 			StorageFormat format;
@@ -319,7 +316,7 @@ typedef struct BuiltIn {
 	BuiltInTag tag;
 	union {
 		struct {
-			bool invariant;
+			Bool invariant;
 		} position;
 	} data;
 } BuiltIn;
@@ -338,7 +335,7 @@ typedef struct Binding {
 			Interpolation interpolation;
 			Sampling sampling;
 			uint32_t blend_src;
-			bool per_primitive;
+			Bool per_primitive;
 		} location;
 	} data;
 } Binding;
@@ -412,17 +409,17 @@ typedef struct TypeInner {
 		} struct_;
 		struct {
 			ImageDimension dim;
-			bool arrayed;
+			Bool arrayed;
 			ImageClass class_;
 		} image;
 		struct {
-			bool comparison;
+			Bool comparison;
 		} sampler;
 		struct {
-			bool vertex_return;
+			Bool vertex_return;
 		} acceleration_structure;
 		struct {
-			bool vertex_return;
+			Bool vertex_return;
 		} ray_query;
 		struct {
 			DEFINE_HANDLE_INDEX(Type)
@@ -709,7 +706,7 @@ typedef enum ValidationFlags {
 // --- naga::back::dot ---
 
 typedef struct DOTBackOptions {
-	bool cfg_only;
+	Bool cfg_only;
 } DOTBackOptions;
 
 // --- naga::back::glsl ---
@@ -725,7 +722,7 @@ typedef struct GLSLBackVersion {
 		uint16_t desktop;
 		struct {
 			uint16_t version;
-			bool is_webgl;
+			Bool is_webgl;
 		} embedded;
 	} data;
 } GLSLBackVersion;
@@ -752,7 +749,7 @@ typedef struct GLSLBackOptions {
 	GLSLBackVersion version;
 	GLSLBackWriterFlags writer_flags;
 	GLSLBackBindingMap binding_map;
-	bool zero_initialize_workgroup_memory;
+	Bool zero_initialize_workgroup_memory;
 } GLSLBackOptions;
 
 typedef struct GLSLBackPipelineOptions {
@@ -818,7 +815,7 @@ typedef struct GLSLBackError {
 	} data;
 } GLSLBackError;
 
-typedef struct Empty GLSLBackReflectionInfo NAGA_UNIMPLEMENTED;
+typedef struct Empty NAGA_UNIMPLEMENTED *GLSLBackReflectionInfo;
 
 // --- naga::back::hlsl ---
 
@@ -842,7 +839,7 @@ typedef struct HLSLBackBindTarget {
 	binding_array_size;
 	DEFINE_OPTIONAL(uint32_t)
 	dynamic_storage_buffer_offsets_index;
-	bool restrict_indexing;
+	Bool restrict_indexing;
 } HLSLBackBindTarget;
 
 typedef struct HLSLBackBindingMapEntry {
@@ -908,7 +905,7 @@ typedef struct HLSLBackExternalTextureBindingMap {
 typedef struct HLSLBackOptions {
 	HLSLBackShaderModel shader_model;
 	HLSLBackBindingMap binding_map;
-	bool fake_missing_bindings;
+	Bool fake_missing_bindings;
 	DEFINE_OPTIONAL(HLSLBackBindTarget)
 	special_constants_binding;
 	DEFINE_OPTIONAL(HLSLBackBindTarget)
@@ -917,9 +914,9 @@ typedef struct HLSLBackOptions {
 	HLSLBackSamplerIndexBufferBindingMap sampler_buffer_binding_map;
 	HLSLBackDynamicStorageBufferOffsetsTargets dynamic_storage_buffer_offsets_targets;
 	HLSLBackExternalTextureBindingMap external_texture_binding_map;
-	bool zero_initialize_workgroup_memory;
-	bool restrict_indexing;
-	bool force_loop_bounding;
+	Bool zero_initialize_workgroup_memory;
+	Bool restrict_indexing;
+	Bool force_loop_bounding;
 } HLSLBackOptions;
 
 typedef struct ShaderStageString {
@@ -968,7 +965,7 @@ typedef struct HLSLBackFragmentEntryPoint {
 	struct Empty *NAGA_UNIMPLEMENTED func;
 } HLSLBackFragmentEntryPoint;
 
-typedef struct Empty HLSLBackReflectionInfo NAGA_UNIMPLEMENTED;
+typedef struct Empty NAGA_UNIMPLEMENTED *HLSLBackReflectionInfo;
 
 // --- naga::back::msl ---
 
@@ -1112,7 +1109,7 @@ typedef struct MSLBackBindTarget {
 	sampler;
 	DEFINE_OPTIONAL(MSLBackBindExternalTextureTarget)
 	external_texture;
-	bool mutable_;
+	Bool mutable_;
 } MSLBackBindTarget;
 
 typedef struct MSLBackBindingMapEntry {
@@ -1148,11 +1145,11 @@ typedef struct MSLBackOptions {
 	MSLBackEntryPointResourceMap per_entry_point_map;
 	MSLBackInlineSampler *inline_samplers;
 	size_t inline_samplers_len;
-	bool spirv_cross_compatibility;
-	bool fake_missing_bindings;
+	Bool spirv_cross_compatibility;
+	Bool fake_missing_bindings;
 	BoundsCheckPolicies bounds_check_policies;
-	bool zero_initialize_workgroup_memory;
-	bool force_loop_bounding;
+	Bool zero_initialize_workgroup_memory;
+	Bool force_loop_bounding;
 } MSLBackOptions;
 
 typedef struct MSLBackVertexBufferMapping {
@@ -1166,8 +1163,8 @@ typedef struct MSLBackVertexBufferMapping {
 typedef struct MSLBackPipelineOptions {
 	DEFINE_OPTIONAL(ShaderStageString)
 	entry_point;
-	bool allow_and_force_point_size;
-	bool vertex_pulling_transform;
+	Bool allow_and_force_point_size;
+	Bool vertex_pulling_transform;
 	MSLBackVertexBufferMapping *vertex_buffer_mappings;
 	size_t vertex_buffer_mappings_len;
 } MSLBackPipelineOptions;
@@ -1236,7 +1233,7 @@ typedef struct MSLBackError {
 	} data;
 } MSLBackError;
 
-typedef struct Empty MSLBackTranslationInfo NAGA_UNIMPLEMENTED;
+typedef struct Empty NAGA_UNIMPLEMENTED *MSLBackTranslationInfo;
 
 // --- naga::back::spv ---
 
@@ -1530,19 +1527,19 @@ typedef struct SPVBackDebugInfo {
 typedef struct SPVBackOptions {
 	uint8_t lang_version[2];
 	SPVBackWriterFlags flags;
-	bool fake_missing_bindings;
+	Bool fake_missing_bindings;
 	SPVBackBindingMap binding_map;
 	DEFINE_OPTIONAL(SPVBackCapabilities)
 	capabilities;
 	BoundsCheckPolicies bounds_check_policies;
 	SPVBackZeroInitializeWorkgroupMemoryMode zero_initialize_workgroup_memory;
-	bool force_loop_bounding;
-	bool ray_query_initialization_tracking;
-	bool use_storage_input_output_16;
+	Bool force_loop_bounding;
+	Bool ray_query_initialization_tracking;
+	Bool use_storage_input_output_16;
 	// DEFINE_OPTIONAL(SPVBackDebugInfo)
 	// debug_info;
-    // NOTE: This type has an awkward lifetime on a borrowed string slice.
-    struct Empty* debug_info;
+	// NOTE: This type has an awkward lifetime on a borrowed string slice.
+	struct Empty *debug_info;
 } SPVBackOptions;
 
 typedef struct SPVBackPipelineOptions {
@@ -1668,7 +1665,7 @@ typedef enum GLSLFrontPrecision {
 
 typedef struct GLSLFrontInteger {
 	uint64_t value;
-	bool signed_;
+	Bool signed_;
 	int32_t width;
 
 } GLSLFrontInteger;
@@ -1766,7 +1763,7 @@ typedef struct GLSLFrontTokenValue {
 		char *identifier;
 		GLSLFrontFloat float_constant;
 		GLSLFrontInteger int_constant;
-		bool bool_constant;
+		Bool bool_constant;
 		StorageAccess memory_qualifier;
 		Interpolation interpolation;
 		Sampling sampling;
@@ -1882,8 +1879,8 @@ typedef struct GLSLFrontParseErrors {
 // --- naga::front::spv ---
 
 typedef struct SPVFrontOptions {
-	bool adjust_coordinate_space;
-	bool strict_capabilities;
+	Bool adjust_coordinate_space;
+	Bool strict_capabilities;
 	char *NAGA_NULLABLE block_ctx_dump_prefix;
 } SPVFrontOptions;
 
@@ -2051,7 +2048,7 @@ typedef struct SPVFrontError {
 // --- naga::front::wgsl ---
 
 typedef struct WGSLFrontOptions {
-	bool parse_doc_comments;
+	Bool parse_doc_comments;
 } WGSLFrontOptions;
 
 typedef struct WGSLFrontParseErrorLabel {
@@ -2075,16 +2072,19 @@ typedef enum KeepUnused {
 // --- Wrapper Methods ---
 
 typedef struct GLSLFrontendResult {
+	Bool success;
 	Module module;
 	GLSLFrontParseErrors errors;
 } GLSLFrontendResult;
 
 typedef struct SPVFrontendResult {
+	Bool success;
 	Module module;
 	SPVFrontError error;
 } SPVFrontendResult;
 
 typedef struct WGSLFrontendResult {
+	Bool success;
 	Module module;
 	WGSLFrontParseError error;
 } WGSLFrontendResult;
@@ -2093,14 +2093,17 @@ typedef struct WGSLFrontendResult {
 
 GLSLFrontendResult naga_front_glsl_parse(
 		GLSLFrontOptions options,
-		const char *source);
+		const char *source,
+		ModuleFillFlags fill_flags);
 SPVFrontendResult naga_front_spv_parse(
 		SPVFrontOptions options,
 		uint32_t *const source,
-		uint32_t source_length);
+		uint32_t source_length,
+		ModuleFillFlags fill_flags);
 WGSLFrontendResult naga_front_wgsl_parse(
 		WGSLFrontOptions options,
-		const char *source);
+		const char *source,
+		ModuleFillFlags fill_flags);
 
 #endif
 
@@ -2154,9 +2157,8 @@ typedef struct SPVWriteResult {
 } SPVWriteResult;
 
 typedef struct WGSLWriteResult {
-	uint32_t *output;
-	uint32_t output_count;
-	SPVBackError error;
+	char *output;
+	WGSLBackError error;
 } WGSLWriteResult;
 
 typedef struct ProcessOverridesResult {
@@ -2192,7 +2194,7 @@ SPVWriteResult naga_back_spv_write(
 		Module *const module,
 		ModuleInfo *const module_info,
 		SPVBackOptions options,
-		SPVBackPipelineOptions pipeline_options);
+		SPVBackPipelineOptions *NAGA_NULLABLE pipeline_options);
 WGSLWriteResult naga_back_wgsl_write(
 		Module *const module,
 		ModuleInfo *const module_info,

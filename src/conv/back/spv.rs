@@ -1473,7 +1473,7 @@ pub fn spv_back_pipeline_options_to_naga(
 ) -> naga::back::spv::PipelineOptions {
     naga::back::spv::PipelineOptions {
         shader_stage: shader_stage_to_naga(&options.shader_stage),
-        entry_point: unsafe { string_to_naga(options.entry_point) },
+        entry_point: string_to_naga(options.entry_point),
     }
 }
 

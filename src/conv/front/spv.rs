@@ -7,7 +7,7 @@ pub fn spv_front_options_to_naga(options: &ffi::SPVFrontOptions) -> naga::front:
         block_ctx_dump_prefix: if options.block_ctx_dump_prefix.is_null() {
             None
         } else {
-            Some(unsafe { string_to_naga(options.block_ctx_dump_prefix) })
+            Some(string_to_naga(options.block_ctx_dump_prefix))
         },
     }
 }

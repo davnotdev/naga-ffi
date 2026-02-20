@@ -204,7 +204,7 @@ pub fn hlsl_back_pipeline_options_to_naga(
         entry_point: if bool_to_naga(options.entry_point.some) {
             Some((
                 shader_stage_to_naga(&options.entry_point.value.shader_stage),
-                unsafe { string_to_naga(options.entry_point.value.string) },
+                string_to_naga(options.entry_point.value.string),
             ))
         } else {
             None
@@ -277,11 +277,13 @@ pub fn hlsl_back_error_to_ffi(error: &naga::back::hlsl::Error) -> ffi::HLSLBackE
     }
 }
 
-fn hlsl_back_fragment_entry_point_to_ffi(
-    entry_point: &naga::back::hlsl::FragmentEntryPoint,
-) -> ffi::HLSLBackFragmentEntryPoint {
-    ffi::HLSLBackFragmentEntryPoint {
-        module: EMPTY_MUT,
-        func: EMPTY_MUT,
-    }
-}
+// We need a `to_naga` implementation of this
+//
+// fn hlsl_back_fragment_entry_point_to_ffi(
+//     entry_point: &naga::back::hlsl::FragmentEntryPoint,
+// ) -> ffi::HLSLBackFragmentEntryPoint {
+//     ffi::HLSLBackFragmentEntryPoint {
+//         module: EMPTY_MUT,
+//         func: EMPTY_MUT,
+//     }
+// }
