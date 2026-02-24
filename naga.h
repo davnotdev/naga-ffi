@@ -34,7 +34,7 @@ typedef struct Span {
 } Span;
 
 #define NAGA_FLAGS_EMPTY(T) (T)0
-#define NAGA_FLAGS_ALL(T) (T)(UINT64_MAX)
+#define NAGA_FLAGS_ALL(T) (T)((T)~(T)0)
 
 // --- naga::ir ---
 
