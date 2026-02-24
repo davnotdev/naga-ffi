@@ -298,6 +298,7 @@ pub fn interpolation_to_ffi(interpolation: &naga::ir::Interpolation) -> ffi::Int
         naga::Interpolation::Perspective => ffi::Interpolation_Interpolation_Perspective,
         naga::Interpolation::Linear => ffi::Interpolation_Interpolation_Linear,
         naga::Interpolation::Flat => ffi::Interpolation_Interpolation_Flat,
+        naga::Interpolation::PerVertex => todo!(),
     }
 }
 
@@ -375,10 +376,6 @@ pub fn built_in_to_ffi(built_in: &naga::ir::BuiltIn) -> ffi::BuiltIn {
         },
         naga::BuiltIn::PrimitiveIndex => ffi::BuiltIn {
             tag: ffi::BuiltInTag_BuiltInTag_PrimitiveIndex,
-            data: default_data,
-        },
-        naga::BuiltIn::Barycentric => ffi::BuiltIn {
-            tag: ffi::BuiltInTag_BuiltInTag_Barycentric,
             data: default_data,
         },
         naga::BuiltIn::SampleIndex => ffi::BuiltIn {
@@ -465,6 +462,7 @@ pub fn built_in_to_ffi(built_in: &naga::ir::BuiltIn) -> ffi::BuiltIn {
             tag: ffi::BuiltInTag_BuiltInTag_Primitives,
             data: default_data,
         },
+        naga::BuiltIn::Barycentric { perspective } => todo!(),
     }
 }
 
@@ -656,6 +654,12 @@ pub fn type_inner_to_ffi(type_inner: &naga::ir::TypeInner) -> ffi::TypeInner {
                 },
             },
         },
+        naga::TypeInner::CooperativeMatrix {
+            columns,
+            rows,
+            scalar,
+            role,
+        } => todo!(),
     }
 }
 
