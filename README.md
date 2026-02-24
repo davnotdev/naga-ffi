@@ -7,6 +7,7 @@ Check `naga.h` for what's unimplemented and supported.
 
 ## Design Questions
 
+- `default()` value functions?
 - Simpler error handling?
 - Memory Management Strategy (arena allocator?)
 - Individual slice type?
