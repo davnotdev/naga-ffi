@@ -2082,54 +2082,81 @@ typedef enum KeepUnused {
 
 // --- Wrapper Methods ---
 
+typedef uint32_t FrontResultOptionFlags;
+typedef enum FrontResultOption {
+	FrontResultOption_FormattedErrorOnly = 0x1
+} FrontResultOption;
+
 typedef struct GLSLFrontResult {
-	Bool success;
+	FrontResultOptionFlags flags;
 	Module module;
-	GLSLFrontParseErrors errors;
+	union {
+		GLSLFrontParseErrors errors;
+		char *fmt_error;
+	};
 } GLSLFrontResult;
 
 typedef struct SPVFrontResult {
-	Bool success;
+	FrontResultOptionFlags flags;
 	Module module;
-	SPVFrontError error;
+	union {
+		SPVFrontError error;
+		char *fmt_error;
+	};
 } SPVFrontResult;
 
 typedef struct WGSLFrontResult {
-	Bool success;
+	FrontResultOptionFlags flags;
 	Module module;
-	WGSLFrontParseError error;
+	union {
+		WGSLFrontParseError error;
+		char *fmt_error;
+	};
 } WGSLFrontResult;
 
 #ifndef NAGA_FFI_NO_METHODS
 
-GLSLFrontResult naga_front_glsl_parse(
+// Methods return true on success.
+Bool naga_front_glsl_parse(
 		GLSLFrontOptions options,
 		const char *source,
-		ModuleFillFlags fill_flags);
-SPVFrontResult naga_front_spv_parse(
+		ModuleFillFlags fill_flags,
+		GLSLFrontResult *out_result);
+Bool naga_front_spv_parse(
 		SPVFrontOptions options,
 		const uint32_t *source,
 		uint32_t source_length,
-		ModuleFillFlags fill_flags);
-WGSLFrontResult naga_front_wgsl_parse(
+		ModuleFillFlags fill_flags,
+		SPVFrontResult *out_result);
+Bool naga_front_wgsl_parse(
 		WGSLFrontOptions options,
 		const char *source,
-		ModuleFillFlags fill_flags);
+		ModuleFillFlags fill_flags,
+		WGSLFrontResult *out_result);
 
 #endif
 
+typedef uint32_t ValidateResultOptionFlags;
+typedef enum ValidateResultOption {
+	ValidateResultOption_FormattedErrorOnly = 0x1
+} ValidateResultOption;
+
 typedef struct ValidateResult {
-    Bool success;
+	ValidateResultOptionFlags flags;
 	ModuleInfo module_info;
-	struct Empty *NAGA_UNIMPLEMENTED error;
+	union {
+		struct Empty *NAGA_UNIMPLEMENTED error;
+		char *fmt_error;
+	};
 } ValidateResult;
 
 #ifndef NAGA_FFI_NO_METHODS
 
+// Methods return true on success.
 Validator naga_valid_validator_new(ValidationFlagsFlags flags, CapabilitiesFlags capabilities);
 void naga_valid_validator_reset(Validator *validator);
-ValidateResult naga_valid_validator_validate(Validator *validator, Module *const module);
-ValidateResult naga_valid_validator_validate_resolved_overrides(Validator *validator, Module *const module);
+Bool naga_valid_validator_validate(Validator *validator, Module *const module, ValidateResult *out_result);
+Bool naga_valid_validator_validate_resolved_overrides(Validator *validator, Module *const module, ValidateResult *out_result);
 
 #endif
 
@@ -2139,79 +2166,116 @@ void naga_compact_compact(Module *module, KeepUnused keep_unused);
 
 #endif
 
+typedef uint32_t WriteResultOptionFlags;
+typedef enum WriteResultOption {
+	WriteResultOption_FormattedErrorOnly = 0x1
+} WriteResultOption;
+
 typedef struct DOTWriteResult {
+	WriteResultOptionFlags flags;
 	char *output;
 	char *error;
 } DOTWriteResult;
 
 typedef struct GLSLWriteResult {
+	WriteResultOptionFlags flags;
 	GLSLBackReflectionInfo reflection_info;
 	char *output;
-	GLSLBackError error;
+	union {
+		GLSLBackError error;
+		char *fmt_error;
+	};
 } GLSLWriteResult;
 
 typedef struct HLSLWriteResult {
+	WriteResultOptionFlags flags;
 	HLSLBackReflectionInfo reflection_info;
 	char *output;
-	HLSLBackError error;
+	union {
+		HLSLBackError error;
+		char *fmt_error;
+	};
 } HLSLWriteResult;
 
 typedef struct MSLWriteResult {
+	WriteResultOptionFlags flags;
 	MSLBackTranslationInfo translation_info;
 	char *output;
-	MSLBackError error;
+	union {
+		MSLBackError error;
+		char *fmt_error;
+	};
 } MSLWriteResult;
 
 typedef struct SPVWriteResult {
+	WriteResultOptionFlags flags;
 	uint32_t *output;
 	uint32_t output_count;
-	SPVBackError error;
+	union {
+		SPVBackError error;
+		char *fmt_error;
+	};
 } SPVWriteResult;
 
 typedef struct WGSLWriteResult {
+	WriteResultOptionFlags flags;
 	char *output;
-	WGSLBackError error;
+	union {
+		WGSLBackError error;
+		char *fmt_error;
+	};
 } WGSLWriteResult;
 
 typedef struct ProcessOverridesResult {
+	WriteResultOptionFlags flags;
 	Module *module;
 	ModuleInfo *module_info;
-	PipelineConstantError error;
+	union {
+		PipelineConstantError error;
+		char *fmt_error;
+	};
 } ProcessOverridesResult;
 
 #ifndef NAGA_FFI_NO_METHODS
 
-DOTWriteResult naga_back_dot_write(
+// Methods return true on success.
+Bool naga_back_dot_write(
 		Module *const module,
 		ModuleInfo *const module_info,
-		DOTBackOptions options);
-GLSLWriteResult naga_back_glsl_write(
+		DOTBackOptions options,
+		DOTWriteResult *out_result);
+Bool naga_back_glsl_write(
 		Module *const module,
 		ModuleInfo *const module_info,
 		GLSLBackOptions options,
 		GLSLBackPipelineOptions pipeline_options,
-		BoundsCheckPolicies policies);
-HLSLWriteResult naga_back_hlsl_write(
+		BoundsCheckPolicies policies,
+		GLSLWriteResult *out_result);
+Bool naga_back_hlsl_write(
 		Module *const module,
 		ModuleInfo *const module_info,
 		HLSLBackOptions options,
 		HLSLBackPipelineOptions pipeline_options,
-		HLSLBackFragmentEntryPoint *NAGA_NULLABLE fragment_entry_point);
-MSLWriteResult naga_back_msl_write(
+		HLSLBackFragmentEntryPoint *NAGA_NULLABLE fragment_entry_point,
+		HLSLWriteResult *out_result);
+Bool naga_back_msl_write(
 		Module *const module,
 		ModuleInfo *const module_info,
 		MSLBackOptions options,
-		MSLBackPipelineOptions pipeline_options);
-SPVWriteResult naga_back_spv_write(
+		MSLBackPipelineOptions pipeline_options,
+		MSLWriteResult *out_result);
+Bool naga_back_spv_write(
 		Module *const module,
 		ModuleInfo *const module_info,
 		SPVBackOptions options,
-		SPVBackPipelineOptions *NAGA_NULLABLE pipeline_options);
-WGSLWriteResult naga_back_wgsl_write(
+		SPVBackPipelineOptions *NAGA_NULLABLE pipeline_options,
+		SPVWriteResult *out_result);
+Bool naga_back_wgsl_write(
 		Module *const module,
 		ModuleInfo *const module_info,
-		WGSLBackWriterFlagsFlags writer_flags);
-ProcessOverridesResult naga_back_process_overrides(
+		WGSLBackWriterFlagsFlags writer_flags,
+		WGSLWriteResult *out_result);
+Bool naga_back_process_overrides(
 		Module *const module,
 		ModuleFillFlags module_flags,
 		ModuleInfo *const module_info,
@@ -2219,7 +2283,8 @@ ProcessOverridesResult naga_back_process_overrides(
 		ShaderStage NAGA_NULLABLE entry_point_stage,
 		const char *NAGA_NULLABLE entry_point_name,
 		PipelineConstant *const constants,
-		uint32_t constants_count);
+		uint32_t constants_count,
+		ProcessOverridesResult *out_result);
 
 #endif
 
