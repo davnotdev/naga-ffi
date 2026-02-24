@@ -32,13 +32,16 @@ int main(int argc, char **argv) {
 
 	// --- front
 
-	CapabilitiesFlags caps = Capabilities_IMMEDIATES |
+	CapabilitiesFlags caps =
+			Capabilities_MULTISAMPLED_SHADING |
+			Capabilities_CUBE_ARRAY_TEXTURES |
+			Capabilities_IMMEDIATES |
 			Capabilities_STORAGE_TEXTURE_16BIT_NORM_FORMATS |
 			Capabilities_SHADER_FLOAT16_IN_FLOAT32 |
 			Capabilities_TEXTURE_AND_SAMPLER_BINDING_ARRAY |
 			Capabilities_TEXTURE_AND_SAMPLER_BINDING_ARRAY_NON_UNIFORM_INDEXING |
-			Capabilities_MULTISAMPLED_SHADING |
-			Capabilities_CUBE_ARRAY_TEXTURES |
+			Capabilities_STORAGE_TEXTURE_BINDING_ARRAY |
+			Capabilities_STORAGE_TEXTURE_BINDING_ARRAY_NON_UNIFORM_INDEXING |
 			Capabilities_SUBGROUP;
 	ModuleFillFlags fill_flags = NAGA_FLAGS_ALL(ModuleFillFlags);
 	SPVFrontOptions options = (SPVFrontOptions){
