@@ -1,7 +1,6 @@
 pub mod conv;
 pub mod ffi;
 
-use naga::{back, front, valid};
 use static_assertions as sa;
 use std::mem::ManuallyDrop;
 
@@ -11,17 +10,17 @@ pub unsafe extern "C" fn naga_front_glsl_parse(
     options: ffi::GLSLFrontOptions,
     source: *const ::std::os::raw::c_char,
     fill_flags: ffi::ModuleFillFlags,
-) -> ffi::GLSLFrontendResult {
+) -> ffi::GLSLFrontResult {
     let mut frontend = naga::front::glsl::Frontend::default();
     let options = conv::glsl_front_options_to_naga(&options);
     let source = conv::string_to_naga(source);
     match frontend.parse(&options, &source) {
-        Ok(module) => ffi::GLSLFrontendResult {
+        Ok(module) => ffi::GLSLFrontResult {
             success: 1,
             module: conv::module_to_ffi(module, fill_flags),
             ..Default::default()
         },
-        Err(error) => ffi::GLSLFrontendResult {
+        Err(error) => ffi::GLSLFrontResult {
             success: 0,
             errors: conv::glsl_front_parse_errors_to_ffi(&error),
             ..Default::default()
@@ -36,17 +35,17 @@ pub unsafe extern "C" fn naga_front_spv_parse(
     source: *mut u32,
     source_length: u32,
     fill_flags: ffi::ModuleFillFlags,
-) -> ffi::SPVFrontendResult {
+) -> ffi::SPVFrontResult {
     let options = conv::spv_front_options_to_naga(&options);
     let spv_slice = unsafe { std::slice::from_raw_parts(source, source_length as usize) };
     let frontend = naga::front::spv::Frontend::new(spv_slice.iter().cloned(), &options);
     match frontend.parse() {
-        Ok(module) => ffi::SPVFrontendResult {
+        Ok(module) => ffi::SPVFrontResult {
             success: 1,
             module: conv::module_to_ffi(module, fill_flags),
             ..Default::default()
         },
-        Err(error) => ffi::SPVFrontendResult {
+        Err(error) => ffi::SPVFrontResult {
             success: 0,
             error: conv::spv_front_error_to_ffi(&error),
             ..Default::default()
@@ -60,17 +59,17 @@ pub unsafe extern "C" fn naga_front_wgsl_parse(
     options: ffi::WGSLFrontOptions,
     source: *const ::std::os::raw::c_char,
     fill_flags: ffi::ModuleFillFlags,
-) -> ffi::WGSLFrontendResult {
+) -> ffi::WGSLFrontResult {
     let options = conv::wgsl_front_options_to_naga(&options);
     let mut frontend = naga::front::wgsl::Frontend::new_with_options(options);
     let source = conv::string_to_naga(source);
     match frontend.parse(&source) {
-        Ok(module) => ffi::WGSLFrontendResult {
+        Ok(module) => ffi::WGSLFrontResult {
             success: 1,
             module: conv::module_to_ffi(module, fill_flags),
             ..Default::default()
         },
-        Err(error) => ffi::WGSLFrontendResult {
+        Err(error) => ffi::WGSLFrontResult {
             success: 0,
             error: conv::wgsl_front_parse_error_to_ffi(&error),
             ..Default::default()
@@ -80,7 +79,7 @@ pub unsafe extern "C" fn naga_front_wgsl_parse(
 
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn naga_valid_validator_new(
-    flags: ffi::ValidationFlags,
+    flags: ffi::ValidationFlagsFlags,
     capabilities: ffi::Capabilities,
 ) -> ffi::Validator {
     let flags = conv::validation_flags_to_naga(flags);
@@ -118,10 +117,12 @@ pub unsafe extern "C" fn naga_valid_validator_validate(
     };
     match validator.validate(&module) {
         Ok(module_info) => ffi::ValidateResult {
+            success: 1,
             module_info: unsafe { conv::module_info_to_ffi(module_info) },
             ..Default::default()
         },
         Err(_error) => ffi::ValidateResult {
+            success: 0,
             error: conv::EMPTY_MUT,
             ..Default::default()
         },
@@ -347,7 +348,7 @@ pub unsafe extern "C" fn naga_back_spv_write(
 pub unsafe extern "C" fn naga_back_wgsl_write(
     module: *mut ffi::Module,
     module_info: *mut ffi::ModuleInfo,
-    writer_flags: ffi::WGSLBackWriterFlags,
+    writer_flags: ffi::WGSLBackWriterFlagsFlags,
 ) -> ffi::WGSLWriteResult {
     let module = unsafe {
         let module = &mut *module;

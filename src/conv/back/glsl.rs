@@ -16,7 +16,7 @@ pub fn glsl_back_version_to_naga(version: &ffi::GLSLBackVersion) -> naga::back::
 }
 
 pub fn glsl_back_writer_flags_to_naga(
-    flags: ffi::GLSLBackWriterFlags,
+    flags: ffi::GLSLBackWriterFlagsFlags,
 ) -> naga::back::glsl::WriterFlags {
     let mut result = naga::back::glsl::WriterFlags::empty();
 
@@ -73,7 +73,7 @@ pub fn glsl_back_pipeline_options_to_naga(
 ) -> naga::back::glsl::PipelineOptions {
     naga::back::glsl::PipelineOptions {
         shader_stage: shader_stage_to_naga(&options.shader_stage),
-        entry_point: string_to_naga(options.entry_point),
+        entry_point: unsafe { string_to_naga(options.entry_point) },
         multiview: if bool_to_naga(options.multiview.some) {
             std::num::NonZeroU32::new(options.multiview.value)
         } else {
@@ -82,8 +82,10 @@ pub fn glsl_back_pipeline_options_to_naga(
     }
 }
 
-pub fn glsl_back_features_to_ffi(features: naga::back::glsl::Features) -> ffi::GLSLBackFeatures {
-    let mut result: ffi::GLSLBackFeatures = 0;
+pub fn glsl_back_features_to_ffi(
+    features: naga::back::glsl::Features,
+) -> ffi::GLSLBackFeaturesFlags {
+    let mut result: ffi::GLSLBackFeaturesFlags = 0;
 
     if features.contains(naga::back::glsl::Features::BUFFER_STORAGE) {
         result |= ffi::GLSLBackFeatures_GLSLBackFeatures_BUFFER_STORAGE;

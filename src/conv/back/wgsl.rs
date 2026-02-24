@@ -1,7 +1,7 @@
 use super::*;
 
 pub fn wgsl_back_writer_flags_to_naga(
-    flags: ffi::WGSLBackWriterFlags,
+    flags: ffi::WGSLBackWriterFlagsFlags,
 ) -> naga::back::wgsl::WriterFlags {
     let mut result = naga::back::wgsl::WriterFlags::empty();
 

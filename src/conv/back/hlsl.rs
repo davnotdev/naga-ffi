@@ -204,7 +204,7 @@ pub fn hlsl_back_pipeline_options_to_naga(
         entry_point: if bool_to_naga(options.entry_point.some) {
             Some((
                 shader_stage_to_naga(&options.entry_point.value.shader_stage),
-                string_to_naga(options.entry_point.value.string),
+                unsafe { string_to_naga(options.entry_point.value.string) },
             ))
         } else {
             None

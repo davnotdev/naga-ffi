@@ -15,6 +15,10 @@
 	}
 #define DEFINE_HANDLE_INDEX(T) size_t
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 struct Empty {
 	uint8_t _phantom;
 };
@@ -29,10 +33,8 @@ typedef struct Span {
 	uint32_t end;
 } Span;
 
-typedef struct SpanContext {
-	Span span;
-	char *message;
-} SpanContext;
+#define NAGA_FLAGS_EMPTY(T) (T)0
+#define NAGA_FLAGS_ALL(T) (T)(UINT64_MAX)
 
 // --- naga::ir ---
 
@@ -120,6 +122,7 @@ typedef enum StorageFormat {
 	StorageFormat_Rgba16Snorm,
 } StorageFormat;
 
+typedef uint32_t StorageAccessFlags;
 typedef enum StorageAccess {
 	StorageAccess_LOAD = 0x1,
 	StorageAccess_STORE = 0x2,
@@ -152,7 +155,7 @@ typedef struct ImageClass {
 		} depth;
 		struct {
 			StorageFormat format;
-			StorageAccess access;
+			StorageAccessFlags access;
 		} storage;
 	} data;
 } ImageClass;
@@ -172,7 +175,7 @@ typedef struct AddressSpace {
 	AddressSpaceTag tag;
 	union {
 		struct {
-			StorageAccess access;
+			StorageAccessFlags access;
 		} storage;
 	} data;
 } AddressSpace;
@@ -505,16 +508,17 @@ typedef struct EntryPoint {
 	struct Empty *NAGA_UNIMPLEMENTED task_payload;
 } EntryPoint;
 
-typedef enum ModuleFillFlags {
-	ModuleFillFlags_Types = 0x1,
-	ModuleFillFlags_Constants = 0x2,
-	ModuleFillFlags_Overrides = 0x4,
-	ModuleFillFlags_GlobalVariables = 0x8,
-	ModuleFillFlags_GlobalExpressions = 0x10,
-	ModuleFillFlags_Functions = 0x20,
-	ModuleFillFlags_EntryPoints = 0x40,
-	ModuleFillFlags_DiagnosticFilters = 0x80,
-} ModuleFillFlags;
+typedef uint32_t ModuleFillFlags;
+typedef enum ModuleFill {
+	ModuleFill_Types = 0x1,
+	ModuleFill_Constants = 0x2,
+	ModuleFill_Overrides = 0x4,
+	ModuleFill_GlobalVariables = 0x8,
+	ModuleFill_GlobalExpressions = 0x10,
+	ModuleFill_Functions = 0x20,
+	ModuleFill_EntryPoints = 0x40,
+	ModuleFill_DiagnosticFilters = 0x80,
+} ModuleFill;
 
 typedef struct Module {
 	void *_inner_module;
@@ -655,6 +659,7 @@ typedef struct Validator {
 	void *_inner_validator;
 } Validator;
 
+typedef uint64_t CapabilitiesFlags;
 typedef enum Capabilities {
 	Capabilities_IMMEDIATES = 0x1,
 	Capabilities_FLOAT64 = 0x2,
@@ -694,6 +699,8 @@ typedef enum Capabilities {
 	Capabilities_STORAGE_BUFFER_BINDING_ARRAY_NON_UNIFORM_INDEXING = 0x800000000,
 } Capabilities;
 
+// On the topic of `FlagsFlags1, I'd pick consistency over grammar any day.
+typedef uint8_t ValidationFlagsFlags;
 typedef enum ValidationFlags {
 	ValidationFlags_EXPRESSIONS = 0x1,
 	ValidationFlags_BLOCKS = 0x2,
@@ -727,6 +734,7 @@ typedef struct GLSLBackVersion {
 	} data;
 } GLSLBackVersion;
 
+typedef uint32_t GLSLBackWriterFlagsFlags;
 typedef enum GLSLBackWriterFlags {
 	GLSLBackWriterFlags_ADJUST_COORDINATE_SPACE = 0x1,
 	GLSLBackWriterFlags_TEXTURE_SHADOW_LOD = 0x2,
@@ -747,7 +755,7 @@ typedef struct GLSLBackBindingMap {
 
 typedef struct GLSLBackOptions {
 	GLSLBackVersion version;
-	GLSLBackWriterFlags writer_flags;
+	GLSLBackWriterFlagsFlags writer_flags;
 	GLSLBackBindingMap binding_map;
 	Bool zero_initialize_workgroup_memory;
 } GLSLBackOptions;
@@ -759,6 +767,7 @@ typedef struct GLSLBackPipelineOptions {
 	multiview;
 } GLSLBackPipelineOptions;
 
+typedef uint32_t GLSLBackFeaturesFlags;
 typedef enum GLSLBackFeatures {
 	GLSLBackFeatures_BUFFER_STORAGE = 0x1,
 	GLSLBackFeatures_ARRAY_OF_ARRAYS = 0x2,
@@ -807,7 +816,7 @@ typedef struct GLSLBackError {
 	GLSLBackErrorTag tag;
 	union {
 		char *fmt_error;
-		GLSLBackFeatures missing_features;
+		GLSLBackFeaturesFlags missing_features;
 		char *unsupported_external;
 		Scalar unsupported_scalar;
 		char *custom;
@@ -1220,7 +1229,7 @@ typedef struct MSLBackError {
 		char *feature_not_implemented;
 		char *generic_validation;
 		BuiltIn unsupported_built_in;
-		Capabilities capability_not_supported;
+		CapabilitiesFlags capability_not_supported;
 		char *unsupported_attribute;
 		char *unsupported_function;
 		ShaderStage unsupported_writeable_storage_texture;
@@ -1471,6 +1480,7 @@ typedef struct SPVBackCapabilitySet {
 	size_t capabilities_len;
 } SPVBackCapabilities;
 
+typedef uint32_t SPVBackWriterFlagsFlags;
 typedef enum SPVBackWriterFlags {
 	SPVBackWriterFlags_DEBUG = 0x1,
 	SPVBackWriterFlags_ADJUST_COORDINATE_SPACE = 0x2,
@@ -1526,7 +1536,7 @@ typedef struct SPVBackDebugInfo {
 
 typedef struct SPVBackOptions {
 	uint8_t lang_version[2];
-	SPVBackWriterFlags flags;
+	SPVBackWriterFlagsFlags flags;
 	Bool fake_missing_bindings;
 	SPVBackBindingMap binding_map;
 	DEFINE_OPTIONAL(SPVBackCapabilities)
@@ -1578,6 +1588,7 @@ typedef struct SPVBackError {
 
 // --- naga::back::wgsl ---
 
+typedef uint32_t WGSLBackWriterFlagsFlags;
 typedef enum WGSLBackWriterFlags {
 	WGSLBackWriterFlags_EXPLICIT_TYPES = 0x1,
 } WGSLBackWriterFlags;
@@ -1764,7 +1775,7 @@ typedef struct GLSLFrontTokenValue {
 		GLSLFrontFloat float_constant;
 		GLSLFrontInteger int_constant;
 		Bool bool_constant;
-		StorageAccess memory_qualifier;
+		StorageAccessFlags memory_qualifier;
 		Interpolation interpolation;
 		Sampling sampling;
 		GLSLFrontPrecision precision_qualifier;
@@ -2071,36 +2082,36 @@ typedef enum KeepUnused {
 
 // --- Wrapper Methods ---
 
-typedef struct GLSLFrontendResult {
+typedef struct GLSLFrontResult {
 	Bool success;
 	Module module;
 	GLSLFrontParseErrors errors;
-} GLSLFrontendResult;
+} GLSLFrontResult;
 
-typedef struct SPVFrontendResult {
+typedef struct SPVFrontResult {
 	Bool success;
 	Module module;
 	SPVFrontError error;
-} SPVFrontendResult;
+} SPVFrontResult;
 
-typedef struct WGSLFrontendResult {
+typedef struct WGSLFrontResult {
 	Bool success;
 	Module module;
 	WGSLFrontParseError error;
-} WGSLFrontendResult;
+} WGSLFrontResult;
 
 #ifndef NAGA_FFI_NO_METHODS
 
-GLSLFrontendResult naga_front_glsl_parse(
+GLSLFrontResult naga_front_glsl_parse(
 		GLSLFrontOptions options,
 		const char *source,
 		ModuleFillFlags fill_flags);
-SPVFrontendResult naga_front_spv_parse(
+SPVFrontResult naga_front_spv_parse(
 		SPVFrontOptions options,
-		uint32_t *const source,
+		const uint32_t *source,
 		uint32_t source_length,
 		ModuleFillFlags fill_flags);
-WGSLFrontendResult naga_front_wgsl_parse(
+WGSLFrontResult naga_front_wgsl_parse(
 		WGSLFrontOptions options,
 		const char *source,
 		ModuleFillFlags fill_flags);
@@ -2108,13 +2119,14 @@ WGSLFrontendResult naga_front_wgsl_parse(
 #endif
 
 typedef struct ValidateResult {
+    Bool success;
 	ModuleInfo module_info;
 	struct Empty *NAGA_UNIMPLEMENTED error;
 } ValidateResult;
 
 #ifndef NAGA_FFI_NO_METHODS
 
-Validator naga_valid_validator_new(ValidationFlags flags, Capabilities capabilities);
+Validator naga_valid_validator_new(ValidationFlagsFlags flags, CapabilitiesFlags capabilities);
 void naga_valid_validator_reset(Validator *validator);
 ValidateResult naga_valid_validator_validate(Validator *validator, Module *const module);
 ValidateResult naga_valid_validator_validate_resolved_overrides(Validator *validator, Module *const module);
@@ -2198,7 +2210,7 @@ SPVWriteResult naga_back_spv_write(
 WGSLWriteResult naga_back_wgsl_write(
 		Module *const module,
 		ModuleInfo *const module_info,
-		WGSLBackWriterFlags writer_flags);
+		WGSLBackWriterFlagsFlags writer_flags);
 ProcessOverridesResult naga_back_process_overrides(
 		Module *const module,
 		ModuleFillFlags module_flags,
@@ -2211,4 +2223,8 @@ ProcessOverridesResult naga_back_process_overrides(
 
 #endif
 
+#ifdef __cplusplus
+}
 #endif
+
+#endif // NAGA_FFI_H

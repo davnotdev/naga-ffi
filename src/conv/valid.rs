@@ -18,8 +18,8 @@ pub unsafe fn validator_to_ffi(validator: naga::valid::Validator) -> ffi::Valida
     }
 }
 
-pub fn capabilities_to_ffi(capabilities: &naga::valid::Capabilities) -> ffi::Capabilities {
-    let mut result: ffi::Capabilities = 0;
+pub fn capabilities_to_ffi(capabilities: &naga::valid::Capabilities) -> ffi::CapabilitiesFlags {
+    let mut result: ffi::CapabilitiesFlags = 0;
     if capabilities.contains(naga::valid::Capabilities::IMMEDIATES) {
         result |= ffi::Capabilities_Capabilities_IMMEDIATES;
     }
@@ -178,7 +178,7 @@ pub fn capabilities_to_ffi(capabilities: &naga::valid::Capabilities) -> ffi::Cap
     result
 }
 
-pub fn capabilities_to_naga(capabilities: ffi::Capabilities) -> naga::valid::Capabilities {
+pub fn capabilities_to_naga(capabilities: ffi::CapabilitiesFlags) -> naga::valid::Capabilities {
     let mut result = naga::valid::Capabilities::empty();
 
     if capabilities & ffi::Capabilities_Capabilities_IMMEDIATES != 0 {
@@ -344,25 +344,25 @@ pub fn capabilities_to_naga(capabilities: ffi::Capabilities) -> naga::valid::Cap
     result
 }
 
-pub fn validation_flags_to_naga(flags: ffi::ValidationFlags) -> naga::valid::ValidationFlags {
+pub fn validation_flags_to_naga(flags: ffi::ValidationFlagsFlags) -> naga::valid::ValidationFlags {
     let mut result = naga::valid::ValidationFlags::empty();
 
-    if flags & ffi::ValidationFlags_ValidationFlags_EXPRESSIONS != 0 {
+    if flags as u32 & ffi::ValidationFlags_ValidationFlags_EXPRESSIONS != 0 {
         result |= naga::valid::ValidationFlags::EXPRESSIONS;
     }
-    if flags & ffi::ValidationFlags_ValidationFlags_BLOCKS != 0 {
+    if flags as u32 & ffi::ValidationFlags_ValidationFlags_BLOCKS != 0 {
         result |= naga::valid::ValidationFlags::BLOCKS;
     }
-    if flags & ffi::ValidationFlags_ValidationFlags_CONTROL_FLOW_UNIFORMITY != 0 {
+    if flags as u32 & ffi::ValidationFlags_ValidationFlags_CONTROL_FLOW_UNIFORMITY != 0 {
         result |= naga::valid::ValidationFlags::CONTROL_FLOW_UNIFORMITY;
     }
-    if flags & ffi::ValidationFlags_ValidationFlags_STRUCT_LAYOUTS != 0 {
+    if flags as u32 & ffi::ValidationFlags_ValidationFlags_STRUCT_LAYOUTS != 0 {
         result |= naga::valid::ValidationFlags::STRUCT_LAYOUTS;
     }
-    if flags & ffi::ValidationFlags_ValidationFlags_CONSTANTS != 0 {
+    if flags as u32 & ffi::ValidationFlags_ValidationFlags_CONSTANTS != 0 {
         result |= naga::valid::ValidationFlags::CONSTANTS;
     }
-    if flags & ffi::ValidationFlags_ValidationFlags_BINDINGS != 0 {
+    if flags as u32 & ffi::ValidationFlags_ValidationFlags_BINDINGS != 0 {
         result |= naga::valid::ValidationFlags::BINDINGS;
     }
 

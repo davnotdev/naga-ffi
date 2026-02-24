@@ -95,8 +95,8 @@ pub fn storage_format_to_ffi(storage_format: &naga::ir::StorageFormat) -> ffi::S
     }
 }
 
-pub fn storage_access_to_ffi(storage_access: &naga::ir::StorageAccess) -> ffi::StorageAccess {
-    let mut result: ffi::StorageAccess = 0;
+pub fn storage_access_to_ffi(storage_access: &naga::ir::StorageAccess) -> ffi::StorageAccessFlags {
+    let mut result: ffi::StorageAccessFlags = 0;
     if storage_access.contains(naga::ir::StorageAccess::LOAD) {
         result |= ffi::StorageAccess_StorageAccess_LOAD;
     }
@@ -809,11 +809,11 @@ pub fn entry_point_to_ffi(entry_point: &naga::ir::EntryPoint) -> ffi::EntryPoint
 }
 
 pub fn module_to_ffi(module: naga::ir::Module, flags: ffi::ModuleFillFlags) -> ffi::Module {
-    let use_types = (flags & ffi::ModuleFillFlags_ModuleFillFlags_Types) != 0;
-    let use_constants = (flags & ffi::ModuleFillFlags_ModuleFillFlags_Constants) != 0;
-    let use_overrides = (flags & ffi::ModuleFillFlags_ModuleFillFlags_Overrides) != 0;
-    let use_global_variables = (flags & ffi::ModuleFillFlags_ModuleFillFlags_GlobalVariables) != 0;
-    let use_entry_points = (flags & ffi::ModuleFillFlags_ModuleFillFlags_EntryPoints) != 0;
+    let use_types = (flags & ffi::ModuleFill_ModuleFill_Types) != 0;
+    let use_constants = (flags & ffi::ModuleFill_ModuleFill_Constants) != 0;
+    let use_overrides = (flags & ffi::ModuleFill_ModuleFill_Overrides) != 0;
+    let use_global_variables = (flags & ffi::ModuleFill_ModuleFill_GlobalVariables) != 0;
+    let use_entry_points = (flags & ffi::ModuleFill_ModuleFill_EntryPoints) != 0;
 
     let module = Box::new(module);
     let module = Box::leak(module);

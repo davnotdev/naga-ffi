@@ -1,6 +1,9 @@
 use super::*;
 
-use std::ffi::{c_char, c_void};
+use std::{
+    ffi::{CStr, CString, c_char, c_void},
+    hash::Hash,
+};
 
 mod back;
 mod compact;
@@ -18,23 +21,27 @@ pub use valid::*;
 
 // TODO: these should allocate and we should have a deallocate for these
 
-pub unsafe fn slice_to_ffi<T, O, F: FnOnce(&T) -> O>(v: &[T], f: F) -> *mut O {
-    todo!()
+pub unsafe fn slice_to_ffi<T, O, F: Fn(&T) -> O>(v: &[T], f: F) -> *mut O {
+    let mut converted = ManuallyDrop::new(v.iter().map(f).collect::<Vec<O>>());
+    converted.as_mut_ptr()
 }
 
-unsafe fn unique_arena_to_ffi<T: Clone, O, F: FnOnce(&T) -> O>(
+unsafe fn unique_arena_to_ffi<T: Clone + Eq + Hash, O, F: Fn(&T) -> O>(
     arena: &naga::UniqueArena<T>,
     f: F,
 ) -> *mut O {
-    todo!()
+    let mut converted = ManuallyDrop::new(arena.iter().map(|(_, v)| f(v)).collect::<Vec<O>>());
+    converted.as_mut_ptr()
 }
 
-unsafe fn arena_to_ffi<T: Clone, O, F: FnOnce(&T) -> O>(arena: &naga::Arena<T>, f: F) -> *mut O {
-    todo!()
+unsafe fn arena_to_ffi<T: Clone, O, F: Fn(&T) -> O>(arena: &naga::Arena<T>, f: F) -> *mut O {
+    let mut converted = ManuallyDrop::new(arena.iter().map(|(_, v)| f(v)).collect::<Vec<O>>());
+    converted.as_mut_ptr()
 }
 
 pub unsafe fn string_to_ffi(s: &str) -> *mut c_char {
-    todo!()
+    let c_string = CString::new(s).expect("String contains null byte");
+    c_string.into_raw()
 }
 
 fn bool_to_ffi(b: bool) -> u8 {
@@ -50,13 +57,6 @@ fn span_to_ffi(span: &naga::Span) -> ffi::Span {
     }
 }
 
-fn span_context_to_ffi(span_context: &naga::SpanContext) -> ffi::SpanContext {
-    ffi::SpanContext {
-        span: span_to_ffi(&span_context.0),
-        message: unsafe { string_to_ffi(&span_context.1) },
-    }
-}
-
 fn bool_to_naga(b: u8) -> bool {
     match b {
         0 => false,
@@ -65,6 +65,11 @@ fn bool_to_naga(b: u8) -> bool {
     }
 }
 
-pub fn string_to_naga(s: *const c_char) -> String {
-    todo!()
+pub unsafe fn string_to_naga(s: *const c_char) -> String {
+    unsafe {
+        CStr::from_ptr(s)
+            .to_str()
+            .expect("Invalid UTF-8 in C string")
+            .to_owned()
+    }
 }
