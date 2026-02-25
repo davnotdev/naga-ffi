@@ -45,9 +45,9 @@ int main(int argc, char **argv) {
 			Capabilities_SUBGROUP;
 	ModuleFillFlags fill_flags = NAGA_FLAGS_ALL(ModuleFillFlags);
 	SPVFrontOptions options = (SPVFrontOptions){
-		.adjust_coordinate_space = 0,
+		.adjust_coordinate_space = 1,
+		.strict_capabilities = 1,
 		.block_ctx_dump_prefix = NULL,
-		.strict_capabilities = 0,
 	};
 	SPVFrontResult front_result;
 	front_result.flags = FrontResultOption_FormattedErrorOnly;
