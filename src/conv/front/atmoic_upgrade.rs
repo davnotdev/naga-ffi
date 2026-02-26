@@ -2,22 +2,22 @@ use super::*;
 
 pub fn atmoic_upgrade_front_error_to_ffi(
     error: &naga::front::atomic_upgrade::Error,
-) -> ffi::AtomicUpgradeFrontError {
+) -> ffi::NagaAtomicUpgradeFrontError {
     match error {
         naga::front::atomic_upgrade::Error::Unsupported => {
-            ffi::AtomicUpgradeFrontError_AtomicUpgradeFront_Unsupported
+            ffi::NagaAtomicUpgradeFrontError_NagaAtomicUpgradeFront_Unsupported
         }
         naga::front::atomic_upgrade::Error::UnexpectedEndOfIndices => {
-            ffi::AtomicUpgradeFrontError_AtomicUpgradeFront_UnexpectedEndOfIndices
+            ffi::NagaAtomicUpgradeFrontError_NagaAtomicUpgradeFront_UnexpectedEndOfIndices
         }
         naga::front::atomic_upgrade::Error::GlobalInitUnsupported => {
-            ffi::AtomicUpgradeFrontError_AtomicUpgradeFront_GlobalInitUnsupported
+            ffi::NagaAtomicUpgradeFrontError_NagaAtomicUpgradeFront_GlobalInitUnsupported
         }
         naga::front::atomic_upgrade::Error::GlobalVariableMissing => {
-            ffi::AtomicUpgradeFrontError_AtomicUpgradeFront_GlobalVariableMissing
+            ffi::NagaAtomicUpgradeFrontError_NagaAtomicUpgradeFront_GlobalVariableMissing
         }
         naga::front::atomic_upgrade::Error::CompareExchangeNonScalarBaseType => {
-            ffi::AtomicUpgradeFrontError_AtomicUpgradeFront_CompareExchangeNonScalarBaseType
+            ffi::NagaAtomicUpgradeFrontError_NagaAtomicUpgradeFront_CompareExchangeNonScalarBaseType
         }
     }
 }

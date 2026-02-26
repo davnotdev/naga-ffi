@@ -48,10 +48,10 @@ fn bool_to_ffi(b: bool) -> u8 {
     if b { 1 } else { 0 }
 }
 
-pub const EMPTY_MUT: *mut ffi::Empty = core::ptr::null_mut();
+pub const EMPTY_MUT: *mut ffi::NagaEmpty = core::ptr::null_mut();
 
-fn span_to_ffi(span: &naga::Span) -> ffi::Span {
-    ffi::Span {
+fn span_to_ffi(span: &naga::Span) -> ffi::NagaSpan {
+    ffi::NagaSpan {
         start: span.to_range().map(|r| r.start as u32).unwrap_or(0),
         end: span.to_range().map(|r| r.end as u32).unwrap_or(0),
     }

@@ -1,22 +1,22 @@
 use super::*;
 
 fn msl_back_sampler_address_to_naga(
-    address: ffi::MSLBackSamplerAddress,
+    address: ffi::NagaMSLBackSamplerAddress,
 ) -> naga::back::msl::sampler::Address {
     match address {
-        ffi::MSLBackSamplerAddress_MSLBackSamplerAddress_Repeat => {
+        ffi::NagaMSLBackSamplerAddress_NagaMSLBackSamplerAddress_Repeat => {
             naga::back::msl::sampler::Address::Repeat
         }
-        ffi::MSLBackSamplerAddress_MSLBackSamplerAddress_MirroredRepeat => {
+        ffi::NagaMSLBackSamplerAddress_NagaMSLBackSamplerAddress_MirroredRepeat => {
             naga::back::msl::sampler::Address::MirroredRepeat
         }
-        ffi::MSLBackSamplerAddress_MSLBackSamplerAddress_ClampToEdge => {
+        ffi::NagaMSLBackSamplerAddress_NagaMSLBackSamplerAddress_ClampToEdge => {
             naga::back::msl::sampler::Address::ClampToEdge
         }
-        ffi::MSLBackSamplerAddress_MSLBackSamplerAddress_ClampToZero => {
+        ffi::NagaMSLBackSamplerAddress_NagaMSLBackSamplerAddress_ClampToZero => {
             naga::back::msl::sampler::Address::ClampToZero
         }
-        ffi::MSLBackSamplerAddress_MSLBackSamplerAddress_ClampToBorder => {
+        ffi::NagaMSLBackSamplerAddress_NagaMSLBackSamplerAddress_ClampToBorder => {
             naga::back::msl::sampler::Address::ClampToBorder
         }
         _ => panic!("Unknown MSLBackSamplerAddress"),
@@ -24,16 +24,16 @@ fn msl_back_sampler_address_to_naga(
 }
 
 fn msl_back_sampler_border_color_to_naga(
-    color: ffi::MSLBackSamplerBorderColor,
+    color: ffi::NagaMSLBackSamplerBorderColor,
 ) -> naga::back::msl::sampler::BorderColor {
     match color {
-        ffi::MSLBackSamplerBorderColor_MSLBackSamplerBorderColor_TransparentBlack => {
+        ffi::NagaMSLBackSamplerBorderColor_NagaMSLBackSamplerBorderColor_TransparentBlack => {
             naga::back::msl::sampler::BorderColor::TransparentBlack
         }
-        ffi::MSLBackSamplerBorderColor_MSLBackSamplerBorderColor_OpaqueBlack => {
+        ffi::NagaMSLBackSamplerBorderColor_NagaMSLBackSamplerBorderColor_OpaqueBlack => {
             naga::back::msl::sampler::BorderColor::OpaqueBlack
         }
-        ffi::MSLBackSamplerBorderColor_MSLBackSamplerBorderColor_OpaqueWhite => {
+        ffi::NagaMSLBackSamplerBorderColor_NagaMSLBackSamplerBorderColor_OpaqueWhite => {
             naga::back::msl::sampler::BorderColor::OpaqueWhite
         }
         _ => panic!("Unknown MSLBackSamplerBorderColor"),
@@ -41,31 +41,31 @@ fn msl_back_sampler_border_color_to_naga(
 }
 
 fn msl_back_sampler_compare_func_to_naga(
-    func: ffi::MSLBackSamplerCompareFunc,
+    func: ffi::NagaMSLBackSamplerCompareFunc,
 ) -> naga::back::msl::sampler::CompareFunc {
     match func {
-        ffi::MSLBackSamplerCompareFunc_MSLBackSamplerCompareFunc_Never => {
+        ffi::NagaMSLBackSamplerCompareFunc_NagaMSLBackSamplerCompareFunc_Never => {
             naga::back::msl::sampler::CompareFunc::Never
         }
-        ffi::MSLBackSamplerCompareFunc_MSLBackSamplerCompareFunc_Less => {
+        ffi::NagaMSLBackSamplerCompareFunc_NagaMSLBackSamplerCompareFunc_Less => {
             naga::back::msl::sampler::CompareFunc::Less
         }
-        ffi::MSLBackSamplerCompareFunc_MSLBackSamplerCompareFunc_LessEqual => {
+        ffi::NagaMSLBackSamplerCompareFunc_NagaMSLBackSamplerCompareFunc_LessEqual => {
             naga::back::msl::sampler::CompareFunc::LessEqual
         }
-        ffi::MSLBackSamplerCompareFunc_MSLBackSamplerCompareFunc_Greater => {
+        ffi::NagaMSLBackSamplerCompareFunc_NagaMSLBackSamplerCompareFunc_Greater => {
             naga::back::msl::sampler::CompareFunc::Greater
         }
-        ffi::MSLBackSamplerCompareFunc_MSLBackSamplerCompareFunc_GreaterEqual => {
+        ffi::NagaMSLBackSamplerCompareFunc_NagaMSLBackSamplerCompareFunc_GreaterEqual => {
             naga::back::msl::sampler::CompareFunc::GreaterEqual
         }
-        ffi::MSLBackSamplerCompareFunc_MSLBackSamplerCompareFunc_Equal => {
+        ffi::NagaMSLBackSamplerCompareFunc_NagaMSLBackSamplerCompareFunc_Equal => {
             naga::back::msl::sampler::CompareFunc::Equal
         }
-        ffi::MSLBackSamplerCompareFunc_MSLBackSamplerCompareFunc_NotEqual => {
+        ffi::NagaMSLBackSamplerCompareFunc_NagaMSLBackSamplerCompareFunc_NotEqual => {
             naga::back::msl::sampler::CompareFunc::NotEqual
         }
-        ffi::MSLBackSamplerCompareFunc_MSLBackSamplerCompareFunc_Always => {
+        ffi::NagaMSLBackSamplerCompareFunc_NagaMSLBackSamplerCompareFunc_Always => {
             naga::back::msl::sampler::CompareFunc::Always
         }
         _ => panic!("Unknown MSLBackSamplerCompareFunc"),
@@ -73,13 +73,13 @@ fn msl_back_sampler_compare_func_to_naga(
 }
 
 fn msl_back_sampler_coord_to_naga(
-    coord: ffi::MSLBackSamplerCoord,
+    coord: ffi::NagaMSLBackSamplerCoord,
 ) -> naga::back::msl::sampler::Coord {
     match coord {
-        ffi::MSLBackSamplerCoord_MSLBackSamplerCoord_Normalized => {
+        ffi::NagaMSLBackSamplerCoord_NagaMSLBackSamplerCoord_Normalized => {
             naga::back::msl::sampler::Coord::Normalized
         }
-        ffi::MSLBackSamplerCoord_MSLBackSamplerCoord_Pixel => {
+        ffi::NagaMSLBackSamplerCoord_NagaMSLBackSamplerCoord_Pixel => {
             naga::back::msl::sampler::Coord::Pixel
         }
         _ => panic!("Unknown MSLBackSamplerCoord"),
@@ -87,13 +87,13 @@ fn msl_back_sampler_coord_to_naga(
 }
 
 fn msl_back_sampler_filter_to_naga(
-    filter: ffi::MSLBackSamplerFilter,
+    filter: ffi::NagaMSLBackSamplerFilter,
 ) -> naga::back::msl::sampler::Filter {
     match filter {
-        ffi::MSLBackSamplerFilter_MSLBackSamplerFilter_Nearest => {
+        ffi::NagaMSLBackSamplerFilter_NagaMSLBackSamplerFilter_Nearest => {
             naga::back::msl::sampler::Filter::Nearest
         }
-        ffi::MSLBackSamplerFilter_MSLBackSamplerFilter_Linear => {
+        ffi::NagaMSLBackSamplerFilter_NagaMSLBackSamplerFilter_Linear => {
             naga::back::msl::sampler::Filter::Linear
         }
         _ => panic!("Unknown MSLBackSamplerFilter"),
@@ -101,7 +101,7 @@ fn msl_back_sampler_filter_to_naga(
 }
 
 fn msl_back_inline_sampler_to_naga(
-    sampler: &ffi::MSLBackInlineSampler,
+    sampler: &ffi::NagaMSLBackInlineSampler,
 ) -> naga::back::msl::sampler::InlineSampler {
     naga::back::msl::sampler::InlineSampler {
         coord: msl_back_sampler_coord_to_naga(sampler.coord),
@@ -137,132 +137,136 @@ fn msl_back_inline_sampler_to_naga(
 
 pub fn msl_back_vertex_format_to_ffi(
     format: &naga::back::msl::VertexFormat,
-) -> ffi::MSLBackVertexFormat {
+) -> ffi::NagaMSLBackVertexFormat {
     match format {
-        naga::back::msl::VertexFormat::Uint8 => ffi::MSLBackVertexFormat_MSLBackVertexFormat_Uint8,
+        naga::back::msl::VertexFormat::Uint8 => {
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Uint8
+        }
         naga::back::msl::VertexFormat::Uint8x2 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Uint8x2
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Uint8x2
         }
         naga::back::msl::VertexFormat::Uint8x4 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Uint8x4
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Uint8x4
         }
-        naga::back::msl::VertexFormat::Sint8 => ffi::MSLBackVertexFormat_MSLBackVertexFormat_Sint8,
+        naga::back::msl::VertexFormat::Sint8 => {
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Sint8
+        }
         naga::back::msl::VertexFormat::Sint8x2 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Sint8x2
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Sint8x2
         }
         naga::back::msl::VertexFormat::Sint8x4 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Sint8x4
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Sint8x4
         }
         naga::back::msl::VertexFormat::Unorm8 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Unorm8
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Unorm8
         }
         naga::back::msl::VertexFormat::Unorm8x2 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Unorm8x2
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Unorm8x2
         }
         naga::back::msl::VertexFormat::Unorm8x4 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Unorm8x4
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Unorm8x4
         }
         naga::back::msl::VertexFormat::Snorm8 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Snorm8
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Snorm8
         }
         naga::back::msl::VertexFormat::Snorm8x2 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Snorm8x2
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Snorm8x2
         }
         naga::back::msl::VertexFormat::Snorm8x4 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Snorm8x4
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Snorm8x4
         }
         naga::back::msl::VertexFormat::Uint16 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Uint16
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Uint16
         }
         naga::back::msl::VertexFormat::Uint16x2 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Uint16x2
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Uint16x2
         }
         naga::back::msl::VertexFormat::Uint16x4 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Uint16x4
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Uint16x4
         }
         naga::back::msl::VertexFormat::Sint16 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Sint16
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Sint16
         }
         naga::back::msl::VertexFormat::Sint16x2 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Sint16x2
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Sint16x2
         }
         naga::back::msl::VertexFormat::Sint16x4 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Sint16x4
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Sint16x4
         }
         naga::back::msl::VertexFormat::Unorm16 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Unorm16
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Unorm16
         }
         naga::back::msl::VertexFormat::Unorm16x2 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Unorm16x2
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Unorm16x2
         }
         naga::back::msl::VertexFormat::Unorm16x4 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Unorm16x4
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Unorm16x4
         }
         naga::back::msl::VertexFormat::Snorm16 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Snorm16
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Snorm16
         }
         naga::back::msl::VertexFormat::Snorm16x2 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Snorm16x2
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Snorm16x2
         }
         naga::back::msl::VertexFormat::Snorm16x4 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Snorm16x4
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Snorm16x4
         }
         naga::back::msl::VertexFormat::Float16 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Float16
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Float16
         }
         naga::back::msl::VertexFormat::Float16x2 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Float16x2
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Float16x2
         }
         naga::back::msl::VertexFormat::Float16x4 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Float16x4
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Float16x4
         }
         naga::back::msl::VertexFormat::Float32 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Float32
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Float32
         }
         naga::back::msl::VertexFormat::Float32x2 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Float32x2
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Float32x2
         }
         naga::back::msl::VertexFormat::Float32x3 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Float32x3
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Float32x3
         }
         naga::back::msl::VertexFormat::Float32x4 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Float32x4
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Float32x4
         }
         naga::back::msl::VertexFormat::Uint32 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Uint32
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Uint32
         }
         naga::back::msl::VertexFormat::Uint32x2 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Uint32x2
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Uint32x2
         }
         naga::back::msl::VertexFormat::Uint32x3 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Uint32x3
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Uint32x3
         }
         naga::back::msl::VertexFormat::Uint32x4 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Uint32x4
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Uint32x4
         }
         naga::back::msl::VertexFormat::Sint32 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Sint32
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Sint32
         }
         naga::back::msl::VertexFormat::Sint32x2 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Sint32x2
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Sint32x2
         }
         naga::back::msl::VertexFormat::Sint32x3 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Sint32x3
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Sint32x3
         }
         naga::back::msl::VertexFormat::Sint32x4 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Sint32x4
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Sint32x4
         }
         naga::back::msl::VertexFormat::Unorm10_10_10_2 => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Unorm10_10_10_2
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Unorm10_10_10_2
         }
         naga::back::msl::VertexFormat::Unorm8x4Bgra => {
-            ffi::MSLBackVertexFormat_MSLBackVertexFormat_Unorm8x4Bgra
+            ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Unorm8x4Bgra
         }
     }
 }
 
 pub fn msl_back_bind_external_texture_target_to_naga(
-    target: &ffi::MSLBackBindExternalTextureTarget,
+    target: &ffi::NagaMSLBackBindExternalTextureTarget,
 ) -> naga::back::msl::BindExternalTextureTarget {
     naga::back::msl::BindExternalTextureTarget {
         planes: target.planes,
@@ -272,28 +276,28 @@ pub fn msl_back_bind_external_texture_target_to_naga(
 
 pub fn msl_back_vertex_buffer_step_mode_to_ffi(
     mode: &naga::back::msl::VertexBufferStepMode,
-) -> ffi::MSLBackVertexBufferStepMode {
+) -> ffi::NagaMSLBackVertexBufferStepMode {
     match mode {
         naga::back::msl::VertexBufferStepMode::Constant => {
-            ffi::MSLBackVertexBufferStepMode_MSLBackVertexBufferStepMode_Constant
+            ffi::NagaMSLBackVertexBufferStepMode_NagaMSLBackVertexBufferStepMode_Constant
         }
         naga::back::msl::VertexBufferStepMode::ByVertex => {
-            ffi::MSLBackVertexBufferStepMode_MSLBackVertexBufferStepMode_ByVertex
+            ffi::NagaMSLBackVertexBufferStepMode_NagaMSLBackVertexBufferStepMode_ByVertex
         }
         naga::back::msl::VertexBufferStepMode::ByInstance => {
-            ffi::MSLBackVertexBufferStepMode_MSLBackVertexBufferStepMode_ByInstance
+            ffi::NagaMSLBackVertexBufferStepMode_NagaMSLBackVertexBufferStepMode_ByInstance
         }
     }
 }
 
 pub fn msl_back_bind_sampler_target_to_naga(
-    target: &ffi::MSLBackBindSamplerTarget,
+    target: &ffi::NagaMSLBackBindSamplerTarget,
 ) -> naga::back::msl::BindSamplerTarget {
     match target.tag {
-        ffi::MSLBackBindSamplerTargetTag_MSLBackBindSamplerTargetTag_Resource => {
+        ffi::NagaMSLBackBindSamplerTargetTag_NagaMSLBackBindSamplerTargetTag_Resource => {
             naga::back::msl::BindSamplerTarget::Resource(unsafe { target.data.resource })
         }
-        ffi::MSLBackBindSamplerTargetTag_MSLBackBindSamplerTargetTag_Inline => {
+        ffi::NagaMSLBackBindSamplerTargetTag_NagaMSLBackBindSamplerTargetTag_Inline => {
             naga::back::msl::BindSamplerTarget::Inline(unsafe { target.data.inline_ })
         }
         _ => panic!("Unknown MSLBackBindSamplerTarget"),
@@ -302,8 +306,8 @@ pub fn msl_back_bind_sampler_target_to_naga(
 
 pub fn msl_back_attribute_mapping_to_ffi(
     mapping: &naga::back::msl::AttributeMapping,
-) -> ffi::MSLBackAttributeMapping {
-    ffi::MSLBackAttributeMapping {
+) -> ffi::NagaMSLBackAttributeMapping {
+    ffi::NagaMSLBackAttributeMapping {
         shader_location: mapping.shader_location,
         offset: mapping.offset,
         format: msl_back_vertex_format_to_ffi(&mapping.format),
@@ -311,7 +315,7 @@ pub fn msl_back_attribute_mapping_to_ffi(
 }
 
 pub fn msl_back_bind_target_to_naga(
-    target: &ffi::MSLBackBindTarget,
+    target: &ffi::NagaMSLBackBindTarget,
 ) -> naga::back::msl::BindTarget {
     naga::back::msl::BindTarget {
         buffer: if bool_to_naga(target.buffer.some) {
@@ -342,14 +346,16 @@ pub fn msl_back_bind_target_to_naga(
 
 pub fn msl_back_bind_external_texture_target_to_ffi(
     target: &naga::back::msl::BindExternalTextureTarget,
-) -> ffi::MSLBackBindExternalTextureTarget {
-    ffi::MSLBackBindExternalTextureTarget {
+) -> ffi::NagaMSLBackBindExternalTextureTarget {
+    ffi::NagaMSLBackBindExternalTextureTarget {
         planes: target.planes,
         params: target.params,
     }
 }
 
-pub fn msl_back_binding_map_to_naga(map: &ffi::MSLBackBindingMap) -> naga::back::msl::BindingMap {
+pub fn msl_back_binding_map_to_naga(
+    map: &ffi::NagaMSLBackBindingMap,
+) -> naga::back::msl::BindingMap {
     unsafe {
         std::slice::from_raw_parts(map.entries, map.entries_len)
             .iter()
@@ -365,21 +371,21 @@ pub fn msl_back_binding_map_to_naga(map: &ffi::MSLBackBindingMap) -> naga::back:
 
 pub fn msl_back_bind_sampler_target_to_ffi(
     target: &naga::back::msl::BindSamplerTarget,
-) -> ffi::MSLBackBindSamplerTarget {
+) -> ffi::NagaMSLBackBindSamplerTarget {
     match target {
-        naga::back::msl::BindSamplerTarget::Resource(slot) => ffi::MSLBackBindSamplerTarget {
-            tag: ffi::MSLBackBindSamplerTargetTag_MSLBackBindSamplerTargetTag_Resource,
-            data: ffi::MSLBackBindSamplerTarget__bindgen_ty_1 { resource: *slot },
+        naga::back::msl::BindSamplerTarget::Resource(slot) => ffi::NagaMSLBackBindSamplerTarget {
+            tag: ffi::NagaMSLBackBindSamplerTargetTag_NagaMSLBackBindSamplerTargetTag_Resource,
+            data: ffi::NagaMSLBackBindSamplerTarget__bindgen_ty_1 { resource: *slot },
         },
-        naga::back::msl::BindSamplerTarget::Inline(inline) => ffi::MSLBackBindSamplerTarget {
-            tag: ffi::MSLBackBindSamplerTargetTag_MSLBackBindSamplerTargetTag_Inline,
-            data: ffi::MSLBackBindSamplerTarget__bindgen_ty_1 { inline_: *inline },
+        naga::back::msl::BindSamplerTarget::Inline(inline) => ffi::NagaMSLBackBindSamplerTarget {
+            tag: ffi::NagaMSLBackBindSamplerTargetTag_NagaMSLBackBindSamplerTargetTag_Inline,
+            data: ffi::NagaMSLBackBindSamplerTarget__bindgen_ty_1 { inline_: *inline },
         },
     }
 }
 
 pub fn msl_back_entry_point_resources_to_naga(
-    resources: &ffi::MSLBackEntryPointResources,
+    resources: &ffi::NagaMSLBackEntryPointResources,
 ) -> naga::back::msl::EntryPointResources {
     naga::back::msl::EntryPointResources {
         resources: msl_back_binding_map_to_naga(&resources.resources),
@@ -397,7 +403,7 @@ pub fn msl_back_entry_point_resources_to_naga(
 }
 
 pub fn msl_back_entry_point_resource_map_to_naga(
-    map: &ffi::MSLBackEntryPointResourceMap,
+    map: &ffi::NagaMSLBackEntryPointResourceMap,
 ) -> naga::back::msl::EntryPointResourceMap {
     unsafe {
         std::slice::from_raw_parts(map.entries, map.entries_len)
@@ -412,17 +418,19 @@ pub fn msl_back_entry_point_resource_map_to_naga(
     }
 }
 
-pub fn msl_back_bind_target_to_ffi(target: &naga::back::msl::BindTarget) -> ffi::MSLBackBindTarget {
-    ffi::MSLBackBindTarget {
-        buffer: ffi::MSLBackBindTarget__bindgen_ty_1 {
+pub fn msl_back_bind_target_to_ffi(
+    target: &naga::back::msl::BindTarget,
+) -> ffi::NagaMSLBackBindTarget {
+    ffi::NagaMSLBackBindTarget {
+        buffer: ffi::NagaMSLBackBindTarget__bindgen_ty_1 {
             some: bool_to_ffi(target.buffer.is_some()),
             value: target.buffer.unwrap_or_default(),
         },
-        texture: ffi::MSLBackBindTarget__bindgen_ty_2 {
+        texture: ffi::NagaMSLBackBindTarget__bindgen_ty_2 {
             some: bool_to_ffi(target.texture.is_some()),
             value: target.texture.unwrap_or_default(),
         },
-        sampler: ffi::MSLBackBindTarget__bindgen_ty_3 {
+        sampler: ffi::NagaMSLBackBindTarget__bindgen_ty_3 {
             some: bool_to_ffi(target.sampler.is_some()),
             value: target
                 .sampler
@@ -430,7 +438,7 @@ pub fn msl_back_bind_target_to_ffi(target: &naga::back::msl::BindTarget) -> ffi:
                 .map(msl_back_bind_sampler_target_to_ffi)
                 .unwrap_or_default(),
         },
-        external_texture: ffi::MSLBackBindTarget__bindgen_ty_4 {
+        external_texture: ffi::NagaMSLBackBindTarget__bindgen_ty_4 {
             some: bool_to_ffi(target.external_texture.is_some()),
             value: target
                 .external_texture
@@ -442,7 +450,7 @@ pub fn msl_back_bind_target_to_ffi(target: &naga::back::msl::BindTarget) -> ffi:
     }
 }
 
-pub fn msl_back_options_to_naga(options: &ffi::MSLBackOptions) -> naga::back::msl::Options {
+pub fn msl_back_options_to_naga(options: &ffi::NagaMSLBackOptions) -> naga::back::msl::Options {
     naga::back::msl::Options {
         lang_version: (options.lang_version[0], options.lang_version[1]),
         per_entry_point_map: msl_back_entry_point_resource_map_to_naga(
@@ -464,8 +472,8 @@ pub fn msl_back_options_to_naga(options: &ffi::MSLBackOptions) -> naga::back::ms
 
 pub fn msl_back_vertex_buffer_mapping_to_ffi(
     mapping: &naga::back::msl::VertexBufferMapping,
-) -> ffi::MSLBackVertexBufferMapping {
-    ffi::MSLBackVertexBufferMapping {
+) -> ffi::NagaMSLBackVertexBufferMapping {
+    ffi::NagaMSLBackVertexBufferMapping {
         id: mapping.id,
         stride: mapping.stride,
         step_mode: msl_back_vertex_buffer_step_mode_to_ffi(&mapping.step_mode),
@@ -479,16 +487,16 @@ pub fn msl_back_vertex_buffer_mapping_to_ffi(
 }
 
 pub fn msl_back_vertex_buffer_step_mode_to_naga(
-    mode: ffi::MSLBackVertexBufferStepMode,
+    mode: ffi::NagaMSLBackVertexBufferStepMode,
 ) -> naga::back::msl::VertexBufferStepMode {
     match mode {
-        ffi::MSLBackVertexBufferStepMode_MSLBackVertexBufferStepMode_Constant => {
+        ffi::NagaMSLBackVertexBufferStepMode_NagaMSLBackVertexBufferStepMode_Constant => {
             naga::back::msl::VertexBufferStepMode::Constant
         }
-        ffi::MSLBackVertexBufferStepMode_MSLBackVertexBufferStepMode_ByVertex => {
+        ffi::NagaMSLBackVertexBufferStepMode_NagaMSLBackVertexBufferStepMode_ByVertex => {
             naga::back::msl::VertexBufferStepMode::ByVertex
         }
-        ffi::MSLBackVertexBufferStepMode_MSLBackVertexBufferStepMode_ByInstance => {
+        ffi::NagaMSLBackVertexBufferStepMode_NagaMSLBackVertexBufferStepMode_ByInstance => {
             naga::back::msl::VertexBufferStepMode::ByInstance
         }
         _ => panic!("Unknown MSLBackVertexBufferStepMode"),
@@ -496,7 +504,7 @@ pub fn msl_back_vertex_buffer_step_mode_to_naga(
 }
 
 pub fn msl_back_attribute_mapping_to_naga(
-    mapping: &ffi::MSLBackAttributeMapping,
+    mapping: &ffi::NagaMSLBackAttributeMapping,
 ) -> naga::back::msl::AttributeMapping {
     naga::back::msl::AttributeMapping {
         shader_location: mapping.shader_location,
@@ -506,126 +514,130 @@ pub fn msl_back_attribute_mapping_to_naga(
 }
 
 pub fn msl_back_vertex_format_to_naga(
-    format: ffi::MSLBackVertexFormat,
+    format: ffi::NagaMSLBackVertexFormat,
 ) -> naga::back::msl::VertexFormat {
     match format {
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Uint8 => naga::back::msl::VertexFormat::Uint8,
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Uint8x2 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Uint8 => {
+            naga::back::msl::VertexFormat::Uint8
+        }
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Uint8x2 => {
             naga::back::msl::VertexFormat::Uint8x2
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Uint8x4 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Uint8x4 => {
             naga::back::msl::VertexFormat::Uint8x4
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Sint8 => naga::back::msl::VertexFormat::Sint8,
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Sint8x2 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Sint8 => {
+            naga::back::msl::VertexFormat::Sint8
+        }
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Sint8x2 => {
             naga::back::msl::VertexFormat::Sint8x2
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Sint8x4 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Sint8x4 => {
             naga::back::msl::VertexFormat::Sint8x4
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Unorm8 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Unorm8 => {
             naga::back::msl::VertexFormat::Unorm8
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Unorm8x2 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Unorm8x2 => {
             naga::back::msl::VertexFormat::Unorm8x2
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Unorm8x4 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Unorm8x4 => {
             naga::back::msl::VertexFormat::Unorm8x4
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Snorm8 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Snorm8 => {
             naga::back::msl::VertexFormat::Snorm8
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Snorm8x2 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Snorm8x2 => {
             naga::back::msl::VertexFormat::Snorm8x2
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Snorm8x4 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Snorm8x4 => {
             naga::back::msl::VertexFormat::Snorm8x4
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Uint16 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Uint16 => {
             naga::back::msl::VertexFormat::Uint16
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Uint16x2 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Uint16x2 => {
             naga::back::msl::VertexFormat::Uint16x2
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Uint16x4 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Uint16x4 => {
             naga::back::msl::VertexFormat::Uint16x4
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Sint16 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Sint16 => {
             naga::back::msl::VertexFormat::Sint16
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Sint16x2 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Sint16x2 => {
             naga::back::msl::VertexFormat::Sint16x2
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Sint16x4 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Sint16x4 => {
             naga::back::msl::VertexFormat::Sint16x4
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Unorm16 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Unorm16 => {
             naga::back::msl::VertexFormat::Unorm16
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Unorm16x2 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Unorm16x2 => {
             naga::back::msl::VertexFormat::Unorm16x2
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Unorm16x4 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Unorm16x4 => {
             naga::back::msl::VertexFormat::Unorm16x4
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Snorm16 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Snorm16 => {
             naga::back::msl::VertexFormat::Snorm16
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Snorm16x2 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Snorm16x2 => {
             naga::back::msl::VertexFormat::Snorm16x2
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Snorm16x4 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Snorm16x4 => {
             naga::back::msl::VertexFormat::Snorm16x4
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Float16 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Float16 => {
             naga::back::msl::VertexFormat::Float16
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Float16x2 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Float16x2 => {
             naga::back::msl::VertexFormat::Float16x2
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Float16x4 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Float16x4 => {
             naga::back::msl::VertexFormat::Float16x4
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Float32 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Float32 => {
             naga::back::msl::VertexFormat::Float32
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Float32x2 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Float32x2 => {
             naga::back::msl::VertexFormat::Float32x2
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Float32x3 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Float32x3 => {
             naga::back::msl::VertexFormat::Float32x3
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Float32x4 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Float32x4 => {
             naga::back::msl::VertexFormat::Float32x4
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Uint32 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Uint32 => {
             naga::back::msl::VertexFormat::Uint32
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Uint32x2 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Uint32x2 => {
             naga::back::msl::VertexFormat::Uint32x2
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Uint32x3 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Uint32x3 => {
             naga::back::msl::VertexFormat::Uint32x3
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Uint32x4 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Uint32x4 => {
             naga::back::msl::VertexFormat::Uint32x4
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Sint32 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Sint32 => {
             naga::back::msl::VertexFormat::Sint32
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Sint32x2 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Sint32x2 => {
             naga::back::msl::VertexFormat::Sint32x2
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Sint32x3 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Sint32x3 => {
             naga::back::msl::VertexFormat::Sint32x3
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Sint32x4 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Sint32x4 => {
             naga::back::msl::VertexFormat::Sint32x4
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Unorm10_10_10_2 => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Unorm10_10_10_2 => {
             naga::back::msl::VertexFormat::Unorm10_10_10_2
         }
-        ffi::MSLBackVertexFormat_MSLBackVertexFormat_Unorm8x4Bgra => {
+        ffi::NagaMSLBackVertexFormat_NagaMSLBackVertexFormat_Unorm8x4Bgra => {
             naga::back::msl::VertexFormat::Unorm8x4Bgra
         }
         _ => panic!("Unknown MSLBackVertexFormat"),
@@ -633,7 +645,7 @@ pub fn msl_back_vertex_format_to_naga(
 }
 
 pub fn msl_back_vertex_buffer_mapping_to_naga(
-    mapping: &ffi::MSLBackVertexBufferMapping,
+    mapping: &ffi::NagaMSLBackVertexBufferMapping,
 ) -> naga::back::msl::VertexBufferMapping {
     naga::back::msl::VertexBufferMapping {
         id: mapping.id,
@@ -649,7 +661,7 @@ pub fn msl_back_vertex_buffer_mapping_to_naga(
 }
 
 pub fn msl_back_pipeline_options_to_naga(
-    options: &ffi::MSLBackPipelineOptions,
+    options: &ffi::NagaMSLBackPipelineOptions,
 ) -> naga::back::msl::PipelineOptions {
     naga::back::msl::PipelineOptions {
         entry_point: if bool_to_naga(options.entry_point.some) {
@@ -676,163 +688,164 @@ pub fn msl_back_pipeline_options_to_naga(
 
 pub fn msl_back_entry_point_error_to_ffi(
     error: &naga::back::msl::EntryPointError,
-) -> ffi::MSLBackEntryPointError {
-    let default_data = ffi::MSLBackEntryPointError__bindgen_ty_1::default();
+) -> ffi::NagaMSLBackEntryPointError {
+    let default_data = ffi::NagaMSLBackEntryPointError__bindgen_ty_1::default();
 
     match error {
-        naga::back::msl::EntryPointError::MissingBinding(binding) => ffi::MSLBackEntryPointError {
-            tag: ffi::MSLBackEntryPointErrorTag_MSLBackEntryPointErrorTag_MissingBinding,
-            data: ffi::MSLBackEntryPointError__bindgen_ty_1 {
+        naga::back::msl::EntryPointError::MissingBinding(binding) => ffi::NagaMSLBackEntryPointError {
+            tag: ffi::NagaMSLBackEntryPointErrorTag_NagaMSLBackEntryPointErrorTag_MissingBinding,
+            data: ffi::NagaMSLBackEntryPointError__bindgen_ty_1 {
                 missing_binding: unsafe { string_to_ffi(binding) },
             },
         },
         naga::back::msl::EntryPointError::MissingBindTarget(resource_binding) => {
-            ffi::MSLBackEntryPointError {
-                tag: ffi::MSLBackEntryPointErrorTag_MSLBackEntryPointErrorTag_MissingBindTarget,
-                data: ffi::MSLBackEntryPointError__bindgen_ty_1 {
+            ffi::NagaMSLBackEntryPointError {
+                tag: ffi::NagaMSLBackEntryPointErrorTag_NagaMSLBackEntryPointErrorTag_MissingBindTarget,
+                data: ffi::NagaMSLBackEntryPointError__bindgen_ty_1 {
                     missing_bind_target: resource_binding_to_ffi(resource_binding),
                 },
             }
         }
-        naga::back::msl::EntryPointError::MissingImmediateData => ffi::MSLBackEntryPointError {
-            tag: ffi::MSLBackEntryPointErrorTag_MSLBackEntryPointErrorTag_MissingImmediateData,
+        naga::back::msl::EntryPointError::MissingImmediateData => ffi::NagaMSLBackEntryPointError {
+            tag: ffi::NagaMSLBackEntryPointErrorTag_NagaMSLBackEntryPointErrorTag_MissingImmediateData,
             data: default_data,
         },
-        naga::back::msl::EntryPointError::MissingSizesBuffer => ffi::MSLBackEntryPointError {
-            tag: ffi::MSLBackEntryPointErrorTag_MSLBackEntryPointErrorTag_MissingSizesBuffer,
+        naga::back::msl::EntryPointError::MissingSizesBuffer => ffi::NagaMSLBackEntryPointError {
+            tag: ffi::NagaMSLBackEntryPointErrorTag_NagaMSLBackEntryPointErrorTag_MissingSizesBuffer,
             data: default_data,
         },
     }
 }
 
-pub fn msl_back_error_to_ffi(error: &naga::back::msl::Error) -> ffi::MSLBackError {
-    let default_data = ffi::MSLBackError__bindgen_ty_1 {
+pub fn msl_back_error_to_ffi(error: &naga::back::msl::Error) -> ffi::NagaMSLBackError {
+    let default_data = ffi::NagaMSLBackError__bindgen_ty_1 {
         format: std::ptr::null_mut(),
     };
 
     match error {
-        naga::back::msl::Error::Format(error) => ffi::MSLBackError {
-            tag: ffi::MSLBackErrorTag_MSLBackErrorTag_Format,
-            data: ffi::MSLBackError__bindgen_ty_1 {
+        naga::back::msl::Error::Format(error) => ffi::NagaMSLBackError {
+            tag: ffi::NagaMSLBackErrorTag_NagaMSLBackErrorTag_Format,
+            data: ffi::NagaMSLBackError__bindgen_ty_1 {
                 format: unsafe { string_to_ffi(&error.to_string()) },
             },
         },
-        naga::back::msl::Error::UnimplementedBindTarget(bind_target) => ffi::MSLBackError {
-            tag: ffi::MSLBackErrorTag_MSLBackErrorTag_UnimplementedBindTarget,
-            data: ffi::MSLBackError__bindgen_ty_1 {
+        naga::back::msl::Error::UnimplementedBindTarget(bind_target) => ffi::NagaMSLBackError {
+            tag: ffi::NagaMSLBackErrorTag_NagaMSLBackErrorTag_UnimplementedBindTarget,
+            data: ffi::NagaMSLBackError__bindgen_ty_1 {
                 unimplemented_bind_target: msl_back_bind_target_to_ffi(bind_target),
             },
         },
-        naga::back::msl::Error::UnsupportedCompose(handle) => ffi::MSLBackError {
-            tag: ffi::MSLBackErrorTag_MSLBackErrorTag_UnsupportedCompose,
-            data: ffi::MSLBackError__bindgen_ty_1 {
+        naga::back::msl::Error::UnsupportedCompose(handle) => ffi::NagaMSLBackError {
+            tag: ffi::NagaMSLBackErrorTag_NagaMSLBackErrorTag_UnsupportedCompose,
+            data: ffi::NagaMSLBackError__bindgen_ty_1 {
                 unsupported_compose: handle.index(),
             },
         },
-        naga::back::msl::Error::UnsupportedBinaryOp(_binary_operator) => ffi::MSLBackError {
-            tag: ffi::MSLBackErrorTag_MSLBackErrorTag_UnsupportedBinaryOp,
-            data: ffi::MSLBackError__bindgen_ty_1 {
+        naga::back::msl::Error::UnsupportedBinaryOp(_binary_operator) => ffi::NagaMSLBackError {
+            tag: ffi::NagaMSLBackErrorTag_NagaMSLBackErrorTag_UnsupportedBinaryOp,
+            data: ffi::NagaMSLBackError__bindgen_ty_1 {
                 unsupported_binary_op: EMPTY_MUT,
             },
         },
-        naga::back::msl::Error::UnsupportedCall(call) => ffi::MSLBackError {
-            tag: ffi::MSLBackErrorTag_MSLBackErrorTag_UnsupportedCall,
-            data: ffi::MSLBackError__bindgen_ty_1 {
+        naga::back::msl::Error::UnsupportedCall(call) => ffi::NagaMSLBackError {
+            tag: ffi::NagaMSLBackErrorTag_NagaMSLBackErrorTag_UnsupportedCall,
+            data: ffi::NagaMSLBackError__bindgen_ty_1 {
                 unsupported_call: unsafe { string_to_ffi(call) },
             },
         },
-        naga::back::msl::Error::FeatureNotImplemented(feature) => ffi::MSLBackError {
-            tag: ffi::MSLBackErrorTag_MSLBackErrorTag_FeatureNotImplemented,
-            data: ffi::MSLBackError__bindgen_ty_1 {
+        naga::back::msl::Error::FeatureNotImplemented(feature) => ffi::NagaMSLBackError {
+            tag: ffi::NagaMSLBackErrorTag_NagaMSLBackErrorTag_FeatureNotImplemented,
+            data: ffi::NagaMSLBackError__bindgen_ty_1 {
                 feature_not_implemented: unsafe { string_to_ffi(feature) },
             },
         },
-        naga::back::msl::Error::GenericValidation(validation) => ffi::MSLBackError {
-            tag: ffi::MSLBackErrorTag_MSLBackErrorTag_GenericValidation,
-            data: ffi::MSLBackError__bindgen_ty_1 {
+        naga::back::msl::Error::GenericValidation(validation) => ffi::NagaMSLBackError {
+            tag: ffi::NagaMSLBackErrorTag_NagaMSLBackErrorTag_GenericValidation,
+            data: ffi::NagaMSLBackError__bindgen_ty_1 {
                 generic_validation: unsafe { string_to_ffi(validation) },
             },
         },
-        naga::back::msl::Error::UnsupportedBuiltIn(built_in) => ffi::MSLBackError {
-            tag: ffi::MSLBackErrorTag_MSLBackErrorTag_UnsupportedBuiltIn,
-            data: ffi::MSLBackError__bindgen_ty_1 {
+        naga::back::msl::Error::UnsupportedBuiltIn(built_in) => ffi::NagaMSLBackError {
+            tag: ffi::NagaMSLBackErrorTag_NagaMSLBackErrorTag_UnsupportedBuiltIn,
+            data: ffi::NagaMSLBackError__bindgen_ty_1 {
                 unsupported_built_in: built_in_to_ffi(built_in),
             },
         },
-        naga::back::msl::Error::CapabilityNotSupported(capabilities) => ffi::MSLBackError {
-            tag: ffi::MSLBackErrorTag_MSLBackErrorTag_CapabilityNotSupported,
-            data: ffi::MSLBackError__bindgen_ty_1 {
+        naga::back::msl::Error::CapabilityNotSupported(capabilities) => ffi::NagaMSLBackError {
+            tag: ffi::NagaMSLBackErrorTag_NagaMSLBackErrorTag_CapabilityNotSupported,
+            data: ffi::NagaMSLBackError__bindgen_ty_1 {
                 capability_not_supported: capabilities_to_ffi(capabilities),
             },
         },
-        naga::back::msl::Error::UnsupportedAttribute(attribute) => ffi::MSLBackError {
-            tag: ffi::MSLBackErrorTag_MSLBackErrorTag_UnsupportedAttribute,
-            data: ffi::MSLBackError__bindgen_ty_1 {
+        naga::back::msl::Error::UnsupportedAttribute(attribute) => ffi::NagaMSLBackError {
+            tag: ffi::NagaMSLBackErrorTag_NagaMSLBackErrorTag_UnsupportedAttribute,
+            data: ffi::NagaMSLBackError__bindgen_ty_1 {
                 unsupported_attribute: unsafe { string_to_ffi(attribute) },
             },
         },
-        naga::back::msl::Error::UnsupportedFunction(function) => ffi::MSLBackError {
-            tag: ffi::MSLBackErrorTag_MSLBackErrorTag_UnsupportedFunction,
-            data: ffi::MSLBackError__bindgen_ty_1 {
+        naga::back::msl::Error::UnsupportedFunction(function) => ffi::NagaMSLBackError {
+            tag: ffi::NagaMSLBackErrorTag_NagaMSLBackErrorTag_UnsupportedFunction,
+            data: ffi::NagaMSLBackError__bindgen_ty_1 {
                 unsupported_function: unsafe { string_to_ffi(function) },
             },
         },
-        naga::back::msl::Error::UnsupportedWriteableStorageBuffer => ffi::MSLBackError {
-            tag: ffi::MSLBackErrorTag_MSLBackErrorTag_UnsupportedWriteableStorageBuffer,
+        naga::back::msl::Error::UnsupportedWriteableStorageBuffer => ffi::NagaMSLBackError {
+            tag: ffi::NagaMSLBackErrorTag_NagaMSLBackErrorTag_UnsupportedWriteableStorageBuffer,
             data: default_data,
         },
         naga::back::msl::Error::UnsupportedWriteableStorageTexture(shader_stage) => {
-            ffi::MSLBackError {
-                tag: ffi::MSLBackErrorTag_MSLBackErrorTag_UnsupportedWriteableStorageTexture,
-                data: ffi::MSLBackError__bindgen_ty_1 {
+            ffi::NagaMSLBackError {
+                tag:
+                    ffi::NagaMSLBackErrorTag_NagaMSLBackErrorTag_UnsupportedWriteableStorageTexture,
+                data: ffi::NagaMSLBackError__bindgen_ty_1 {
                     unsupported_writeable_storage_texture: shader_stage_to_ffi(shader_stage),
                 },
             }
         }
-        naga::back::msl::Error::UnsupportedRWStorageTexture => ffi::MSLBackError {
-            tag: ffi::MSLBackErrorTag_MSLBackErrorTag_UnsupportedRWStorageTexture,
+        naga::back::msl::Error::UnsupportedRWStorageTexture => ffi::NagaMSLBackError {
+            tag: ffi::NagaMSLBackErrorTag_NagaMSLBackErrorTag_UnsupportedRWStorageTexture,
             data: default_data,
         },
-        naga::back::msl::Error::UnsupportedArrayOf(array_of) => ffi::MSLBackError {
-            tag: ffi::MSLBackErrorTag_MSLBackErrorTag_UnsupportedArrayOf,
-            data: ffi::MSLBackError__bindgen_ty_1 {
+        naga::back::msl::Error::UnsupportedArrayOf(array_of) => ffi::NagaMSLBackError {
+            tag: ffi::NagaMSLBackErrorTag_NagaMSLBackErrorTag_UnsupportedArrayOf,
+            data: ffi::NagaMSLBackError__bindgen_ty_1 {
                 unsupported_array_of: unsafe { string_to_ffi(array_of) },
             },
         },
-        naga::back::msl::Error::UnsupportedArrayOfType(handle) => ffi::MSLBackError {
-            tag: ffi::MSLBackErrorTag_MSLBackErrorTag_UnsupportedArrayOfType,
-            data: ffi::MSLBackError__bindgen_ty_1 {
+        naga::back::msl::Error::UnsupportedArrayOfType(handle) => ffi::NagaMSLBackError {
+            tag: ffi::NagaMSLBackErrorTag_NagaMSLBackErrorTag_UnsupportedArrayOfType,
+            data: ffi::NagaMSLBackError__bindgen_ty_1 {
                 unsupported_array_of_type: handle.index(),
             },
         },
-        naga::back::msl::Error::UnsupportedRayTracing => ffi::MSLBackError {
-            tag: ffi::MSLBackErrorTag_MSLBackErrorTag_UnsupportedRayTracing,
+        naga::back::msl::Error::UnsupportedRayTracing => ffi::NagaMSLBackError {
+            tag: ffi::NagaMSLBackErrorTag_NagaMSLBackErrorTag_UnsupportedRayTracing,
             data: default_data,
         },
-        naga::back::msl::Error::Override => ffi::MSLBackError {
-            tag: ffi::MSLBackErrorTag_MSLBackErrorTag_Override,
+        naga::back::msl::Error::Override => ffi::NagaMSLBackError {
+            tag: ffi::NagaMSLBackErrorTag_NagaMSLBackErrorTag_Override,
             data: default_data,
         },
-        naga::back::msl::Error::UnsupportedBitCast(type_inner) => ffi::MSLBackError {
-            tag: ffi::MSLBackErrorTag_MSLBackErrorTag_UnsupportedBitCast,
-            data: ffi::MSLBackError__bindgen_ty_1 {
+        naga::back::msl::Error::UnsupportedBitCast(type_inner) => ffi::NagaMSLBackError {
+            tag: ffi::NagaMSLBackErrorTag_NagaMSLBackErrorTag_UnsupportedBitCast,
+            data: ffi::NagaMSLBackError__bindgen_ty_1 {
                 unsupported_bit_cast: type_inner_to_ffi(type_inner),
             },
         },
         naga::back::msl::Error::ResolveArraySizeError(resolve_array_size_error) => {
-            ffi::MSLBackError {
-                tag: ffi::MSLBackErrorTag_MSLBackErrorTag_ResolveArraySizeError,
-                data: ffi::MSLBackError__bindgen_ty_1 {
+            ffi::NagaMSLBackError {
+                tag: ffi::NagaMSLBackErrorTag_NagaMSLBackErrorTag_ResolveArraySizeError,
+                data: ffi::NagaMSLBackError__bindgen_ty_1 {
                     resolve_array_size_error: resolve_array_size_error_to_ffi(
                         resolve_array_size_error,
                     ),
                 },
             }
         }
-        naga::back::msl::Error::EntryPointNotFound(shader_stage, s) => ffi::MSLBackError {
-            tag: ffi::MSLBackErrorTag_MSLBackErrorTag_EntryPointNotFound,
-            data: ffi::MSLBackError__bindgen_ty_1 {
-                entry_point_not_found: ffi::ShaderStageString {
+        naga::back::msl::Error::EntryPointNotFound(shader_stage, s) => ffi::NagaMSLBackError {
+            tag: ffi::NagaMSLBackErrorTag_NagaMSLBackErrorTag_EntryPointNotFound,
+            data: ffi::NagaMSLBackError__bindgen_ty_1 {
+                entry_point_not_found: ffi::NagaShaderStageString {
                     shader_stage: shader_stage_to_ffi(shader_stage),
                     string: unsafe { string_to_ffi(s) },
                 },
@@ -843,6 +856,6 @@ pub fn msl_back_error_to_ffi(error: &naga::back::msl::Error) -> ffi::MSLBackErro
 
 pub fn msl_back_translation_info_to_ffi(
     _info: &naga::back::msl::TranslationInfo,
-) -> ffi::MSLBackTranslationInfo {
-    ffi::MSLBackTranslationInfo::default()
+) -> ffi::NagaMSLBackTranslationInfo {
+    ffi::NagaMSLBackTranslationInfo::default()
 }

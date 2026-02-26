@@ -7,11 +7,11 @@ use std::mem::ManuallyDrop;
 #[cfg(feature = "glsl-in")]
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn naga_front_glsl_parse(
-    options: ffi::GLSLFrontOptions,
+    options: ffi::NagaGLSLFrontOptions,
     source: *const ::std::os::raw::c_char,
-    fill_flags: ffi::ModuleFillFlags,
-    out_result: *mut ffi::GLSLFrontResult,
-) -> ffi::Bool {
+    fill_flags: ffi::NagaModuleFillFlags,
+    out_result: *mut ffi::NagaGLSLFrontResult,
+) -> ffi::NagaBool {
     let mut frontend = naga::front::glsl::Frontend::default();
     let options = conv::glsl_front_options_to_naga(&options);
     unsafe {
@@ -19,7 +19,7 @@ pub unsafe extern "C" fn naga_front_glsl_parse(
         let source = conv::string_to_naga(source);
         match frontend.parse(&options, &source) {
             Ok(module) => {
-                *out_result = ffi::GLSLFrontResult {
+                *out_result = ffi::NagaGLSLFrontResult {
                     flags,
                     module: conv::module_to_ffi(module, fill_flags),
                     ..Default::default()
@@ -27,17 +27,19 @@ pub unsafe extern "C" fn naga_front_glsl_parse(
                 1
             }
             Err(error) => {
-                let error =
-                    if (flags & ffi::FrontResultOption_FrontResultOption_FormattedErrorOnly) != 0 {
-                        ffi::GLSLFrontResult__bindgen_ty_1 {
-                            fmt_error: conv::string_to_ffi(&error.to_string()),
-                        }
-                    } else {
-                        ffi::GLSLFrontResult__bindgen_ty_1 {
-                            errors: conv::glsl_front_parse_errors_to_ffi(&error),
-                        }
-                    };
-                *out_result = ffi::GLSLFrontResult {
+                let error = if (flags
+                    & ffi::NagaFrontResultOption_NagaFrontResultOption_FormattedErrorOnly)
+                    != 0
+                {
+                    ffi::NagaGLSLFrontResult__bindgen_ty_1 {
+                        fmt_error: conv::string_to_ffi(&error.to_string()),
+                    }
+                } else {
+                    ffi::NagaGLSLFrontResult__bindgen_ty_1 {
+                        errors: conv::glsl_front_parse_errors_to_ffi(&error),
+                    }
+                };
+                *out_result = ffi::NagaGLSLFrontResult {
                     flags,
                     __bindgen_anon_1: error,
                     ..Default::default()
@@ -51,12 +53,12 @@ pub unsafe extern "C" fn naga_front_glsl_parse(
 #[cfg(feature = "spv-in")]
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn naga_front_spv_parse(
-    options: ffi::SPVFrontOptions,
+    options: ffi::NagaSPVFrontOptions,
     source: *mut u32,
     source_length: u32,
-    fill_flags: ffi::ModuleFillFlags,
-    out_result: *mut ffi::SPVFrontResult,
-) -> ffi::Bool {
+    fill_flags: ffi::NagaModuleFillFlags,
+    out_result: *mut ffi::NagaSPVFrontResult,
+) -> ffi::NagaBool {
     let options = conv::spv_front_options_to_naga(&options);
     let spv_slice = unsafe { std::slice::from_raw_parts(source, source_length as usize) };
     let frontend = naga::front::spv::Frontend::new(spv_slice.iter().cloned(), &options);
@@ -64,7 +66,7 @@ pub unsafe extern "C" fn naga_front_spv_parse(
         let flags = (*out_result).flags;
         match frontend.parse() {
             Ok(module) => {
-                *out_result = ffi::SPVFrontResult {
+                *out_result = ffi::NagaSPVFrontResult {
                     flags,
                     module: conv::module_to_ffi(module, fill_flags),
                     ..Default::default()
@@ -72,17 +74,19 @@ pub unsafe extern "C" fn naga_front_spv_parse(
                 1
             }
             Err(error) => {
-                let error =
-                    if (flags & ffi::FrontResultOption_FrontResultOption_FormattedErrorOnly) != 0 {
-                        ffi::SPVFrontResult__bindgen_ty_1 {
-                            fmt_error: conv::string_to_ffi(&error.to_string()),
-                        }
-                    } else {
-                        ffi::SPVFrontResult__bindgen_ty_1 {
-                            error: conv::spv_front_error_to_ffi(&error),
-                        }
-                    };
-                *out_result = ffi::SPVFrontResult {
+                let error = if (flags
+                    & ffi::NagaFrontResultOption_NagaFrontResultOption_FormattedErrorOnly)
+                    != 0
+                {
+                    ffi::NagaSPVFrontResult__bindgen_ty_1 {
+                        fmt_error: conv::string_to_ffi(&error.to_string()),
+                    }
+                } else {
+                    ffi::NagaSPVFrontResult__bindgen_ty_1 {
+                        error: conv::spv_front_error_to_ffi(&error),
+                    }
+                };
+                *out_result = ffi::NagaSPVFrontResult {
                     flags,
                     __bindgen_anon_1: error,
                     ..Default::default()
@@ -96,11 +100,11 @@ pub unsafe extern "C" fn naga_front_spv_parse(
 #[cfg(feature = "wgsl-in")]
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn naga_front_wgsl_parse(
-    options: ffi::WGSLFrontOptions,
+    options: ffi::NagaWGSLFrontOptions,
     source: *const ::std::os::raw::c_char,
-    fill_flags: ffi::ModuleFillFlags,
-    out_result: *mut ffi::WGSLFrontResult,
-) -> ffi::Bool {
+    fill_flags: ffi::NagaModuleFillFlags,
+    out_result: *mut ffi::NagaWGSLFrontResult,
+) -> ffi::NagaBool {
     let options = conv::wgsl_front_options_to_naga(&options);
     let mut frontend = naga::front::wgsl::Frontend::new_with_options(options);
     let source = unsafe { conv::string_to_naga(source) };
@@ -108,7 +112,7 @@ pub unsafe extern "C" fn naga_front_wgsl_parse(
         let flags = (*out_result).flags;
         match frontend.parse(&source) {
             Ok(module) => {
-                *out_result = ffi::WGSLFrontResult {
+                *out_result = ffi::NagaWGSLFrontResult {
                     flags,
                     module: conv::module_to_ffi(module, fill_flags),
                     ..Default::default()
@@ -116,17 +120,19 @@ pub unsafe extern "C" fn naga_front_wgsl_parse(
                 1
             }
             Err(error) => {
-                let error =
-                    if (flags & ffi::FrontResultOption_FrontResultOption_FormattedErrorOnly) != 0 {
-                        ffi::WGSLFrontResult__bindgen_ty_1 {
-                            fmt_error: conv::string_to_ffi(&error.to_string()),
-                        }
-                    } else {
-                        ffi::WGSLFrontResult__bindgen_ty_1 {
-                            error: conv::wgsl_front_parse_error_to_ffi(&error),
-                        }
-                    };
-                *out_result = ffi::WGSLFrontResult {
+                let error = if (flags
+                    & ffi::NagaFrontResultOption_NagaFrontResultOption_FormattedErrorOnly)
+                    != 0
+                {
+                    ffi::NagaWGSLFrontResult__bindgen_ty_1 {
+                        fmt_error: conv::string_to_ffi(&error.to_string()),
+                    }
+                } else {
+                    ffi::NagaWGSLFrontResult__bindgen_ty_1 {
+                        error: conv::wgsl_front_parse_error_to_ffi(&error),
+                    }
+                };
+                *out_result = ffi::NagaWGSLFrontResult {
                     flags,
                     __bindgen_anon_1: error,
                     ..Default::default()
@@ -139,9 +145,9 @@ pub unsafe extern "C" fn naga_front_wgsl_parse(
 
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn naga_valid_validator_new(
-    flags: ffi::ValidationFlagsFlags,
-    capabilities: ffi::Capabilities,
-) -> ffi::Validator {
+    flags: ffi::NagaValidationFlagsFlags,
+    capabilities: ffi::NagaCapabilities,
+) -> ffi::NagaValidator {
     let flags = conv::validation_flags_to_naga(flags);
     let capabilities = conv::capabilities_to_naga(capabilities);
 
@@ -150,7 +156,7 @@ pub unsafe extern "C" fn naga_valid_validator_new(
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn naga_valid_validator_reset(validator: *mut ffi::Validator) {
+pub unsafe extern "C" fn naga_valid_validator_reset(validator: *mut ffi::NagaValidator) {
     let mut validator = unsafe {
         let validator = &mut *validator;
         ManuallyDrop::new(Box::from_raw(
@@ -162,10 +168,10 @@ pub unsafe extern "C" fn naga_valid_validator_reset(validator: *mut ffi::Validat
 
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn naga_valid_validator_validate(
-    validator: *mut ffi::Validator,
-    module: *mut ffi::Module,
-    out_result: *mut ffi::ValidateResult,
-) -> ffi::Bool {
+    validator: *mut ffi::NagaValidator,
+    module: *mut ffi::NagaModule,
+    out_result: *mut ffi::NagaValidateResult,
+) -> ffi::NagaBool {
     let module = unsafe {
         let module = &mut *module;
         ManuallyDrop::new(Box::from_raw(module._inner_module as *mut naga::Module))
@@ -180,7 +186,7 @@ pub unsafe extern "C" fn naga_valid_validator_validate(
         let flags = (*out_result).flags;
         match validator.validate(&module) {
             Ok(module_info) => {
-                *out_result = ffi::ValidateResult {
+                *out_result = ffi::NagaValidateResult {
                     flags,
                     module_info: conv::module_info_to_ffi(module_info),
                     ..Default::default()
@@ -189,18 +195,18 @@ pub unsafe extern "C" fn naga_valid_validator_validate(
             }
             Err(error) => {
                 let error = if (flags
-                    & ffi::ValidateResultOption_ValidateResultOption_FormattedErrorOnly)
+                    & ffi::NagaValidateResultOption_NagaValidateResultOption_FormattedErrorOnly)
                     != 0
                 {
-                    ffi::ValidateResult__bindgen_ty_1 {
+                    ffi::NagaValidateResult__bindgen_ty_1 {
                         fmt_error: conv::string_to_ffi(&error.to_string()),
                     }
                 } else {
-                    ffi::ValidateResult__bindgen_ty_1 {
+                    ffi::NagaValidateResult__bindgen_ty_1 {
                         error: conv::EMPTY_MUT,
                     }
                 };
-                *out_result = ffi::ValidateResult {
+                *out_result = ffi::NagaValidateResult {
                     flags,
                     __bindgen_anon_1: error,
                     ..Default::default()
@@ -213,17 +219,17 @@ pub unsafe extern "C" fn naga_valid_validator_validate(
 
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn naga_valid_validator_validate_resolved_overrides(
-    validator: *mut ffi::Validator,
-    module: *mut ffi::Module,
-    out_result: *mut ffi::ValidateResult,
-) -> ffi::Bool {
+    validator: *mut ffi::NagaValidator,
+    module: *mut ffi::NagaModule,
+    out_result: *mut ffi::NagaValidateResult,
+) -> ffi::NagaBool {
     todo!()
 }
 
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn naga_compact_compact(
-    module: *mut ffi::Module,
-    keep_unused: ffi::KeepUnused,
+    module: *mut ffi::NagaModule,
+    keep_unused: ffi::NagaKeepUnused,
 ) {
     let keep_unused = conv::keep_unused_to_naga(keep_unused);
     let mut module = unsafe {
@@ -236,11 +242,11 @@ pub unsafe extern "C" fn naga_compact_compact(
 #[cfg(feature = "dot-out")]
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn naga_back_dot_write(
-    module: *mut ffi::Module,
-    module_info: *mut ffi::ModuleInfo,
-    options: ffi::DOTBackOptions,
-    out_result: *mut ffi::DOTWriteResult,
-) -> ffi::Bool {
+    module: *mut ffi::NagaModule,
+    module_info: *mut ffi::NagaModuleInfo,
+    options: ffi::NagaDOTBackOptions,
+    out_result: *mut ffi::NagaDOTWriteResult,
+) -> ffi::NagaBool {
     let module = unsafe {
         let module = &mut *module;
         ManuallyDrop::new(Box::from_raw(module._inner_module as *mut naga::Module))
@@ -258,7 +264,7 @@ pub unsafe extern "C" fn naga_back_dot_write(
         let flags = (*out_result).flags;
         match result {
             Ok(result) => {
-                *out_result = ffi::DOTWriteResult {
+                *out_result = ffi::NagaDOTWriteResult {
                     flags,
                     output: conv::string_to_ffi(&result),
                     ..Default::default()
@@ -266,7 +272,7 @@ pub unsafe extern "C" fn naga_back_dot_write(
                 1
             }
             Err(error) => {
-                *out_result = ffi::DOTWriteResult {
+                *out_result = ffi::NagaDOTWriteResult {
                     flags,
                     error: conv::string_to_ffi(&error.to_string()),
                     ..Default::default()
@@ -280,13 +286,13 @@ pub unsafe extern "C" fn naga_back_dot_write(
 #[cfg(feature = "glsl-out")]
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn naga_back_glsl_write(
-    module: *mut ffi::Module,
-    module_info: *mut ffi::ModuleInfo,
-    options: ffi::GLSLBackOptions,
-    pipeline_options: ffi::GLSLBackPipelineOptions,
-    policies: ffi::BoundsCheckPolicies,
-    out_result: *mut ffi::GLSLWriteResult,
-) -> ffi::Bool {
+    module: *mut ffi::NagaModule,
+    module_info: *mut ffi::NagaModuleInfo,
+    options: ffi::NagaGLSLBackOptions,
+    pipeline_options: ffi::NagaGLSLBackPipelineOptions,
+    policies: ffi::NagaBoundsCheckPolicies,
+    out_result: *mut ffi::NagaGLSLWriteResult,
+) -> ffi::NagaBool {
     let module = unsafe {
         let module = &mut *module;
         ManuallyDrop::new(Box::from_raw(module._inner_module as *mut naga::Module))
@@ -313,16 +319,17 @@ pub unsafe extern "C" fn naga_back_glsl_write(
     let flags = unsafe { (*out_result).flags };
 
     let create_error = |error: naga::back::glsl::Error| unsafe {
-        let error = if (flags & ffi::WriteResultOption_WriteResultOption_FormattedErrorOnly) != 0 {
-            ffi::GLSLWriteResult__bindgen_ty_1 {
-                fmt_error: conv::string_to_ffi(&error.to_string()),
-            }
-        } else {
-            ffi::GLSLWriteResult__bindgen_ty_1 {
-                error: conv::glsl_back_error_to_ffi(&error),
-            }
-        };
-        ffi::GLSLWriteResult {
+        let error =
+            if (flags & ffi::NagaWriteResultOption_NagaWriteResultOption_FormattedErrorOnly) != 0 {
+                ffi::NagaGLSLWriteResult__bindgen_ty_1 {
+                    fmt_error: conv::string_to_ffi(&error.to_string()),
+                }
+            } else {
+                ffi::NagaGLSLWriteResult__bindgen_ty_1 {
+                    error: conv::glsl_back_error_to_ffi(&error),
+                }
+            };
+        ffi::NagaGLSLWriteResult {
             flags,
             __bindgen_anon_1: error,
             ..Default::default()
@@ -339,7 +346,7 @@ pub unsafe extern "C" fn naga_back_glsl_write(
         };
         match writer.write() {
             Ok(_reflection_info) => {
-                *out_result = ffi::GLSLWriteResult {
+                *out_result = ffi::NagaGLSLWriteResult {
                     flags,
                     output: conv::string_to_ffi(&buf),
                     ..Default::default()
@@ -357,13 +364,13 @@ pub unsafe extern "C" fn naga_back_glsl_write(
 #[cfg(feature = "hlsl-out")]
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn naga_back_hlsl_write(
-    module: *mut ffi::Module,
-    module_info: *mut ffi::ModuleInfo,
-    options: ffi::HLSLBackOptions,
-    pipeline_options: ffi::HLSLBackPipelineOptions,
-    fragment_entry_point: *mut ffi::HLSLBackFragmentEntryPoint,
-    out_result: *mut ffi::HLSLWriteResult,
-) -> ffi::Bool {
+    module: *mut ffi::NagaModule,
+    module_info: *mut ffi::NagaModuleInfo,
+    options: ffi::NagaHLSLBackOptions,
+    pipeline_options: ffi::NagaHLSLBackPipelineOptions,
+    fragment_entry_point: *mut ffi::NagaHLSLBackFragmentEntryPoint,
+    out_result: *mut ffi::NagaHLSLWriteResult,
+) -> ffi::NagaBool {
     let module = unsafe {
         let module = &mut *module;
         ManuallyDrop::new(Box::from_raw(module._inner_module as *mut naga::Module))
@@ -386,7 +393,7 @@ pub unsafe extern "C" fn naga_back_hlsl_write(
         let flags = (*out_result).flags;
         match writer.write(&module, &module_info, None) {
             Ok(_reflection_info) => {
-                *out_result = ffi::HLSLWriteResult {
+                *out_result = ffi::NagaHLSLWriteResult {
                     flags,
                     output: conv::string_to_ffi(&buf),
                     ..Default::default()
@@ -394,17 +401,19 @@ pub unsafe extern "C" fn naga_back_hlsl_write(
                 1
             }
             Err(error) => {
-                let error =
-                    if (flags & ffi::WriteResultOption_WriteResultOption_FormattedErrorOnly) != 0 {
-                        ffi::HLSLWriteResult__bindgen_ty_1 {
-                            fmt_error: conv::string_to_ffi(&error.to_string()),
-                        }
-                    } else {
-                        ffi::HLSLWriteResult__bindgen_ty_1 {
-                            error: conv::hlsl_back_error_to_ffi(&error),
-                        }
-                    };
-                *out_result = ffi::HLSLWriteResult {
+                let error = if (flags
+                    & ffi::NagaWriteResultOption_NagaWriteResultOption_FormattedErrorOnly)
+                    != 0
+                {
+                    ffi::NagaHLSLWriteResult__bindgen_ty_1 {
+                        fmt_error: conv::string_to_ffi(&error.to_string()),
+                    }
+                } else {
+                    ffi::NagaHLSLWriteResult__bindgen_ty_1 {
+                        error: conv::hlsl_back_error_to_ffi(&error),
+                    }
+                };
+                *out_result = ffi::NagaHLSLWriteResult {
                     flags,
                     __bindgen_anon_1: error,
                     ..Default::default()
@@ -418,12 +427,12 @@ pub unsafe extern "C" fn naga_back_hlsl_write(
 #[cfg(feature = "msl-out")]
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn naga_back_msl_write(
-    module: *mut ffi::Module,
-    module_info: *mut ffi::ModuleInfo,
-    options: ffi::MSLBackOptions,
-    pipeline_options: ffi::MSLBackPipelineOptions,
-    out_result: *mut ffi::MSLWriteResult,
-) -> ffi::Bool {
+    module: *mut ffi::NagaModule,
+    module_info: *mut ffi::NagaModuleInfo,
+    options: ffi::NagaMSLBackOptions,
+    pipeline_options: ffi::NagaMSLBackPipelineOptions,
+    out_result: *mut ffi::NagaMSLWriteResult,
+) -> ffi::NagaBool {
     let module = unsafe {
         let module = &mut *module;
         ManuallyDrop::new(Box::from_raw(module._inner_module as *mut naga::Module))
@@ -441,7 +450,7 @@ pub unsafe extern "C" fn naga_back_msl_write(
         let flags = (*out_result).flags;
         match naga::back::msl::write_string(&module, &module_info, &options, &pipeline_options) {
             Ok((result, _translation_info)) => {
-                *out_result = ffi::MSLWriteResult {
+                *out_result = ffi::NagaMSLWriteResult {
                     flags,
                     output: conv::string_to_ffi(&result),
                     ..Default::default()
@@ -449,17 +458,19 @@ pub unsafe extern "C" fn naga_back_msl_write(
                 1
             }
             Err(error) => {
-                let error =
-                    if (flags & ffi::WriteResultOption_WriteResultOption_FormattedErrorOnly) != 0 {
-                        ffi::MSLWriteResult__bindgen_ty_1 {
-                            fmt_error: conv::string_to_ffi(&error.to_string()),
-                        }
-                    } else {
-                        ffi::MSLWriteResult__bindgen_ty_1 {
-                            error: conv::msl_back_error_to_ffi(&error),
-                        }
-                    };
-                *out_result = ffi::MSLWriteResult {
+                let error = if (flags
+                    & ffi::NagaWriteResultOption_NagaWriteResultOption_FormattedErrorOnly)
+                    != 0
+                {
+                    ffi::NagaMSLWriteResult__bindgen_ty_1 {
+                        fmt_error: conv::string_to_ffi(&error.to_string()),
+                    }
+                } else {
+                    ffi::NagaMSLWriteResult__bindgen_ty_1 {
+                        error: conv::msl_back_error_to_ffi(&error),
+                    }
+                };
+                *out_result = ffi::NagaMSLWriteResult {
                     flags,
                     __bindgen_anon_1: error,
                     ..Default::default()
@@ -473,12 +484,12 @@ pub unsafe extern "C" fn naga_back_msl_write(
 #[cfg(feature = "spv-out")]
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn naga_back_spv_write(
-    module: *mut ffi::Module,
-    module_info: *mut ffi::ModuleInfo,
-    options: ffi::SPVBackOptions,
-    pipeline_options: *mut ffi::SPVBackPipelineOptions,
-    out_result: *mut ffi::SPVWriteResult,
-) -> ffi::Bool {
+    module: *mut ffi::NagaModule,
+    module_info: *mut ffi::NagaModuleInfo,
+    options: ffi::NagaSPVBackOptions,
+    pipeline_options: *mut ffi::NagaSPVBackPipelineOptions,
+    out_result: *mut ffi::NagaSPVWriteResult,
+) -> ffi::NagaBool {
     let module = unsafe {
         let module = &mut *module;
         ManuallyDrop::new(Box::from_raw(module._inner_module as *mut naga::Module))
@@ -501,7 +512,7 @@ pub unsafe extern "C" fn naga_back_spv_write(
         match naga::back::spv::write_vec(&module, &module_info, &options, pipeline_options.as_ref())
         {
             Ok(result) => {
-                *out_result = ffi::SPVWriteResult {
+                *out_result = ffi::NagaSPVWriteResult {
                     flags,
                     output: conv::slice_to_ffi(&result, |v| *v),
                     output_count: result.len() as u32,
@@ -510,17 +521,19 @@ pub unsafe extern "C" fn naga_back_spv_write(
                 1
             }
             Err(error) => {
-                let error =
-                    if (flags & ffi::WriteResultOption_WriteResultOption_FormattedErrorOnly) != 0 {
-                        ffi::SPVWriteResult__bindgen_ty_1 {
-                            fmt_error: conv::string_to_ffi(&error.to_string()),
-                        }
-                    } else {
-                        ffi::SPVWriteResult__bindgen_ty_1 {
-                            error: conv::spv_back_error_to_ffi(&error),
-                        }
-                    };
-                *out_result = ffi::SPVWriteResult {
+                let error = if (flags
+                    & ffi::NagaWriteResultOption_NagaWriteResultOption_FormattedErrorOnly)
+                    != 0
+                {
+                    ffi::NagaSPVWriteResult__bindgen_ty_1 {
+                        fmt_error: conv::string_to_ffi(&error.to_string()),
+                    }
+                } else {
+                    ffi::NagaSPVWriteResult__bindgen_ty_1 {
+                        error: conv::spv_back_error_to_ffi(&error),
+                    }
+                };
+                *out_result = ffi::NagaSPVWriteResult {
                     flags,
                     __bindgen_anon_1: error,
                     ..Default::default()
@@ -534,11 +547,11 @@ pub unsafe extern "C" fn naga_back_spv_write(
 #[cfg(feature = "wgsl-out")]
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn naga_back_wgsl_write(
-    module: *mut ffi::Module,
-    module_info: *mut ffi::ModuleInfo,
-    writer_flags: ffi::WGSLBackWriterFlagsFlags,
-    out_result: *mut ffi::WGSLWriteResult,
-) -> ffi::Bool {
+    module: *mut ffi::NagaModule,
+    module_info: *mut ffi::NagaModuleInfo,
+    writer_flags: ffi::NagaWGSLBackWriterFlagsFlags,
+    out_result: *mut ffi::NagaWGSLWriteResult,
+) -> ffi::NagaBool {
     let module = unsafe {
         let module = &mut *module;
         ManuallyDrop::new(Box::from_raw(module._inner_module as *mut naga::Module))
@@ -555,24 +568,26 @@ pub unsafe extern "C" fn naga_back_wgsl_write(
         let flags = (*out_result).flags;
         match naga::back::wgsl::write_string(&module, &module_info, writer_flags) {
             Ok(result) => {
-                *out_result = ffi::WGSLWriteResult {
+                *out_result = ffi::NagaWGSLWriteResult {
                     output: conv::string_to_ffi(&result),
                     ..Default::default()
                 };
                 1
             }
             Err(error) => {
-                let error =
-                    if (flags & ffi::WriteResultOption_WriteResultOption_FormattedErrorOnly) != 0 {
-                        ffi::WGSLWriteResult__bindgen_ty_1 {
-                            fmt_error: conv::string_to_ffi(&error.to_string()),
-                        }
-                    } else {
-                        ffi::WGSLWriteResult__bindgen_ty_1 {
-                            error: conv::wgsl_back_error_to_ffi(&error),
-                        }
-                    };
-                *out_result = ffi::WGSLWriteResult {
+                let error = if (flags
+                    & ffi::NagaWriteResultOption_NagaWriteResultOption_FormattedErrorOnly)
+                    != 0
+                {
+                    ffi::NagaWGSLWriteResult__bindgen_ty_1 {
+                        fmt_error: conv::string_to_ffi(&error.to_string()),
+                    }
+                } else {
+                    ffi::NagaWGSLWriteResult__bindgen_ty_1 {
+                        error: conv::wgsl_back_error_to_ffi(&error),
+                    }
+                };
+                *out_result = ffi::NagaWGSLWriteResult {
                     flags,
                     __bindgen_anon_1: error,
                     ..Default::default()
@@ -585,16 +600,16 @@ pub unsafe extern "C" fn naga_back_wgsl_write(
 
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn naga_back_process_overrides(
-    module: *mut ffi::Module,
-    module_flags: ffi::ModuleFillFlags,
-    module_info: *mut ffi::ModuleInfo,
-    module_fill_flags: ffi::ModuleInfoFillFlags,
-    entry_point_stage: ffi::ShaderStage,
+    module: *mut ffi::NagaModule,
+    module_flags: ffi::NagaModuleFillFlags,
+    module_info: *mut ffi::NagaModuleInfo,
+    module_fill_flags: ffi::NagaModuleInfoFillFlags,
+    entry_point_stage: ffi::NagaShaderStage,
     entry_point_name: *const std::ffi::c_char,
-    constants: *mut ffi::PipelineConstant,
+    constants: *mut ffi::NagaPipelineConstant,
     constants_count: u32,
-    out_result: *mut ffi::ProcessOverridesResult,
-) -> ffi::Bool {
+    out_result: *mut ffi::NagaProcessOverridesResult,
+) -> ffi::NagaBool {
     let module = unsafe {
         let module = &mut *module;
         ManuallyDrop::new(Box::from_raw(module._inner_module as *mut naga::Module))

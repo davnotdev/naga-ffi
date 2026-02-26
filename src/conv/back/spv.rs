@@ -2,1305 +2,1305 @@ use super::*;
 
 pub fn spv_back_capability_to_ffi(
     capability: &naga::back::spv::Capability,
-) -> ffi::SPVBackCapability {
+) -> ffi::NagaSPVBackCapability {
     match capability {
-        naga::back::spv::Capability::Matrix => ffi::SPVBackCapability_SPVBackCapability_Matrix,
-        naga::back::spv::Capability::Shader => ffi::SPVBackCapability_SPVBackCapability_Shader,
-        naga::back::spv::Capability::Geometry => ffi::SPVBackCapability_SPVBackCapability_Geometry,
+        naga::back::spv::Capability::Matrix => ffi::NagaSPVBackCapability_NagaSPVBackCapability_Matrix,
+        naga::back::spv::Capability::Shader => ffi::NagaSPVBackCapability_NagaSPVBackCapability_Shader,
+        naga::back::spv::Capability::Geometry => ffi::NagaSPVBackCapability_NagaSPVBackCapability_Geometry,
         naga::back::spv::Capability::Tessellation => {
-            ffi::SPVBackCapability_SPVBackCapability_Tessellation
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_Tessellation
         }
         naga::back::spv::Capability::Addresses => {
-            ffi::SPVBackCapability_SPVBackCapability_Addresses
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_Addresses
         }
-        naga::back::spv::Capability::Linkage => ffi::SPVBackCapability_SPVBackCapability_Linkage,
-        naga::back::spv::Capability::Kernel => ffi::SPVBackCapability_SPVBackCapability_Kernel,
-        naga::back::spv::Capability::Vector16 => ffi::SPVBackCapability_SPVBackCapability_Vector16,
+        naga::back::spv::Capability::Linkage => ffi::NagaSPVBackCapability_NagaSPVBackCapability_Linkage,
+        naga::back::spv::Capability::Kernel => ffi::NagaSPVBackCapability_NagaSPVBackCapability_Kernel,
+        naga::back::spv::Capability::Vector16 => ffi::NagaSPVBackCapability_NagaSPVBackCapability_Vector16,
         naga::back::spv::Capability::Float16Buffer => {
-            ffi::SPVBackCapability_SPVBackCapability_Float16Buffer
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_Float16Buffer
         }
-        naga::back::spv::Capability::Float16 => ffi::SPVBackCapability_SPVBackCapability_Float16,
-        naga::back::spv::Capability::Float64 => ffi::SPVBackCapability_SPVBackCapability_Float64,
-        naga::back::spv::Capability::Int64 => ffi::SPVBackCapability_SPVBackCapability_Int64,
+        naga::back::spv::Capability::Float16 => ffi::NagaSPVBackCapability_NagaSPVBackCapability_Float16,
+        naga::back::spv::Capability::Float64 => ffi::NagaSPVBackCapability_NagaSPVBackCapability_Float64,
+        naga::back::spv::Capability::Int64 => ffi::NagaSPVBackCapability_NagaSPVBackCapability_Int64,
         naga::back::spv::Capability::Int64Atomics => {
-            ffi::SPVBackCapability_SPVBackCapability_Int64Atomics
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_Int64Atomics
         }
         naga::back::spv::Capability::ImageBasic => {
-            ffi::SPVBackCapability_SPVBackCapability_ImageBasic
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_ImageBasic
         }
         naga::back::spv::Capability::ImageReadWrite => {
-            ffi::SPVBackCapability_SPVBackCapability_ImageReadWrite
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_ImageReadWrite
         }
         naga::back::spv::Capability::ImageMipmap => {
-            ffi::SPVBackCapability_SPVBackCapability_ImageMipmap
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_ImageMipmap
         }
-        naga::back::spv::Capability::Pipes => ffi::SPVBackCapability_SPVBackCapability_Pipes,
-        naga::back::spv::Capability::Groups => ffi::SPVBackCapability_SPVBackCapability_Groups,
+        naga::back::spv::Capability::Pipes => ffi::NagaSPVBackCapability_NagaSPVBackCapability_Pipes,
+        naga::back::spv::Capability::Groups => ffi::NagaSPVBackCapability_NagaSPVBackCapability_Groups,
         naga::back::spv::Capability::DeviceEnqueue => {
-            ffi::SPVBackCapability_SPVBackCapability_DeviceEnqueue
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_DeviceEnqueue
         }
         naga::back::spv::Capability::LiteralSampler => {
-            ffi::SPVBackCapability_SPVBackCapability_LiteralSampler
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_LiteralSampler
         }
         naga::back::spv::Capability::AtomicStorage => {
-            ffi::SPVBackCapability_SPVBackCapability_AtomicStorage
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_AtomicStorage
         }
-        naga::back::spv::Capability::Int16 => ffi::SPVBackCapability_SPVBackCapability_Int16,
+        naga::back::spv::Capability::Int16 => ffi::NagaSPVBackCapability_NagaSPVBackCapability_Int16,
         naga::back::spv::Capability::TessellationPointSize => {
-            ffi::SPVBackCapability_SPVBackCapability_TessellationPointSize
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_TessellationPointSize
         }
         naga::back::spv::Capability::GeometryPointSize => {
-            ffi::SPVBackCapability_SPVBackCapability_GeometryPointSize
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_GeometryPointSize
         }
         naga::back::spv::Capability::ImageGatherExtended => {
-            ffi::SPVBackCapability_SPVBackCapability_ImageGatherExtended
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_ImageGatherExtended
         }
         naga::back::spv::Capability::StorageImageMultisample => {
-            ffi::SPVBackCapability_SPVBackCapability_StorageImageMultisample
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_StorageImageMultisample
         }
         naga::back::spv::Capability::UniformBufferArrayDynamicIndexing => {
-            ffi::SPVBackCapability_SPVBackCapability_UniformBufferArrayDynamicIndexing
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_UniformBufferArrayDynamicIndexing
         }
         naga::back::spv::Capability::SampledImageArrayDynamicIndexing => {
-            ffi::SPVBackCapability_SPVBackCapability_SampledImageArrayDynamicIndexing
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_SampledImageArrayDynamicIndexing
         }
         naga::back::spv::Capability::StorageBufferArrayDynamicIndexing => {
-            ffi::SPVBackCapability_SPVBackCapability_StorageBufferArrayDynamicIndexing
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_StorageBufferArrayDynamicIndexing
         }
         naga::back::spv::Capability::StorageImageArrayDynamicIndexing => {
-            ffi::SPVBackCapability_SPVBackCapability_StorageImageArrayDynamicIndexing
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_StorageImageArrayDynamicIndexing
         }
         naga::back::spv::Capability::ClipDistance => {
-            ffi::SPVBackCapability_SPVBackCapability_ClipDistance
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_ClipDistance
         }
         naga::back::spv::Capability::CullDistance => {
-            ffi::SPVBackCapability_SPVBackCapability_CullDistance
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_CullDistance
         }
         naga::back::spv::Capability::ImageCubeArray => {
-            ffi::SPVBackCapability_SPVBackCapability_ImageCubeArray
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_ImageCubeArray
         }
         naga::back::spv::Capability::SampleRateShading => {
-            ffi::SPVBackCapability_SPVBackCapability_SampleRateShading
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_SampleRateShading
         }
         naga::back::spv::Capability::ImageRect => {
-            ffi::SPVBackCapability_SPVBackCapability_ImageRect
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_ImageRect
         }
         naga::back::spv::Capability::SampledRect => {
-            ffi::SPVBackCapability_SPVBackCapability_SampledRect
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_SampledRect
         }
         naga::back::spv::Capability::GenericPointer => {
-            ffi::SPVBackCapability_SPVBackCapability_GenericPointer
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_GenericPointer
         }
-        naga::back::spv::Capability::Int8 => ffi::SPVBackCapability_SPVBackCapability_Int8,
+        naga::back::spv::Capability::Int8 => ffi::NagaSPVBackCapability_NagaSPVBackCapability_Int8,
         naga::back::spv::Capability::InputAttachment => {
-            ffi::SPVBackCapability_SPVBackCapability_InputAttachment
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_InputAttachment
         }
         naga::back::spv::Capability::SparseResidency => {
-            ffi::SPVBackCapability_SPVBackCapability_SparseResidency
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_SparseResidency
         }
-        naga::back::spv::Capability::MinLod => ffi::SPVBackCapability_SPVBackCapability_MinLod,
+        naga::back::spv::Capability::MinLod => ffi::NagaSPVBackCapability_NagaSPVBackCapability_MinLod,
         naga::back::spv::Capability::Sampled1D => {
-            ffi::SPVBackCapability_SPVBackCapability_Sampled1D
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_Sampled1D
         }
-        naga::back::spv::Capability::Image1D => ffi::SPVBackCapability_SPVBackCapability_Image1D,
+        naga::back::spv::Capability::Image1D => ffi::NagaSPVBackCapability_NagaSPVBackCapability_Image1D,
         naga::back::spv::Capability::SampledCubeArray => {
-            ffi::SPVBackCapability_SPVBackCapability_SampledCubeArray
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_SampledCubeArray
         }
         naga::back::spv::Capability::SampledBuffer => {
-            ffi::SPVBackCapability_SPVBackCapability_SampledBuffer
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_SampledBuffer
         }
         naga::back::spv::Capability::ImageBuffer => {
-            ffi::SPVBackCapability_SPVBackCapability_ImageBuffer
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_ImageBuffer
         }
         naga::back::spv::Capability::ImageMSArray => {
-            ffi::SPVBackCapability_SPVBackCapability_ImageMSArray
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_ImageMSArray
         }
         naga::back::spv::Capability::StorageImageExtendedFormats => {
-            ffi::SPVBackCapability_SPVBackCapability_StorageImageExtendedFormats
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_StorageImageExtendedFormats
         }
         naga::back::spv::Capability::ImageQuery => {
-            ffi::SPVBackCapability_SPVBackCapability_ImageQuery
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_ImageQuery
         }
         naga::back::spv::Capability::DerivativeControl => {
-            ffi::SPVBackCapability_SPVBackCapability_DerivativeControl
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_DerivativeControl
         }
         naga::back::spv::Capability::InterpolationFunction => {
-            ffi::SPVBackCapability_SPVBackCapability_InterpolationFunction
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_InterpolationFunction
         }
         naga::back::spv::Capability::TransformFeedback => {
-            ffi::SPVBackCapability_SPVBackCapability_TransformFeedback
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_TransformFeedback
         }
         naga::back::spv::Capability::GeometryStreams => {
-            ffi::SPVBackCapability_SPVBackCapability_GeometryStreams
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_GeometryStreams
         }
         naga::back::spv::Capability::StorageImageReadWithoutFormat => {
-            ffi::SPVBackCapability_SPVBackCapability_StorageImageReadWithoutFormat
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_StorageImageReadWithoutFormat
         }
         naga::back::spv::Capability::StorageImageWriteWithoutFormat => {
-            ffi::SPVBackCapability_SPVBackCapability_StorageImageWriteWithoutFormat
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_StorageImageWriteWithoutFormat
         }
         naga::back::spv::Capability::MultiViewport => {
-            ffi::SPVBackCapability_SPVBackCapability_MultiViewport
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_MultiViewport
         }
         naga::back::spv::Capability::SubgroupDispatch => {
-            ffi::SPVBackCapability_SPVBackCapability_SubgroupDispatch
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_SubgroupDispatch
         }
         naga::back::spv::Capability::NamedBarrier => {
-            ffi::SPVBackCapability_SPVBackCapability_NamedBarrier
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_NamedBarrier
         }
         naga::back::spv::Capability::PipeStorage => {
-            ffi::SPVBackCapability_SPVBackCapability_PipeStorage
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_PipeStorage
         }
         naga::back::spv::Capability::GroupNonUniform => {
-            ffi::SPVBackCapability_SPVBackCapability_GroupNonUniform
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_GroupNonUniform
         }
         naga::back::spv::Capability::GroupNonUniformVote => {
-            ffi::SPVBackCapability_SPVBackCapability_GroupNonUniformVote
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_GroupNonUniformVote
         }
         naga::back::spv::Capability::GroupNonUniformArithmetic => {
-            ffi::SPVBackCapability_SPVBackCapability_GroupNonUniformArithmetic
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_GroupNonUniformArithmetic
         }
         naga::back::spv::Capability::GroupNonUniformBallot => {
-            ffi::SPVBackCapability_SPVBackCapability_GroupNonUniformBallot
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_GroupNonUniformBallot
         }
         naga::back::spv::Capability::GroupNonUniformShuffle => {
-            ffi::SPVBackCapability_SPVBackCapability_GroupNonUniformShuffle
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_GroupNonUniformShuffle
         }
         naga::back::spv::Capability::GroupNonUniformShuffleRelative => {
-            ffi::SPVBackCapability_SPVBackCapability_GroupNonUniformShuffleRelative
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_GroupNonUniformShuffleRelative
         }
         naga::back::spv::Capability::GroupNonUniformClustered => {
-            ffi::SPVBackCapability_SPVBackCapability_GroupNonUniformClustered
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_GroupNonUniformClustered
         }
         naga::back::spv::Capability::GroupNonUniformQuad => {
-            ffi::SPVBackCapability_SPVBackCapability_GroupNonUniformQuad
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_GroupNonUniformQuad
         }
         naga::back::spv::Capability::ShaderLayer => {
-            ffi::SPVBackCapability_SPVBackCapability_ShaderLayer
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_ShaderLayer
         }
         naga::back::spv::Capability::ShaderViewportIndex => {
-            ffi::SPVBackCapability_SPVBackCapability_ShaderViewportIndex
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_ShaderViewportIndex
         }
         naga::back::spv::Capability::UniformDecoration => {
-            ffi::SPVBackCapability_SPVBackCapability_UniformDecoration
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_UniformDecoration
         }
         naga::back::spv::Capability::CoreBuiltinsARM => {
-            ffi::SPVBackCapability_SPVBackCapability_CoreBuiltinsARM
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_CoreBuiltinsARM
         }
         naga::back::spv::Capability::TileImageColorReadAccessEXT => {
-            ffi::SPVBackCapability_SPVBackCapability_TileImageColorReadAccessEXT
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_TileImageColorReadAccessEXT
         }
         naga::back::spv::Capability::TileImageDepthReadAccessEXT => {
-            ffi::SPVBackCapability_SPVBackCapability_TileImageDepthReadAccessEXT
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_TileImageDepthReadAccessEXT
         }
         naga::back::spv::Capability::TileImageStencilReadAccessEXT => {
-            ffi::SPVBackCapability_SPVBackCapability_TileImageStencilReadAccessEXT
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_TileImageStencilReadAccessEXT
         }
         naga::back::spv::Capability::FragmentShadingRateKHR => {
-            ffi::SPVBackCapability_SPVBackCapability_FragmentShadingRateKHR
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_FragmentShadingRateKHR
         }
         naga::back::spv::Capability::SubgroupBallotKHR => {
-            ffi::SPVBackCapability_SPVBackCapability_SubgroupBallotKHR
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_SubgroupBallotKHR
         }
         naga::back::spv::Capability::DrawParameters => {
-            ffi::SPVBackCapability_SPVBackCapability_DrawParameters
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_DrawParameters
         }
         naga::back::spv::Capability::WorkgroupMemoryExplicitLayoutKHR => {
-            ffi::SPVBackCapability_SPVBackCapability_WorkgroupMemoryExplicitLayoutKHR
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_WorkgroupMemoryExplicitLayoutKHR
         }
         naga::back::spv::Capability::WorkgroupMemoryExplicitLayout8BitAccessKHR => {
-            ffi::SPVBackCapability_SPVBackCapability_WorkgroupMemoryExplicitLayout8BitAccessKHR
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_WorkgroupMemoryExplicitLayout8BitAccessKHR
         }
         naga::back::spv::Capability::WorkgroupMemoryExplicitLayout16BitAccessKHR => {
-            ffi::SPVBackCapability_SPVBackCapability_WorkgroupMemoryExplicitLayout16BitAccessKHR
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_WorkgroupMemoryExplicitLayout16BitAccessKHR
         }
         naga::back::spv::Capability::SubgroupVoteKHR => {
-            ffi::SPVBackCapability_SPVBackCapability_SubgroupVoteKHR
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_SubgroupVoteKHR
         }
         naga::back::spv::Capability::StorageBuffer16BitAccess => {
-            ffi::SPVBackCapability_SPVBackCapability_StorageBuffer16BitAccess
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_StorageBuffer16BitAccess
         }
         naga::back::spv::Capability::UniformAndStorageBuffer16BitAccess => {
-            ffi::SPVBackCapability_SPVBackCapability_UniformAndStorageBuffer16BitAccess
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_UniformAndStorageBuffer16BitAccess
         }
         naga::back::spv::Capability::StoragePushConstant16 => {
-            ffi::SPVBackCapability_SPVBackCapability_StoragePushConstant16
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_StoragePushConstant16
         }
         naga::back::spv::Capability::StorageInputOutput16 => {
-            ffi::SPVBackCapability_SPVBackCapability_StorageInputOutput16
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_StorageInputOutput16
         }
         naga::back::spv::Capability::DeviceGroup => {
-            ffi::SPVBackCapability_SPVBackCapability_DeviceGroup
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_DeviceGroup
         }
         naga::back::spv::Capability::MultiView => {
-            ffi::SPVBackCapability_SPVBackCapability_MultiView
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_MultiView
         }
         naga::back::spv::Capability::VariablePointersStorageBuffer => {
-            ffi::SPVBackCapability_SPVBackCapability_VariablePointersStorageBuffer
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_VariablePointersStorageBuffer
         }
         naga::back::spv::Capability::VariablePointers => {
-            ffi::SPVBackCapability_SPVBackCapability_VariablePointers
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_VariablePointers
         }
         naga::back::spv::Capability::AtomicStorageOps => {
-            ffi::SPVBackCapability_SPVBackCapability_AtomicStorageOps
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_AtomicStorageOps
         }
         naga::back::spv::Capability::SampleMaskPostDepthCoverage => {
-            ffi::SPVBackCapability_SPVBackCapability_SampleMaskPostDepthCoverage
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_SampleMaskPostDepthCoverage
         }
         naga::back::spv::Capability::StorageBuffer8BitAccess => {
-            ffi::SPVBackCapability_SPVBackCapability_StorageBuffer8BitAccess
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_StorageBuffer8BitAccess
         }
         naga::back::spv::Capability::UniformAndStorageBuffer8BitAccess => {
-            ffi::SPVBackCapability_SPVBackCapability_UniformAndStorageBuffer8BitAccess
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_UniformAndStorageBuffer8BitAccess
         }
         naga::back::spv::Capability::StoragePushConstant8 => {
-            ffi::SPVBackCapability_SPVBackCapability_StoragePushConstant8
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_StoragePushConstant8
         }
         naga::back::spv::Capability::DenormPreserve => {
-            ffi::SPVBackCapability_SPVBackCapability_DenormPreserve
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_DenormPreserve
         }
         naga::back::spv::Capability::DenormFlushToZero => {
-            ffi::SPVBackCapability_SPVBackCapability_DenormFlushToZero
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_DenormFlushToZero
         }
         naga::back::spv::Capability::SignedZeroInfNanPreserve => {
-            ffi::SPVBackCapability_SPVBackCapability_SignedZeroInfNanPreserve
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_SignedZeroInfNanPreserve
         }
         naga::back::spv::Capability::RoundingModeRTE => {
-            ffi::SPVBackCapability_SPVBackCapability_RoundingModeRTE
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_RoundingModeRTE
         }
         naga::back::spv::Capability::RoundingModeRTZ => {
-            ffi::SPVBackCapability_SPVBackCapability_RoundingModeRTZ
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_RoundingModeRTZ
         }
         naga::back::spv::Capability::RayQueryProvisionalKHR => {
-            ffi::SPVBackCapability_SPVBackCapability_RayQueryProvisionalKHR
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_RayQueryProvisionalKHR
         }
         naga::back::spv::Capability::RayQueryKHR => {
-            ffi::SPVBackCapability_SPVBackCapability_RayQueryKHR
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_RayQueryKHR
         }
         naga::back::spv::Capability::RayTraversalPrimitiveCullingKHR => {
-            ffi::SPVBackCapability_SPVBackCapability_RayTraversalPrimitiveCullingKHR
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_RayTraversalPrimitiveCullingKHR
         }
         naga::back::spv::Capability::RayTracingKHR => {
-            ffi::SPVBackCapability_SPVBackCapability_RayTracingKHR
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_RayTracingKHR
         }
         naga::back::spv::Capability::TextureSampleWeightedQCOM => {
-            ffi::SPVBackCapability_SPVBackCapability_TextureSampleWeightedQCOM
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_TextureSampleWeightedQCOM
         }
         naga::back::spv::Capability::TextureBoxFilterQCOM => {
-            ffi::SPVBackCapability_SPVBackCapability_TextureBoxFilterQCOM
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_TextureBoxFilterQCOM
         }
         naga::back::spv::Capability::TextureBlockMatchQCOM => {
-            ffi::SPVBackCapability_SPVBackCapability_TextureBlockMatchQCOM
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_TextureBlockMatchQCOM
         }
         naga::back::spv::Capability::Float16ImageAMD => {
-            ffi::SPVBackCapability_SPVBackCapability_Float16ImageAMD
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_Float16ImageAMD
         }
         naga::back::spv::Capability::ImageGatherBiasLodAMD => {
-            ffi::SPVBackCapability_SPVBackCapability_ImageGatherBiasLodAMD
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_ImageGatherBiasLodAMD
         }
         naga::back::spv::Capability::FragmentMaskAMD => {
-            ffi::SPVBackCapability_SPVBackCapability_FragmentMaskAMD
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_FragmentMaskAMD
         }
         naga::back::spv::Capability::StencilExportEXT => {
-            ffi::SPVBackCapability_SPVBackCapability_StencilExportEXT
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_StencilExportEXT
         }
         naga::back::spv::Capability::ImageReadWriteLodAMD => {
-            ffi::SPVBackCapability_SPVBackCapability_ImageReadWriteLodAMD
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_ImageReadWriteLodAMD
         }
         naga::back::spv::Capability::Int64ImageEXT => {
-            ffi::SPVBackCapability_SPVBackCapability_Int64ImageEXT
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_Int64ImageEXT
         }
         naga::back::spv::Capability::ShaderClockKHR => {
-            ffi::SPVBackCapability_SPVBackCapability_ShaderClockKHR
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_ShaderClockKHR
         }
         naga::back::spv::Capability::ShaderEnqueueAMDX => {
-            ffi::SPVBackCapability_SPVBackCapability_ShaderEnqueueAMDX
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_ShaderEnqueueAMDX
         }
         naga::back::spv::Capability::SampleMaskOverrideCoverageNV => {
-            ffi::SPVBackCapability_SPVBackCapability_SampleMaskOverrideCoverageNV
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_SampleMaskOverrideCoverageNV
         }
         naga::back::spv::Capability::GeometryShaderPassthroughNV => {
-            ffi::SPVBackCapability_SPVBackCapability_GeometryShaderPassthroughNV
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_GeometryShaderPassthroughNV
         }
         naga::back::spv::Capability::ShaderViewportIndexLayerEXT => {
-            ffi::SPVBackCapability_SPVBackCapability_ShaderViewportIndexLayerEXT
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_ShaderViewportIndexLayerEXT
         }
         naga::back::spv::Capability::ShaderViewportMaskNV => {
-            ffi::SPVBackCapability_SPVBackCapability_ShaderViewportMaskNV
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_ShaderViewportMaskNV
         }
         naga::back::spv::Capability::ShaderStereoViewNV => {
-            ffi::SPVBackCapability_SPVBackCapability_ShaderStereoViewNV
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_ShaderStereoViewNV
         }
         naga::back::spv::Capability::PerViewAttributesNV => {
-            ffi::SPVBackCapability_SPVBackCapability_PerViewAttributesNV
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_PerViewAttributesNV
         }
         naga::back::spv::Capability::FragmentFullyCoveredEXT => {
-            ffi::SPVBackCapability_SPVBackCapability_FragmentFullyCoveredEXT
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_FragmentFullyCoveredEXT
         }
         naga::back::spv::Capability::MeshShadingNV => {
-            ffi::SPVBackCapability_SPVBackCapability_MeshShadingNV
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_MeshShadingNV
         }
         naga::back::spv::Capability::ImageFootprintNV => {
-            ffi::SPVBackCapability_SPVBackCapability_ImageFootprintNV
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_ImageFootprintNV
         }
         naga::back::spv::Capability::MeshShadingEXT => {
-            ffi::SPVBackCapability_SPVBackCapability_MeshShadingEXT
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_MeshShadingEXT
         }
         naga::back::spv::Capability::FragmentBarycentricKHR => {
-            ffi::SPVBackCapability_SPVBackCapability_FragmentBarycentricKHR
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_FragmentBarycentricKHR
         }
         naga::back::spv::Capability::ComputeDerivativeGroupQuadsNV => {
-            ffi::SPVBackCapability_SPVBackCapability_ComputeDerivativeGroupQuadsNV
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_ComputeDerivativeGroupQuadsNV
         }
         naga::back::spv::Capability::FragmentDensityEXT => {
-            ffi::SPVBackCapability_SPVBackCapability_FragmentDensityEXT
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_FragmentDensityEXT
         }
         naga::back::spv::Capability::GroupNonUniformPartitionedNV => {
-            ffi::SPVBackCapability_SPVBackCapability_GroupNonUniformPartitionedNV
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_GroupNonUniformPartitionedNV
         }
         naga::back::spv::Capability::ShaderNonUniform => {
-            ffi::SPVBackCapability_SPVBackCapability_ShaderNonUniform
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_ShaderNonUniform
         }
         naga::back::spv::Capability::RuntimeDescriptorArray => {
-            ffi::SPVBackCapability_SPVBackCapability_RuntimeDescriptorArray
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_RuntimeDescriptorArray
         }
         naga::back::spv::Capability::InputAttachmentArrayDynamicIndexing => {
-            ffi::SPVBackCapability_SPVBackCapability_InputAttachmentArrayDynamicIndexing
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_InputAttachmentArrayDynamicIndexing
         }
         naga::back::spv::Capability::UniformTexelBufferArrayDynamicIndexing => {
-            ffi::SPVBackCapability_SPVBackCapability_UniformTexelBufferArrayDynamicIndexing
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_UniformTexelBufferArrayDynamicIndexing
         }
         naga::back::spv::Capability::StorageTexelBufferArrayDynamicIndexing => {
-            ffi::SPVBackCapability_SPVBackCapability_StorageTexelBufferArrayDynamicIndexing
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_StorageTexelBufferArrayDynamicIndexing
         }
         naga::back::spv::Capability::UniformBufferArrayNonUniformIndexing => {
-            ffi::SPVBackCapability_SPVBackCapability_UniformBufferArrayNonUniformIndexing
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_UniformBufferArrayNonUniformIndexing
         }
         naga::back::spv::Capability::SampledImageArrayNonUniformIndexing => {
-            ffi::SPVBackCapability_SPVBackCapability_SampledImageArrayNonUniformIndexing
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_SampledImageArrayNonUniformIndexing
         }
         naga::back::spv::Capability::StorageBufferArrayNonUniformIndexing => {
-            ffi::SPVBackCapability_SPVBackCapability_StorageBufferArrayNonUniformIndexing
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_StorageBufferArrayNonUniformIndexing
         }
         naga::back::spv::Capability::StorageImageArrayNonUniformIndexing => {
-            ffi::SPVBackCapability_SPVBackCapability_StorageImageArrayNonUniformIndexing
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_StorageImageArrayNonUniformIndexing
         }
         naga::back::spv::Capability::InputAttachmentArrayNonUniformIndexing => {
-            ffi::SPVBackCapability_SPVBackCapability_InputAttachmentArrayNonUniformIndexing
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_InputAttachmentArrayNonUniformIndexing
         }
         naga::back::spv::Capability::UniformTexelBufferArrayNonUniformIndexing => {
-            ffi::SPVBackCapability_SPVBackCapability_UniformTexelBufferArrayNonUniformIndexing
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_UniformTexelBufferArrayNonUniformIndexing
         }
         naga::back::spv::Capability::StorageTexelBufferArrayNonUniformIndexing => {
-            ffi::SPVBackCapability_SPVBackCapability_StorageTexelBufferArrayNonUniformIndexing
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_StorageTexelBufferArrayNonUniformIndexing
         }
         naga::back::spv::Capability::RayTracingPositionFetchKHR => {
-            ffi::SPVBackCapability_SPVBackCapability_RayTracingPositionFetchKHR
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_RayTracingPositionFetchKHR
         }
         naga::back::spv::Capability::RayTracingNV => {
-            ffi::SPVBackCapability_SPVBackCapability_RayTracingNV
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_RayTracingNV
         }
         naga::back::spv::Capability::RayTracingMotionBlurNV => {
-            ffi::SPVBackCapability_SPVBackCapability_RayTracingMotionBlurNV
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_RayTracingMotionBlurNV
         }
         naga::back::spv::Capability::VulkanMemoryModel => {
-            ffi::SPVBackCapability_SPVBackCapability_VulkanMemoryModel
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_VulkanMemoryModel
         }
         naga::back::spv::Capability::VulkanMemoryModelDeviceScope => {
-            ffi::SPVBackCapability_SPVBackCapability_VulkanMemoryModelDeviceScope
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_VulkanMemoryModelDeviceScope
         }
         naga::back::spv::Capability::PhysicalStorageBufferAddresses => {
-            ffi::SPVBackCapability_SPVBackCapability_PhysicalStorageBufferAddresses
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_PhysicalStorageBufferAddresses
         }
         naga::back::spv::Capability::ComputeDerivativeGroupLinearNV => {
-            ffi::SPVBackCapability_SPVBackCapability_ComputeDerivativeGroupLinearNV
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_ComputeDerivativeGroupLinearNV
         }
         naga::back::spv::Capability::RayTracingProvisionalKHR => {
-            ffi::SPVBackCapability_SPVBackCapability_RayTracingProvisionalKHR
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_RayTracingProvisionalKHR
         }
         naga::back::spv::Capability::CooperativeMatrixNV => {
-            ffi::SPVBackCapability_SPVBackCapability_CooperativeMatrixNV
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_CooperativeMatrixNV
         }
         naga::back::spv::Capability::FragmentShaderSampleInterlockEXT => {
-            ffi::SPVBackCapability_SPVBackCapability_FragmentShaderSampleInterlockEXT
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_FragmentShaderSampleInterlockEXT
         }
         naga::back::spv::Capability::FragmentShaderShadingRateInterlockEXT => {
-            ffi::SPVBackCapability_SPVBackCapability_FragmentShaderShadingRateInterlockEXT
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_FragmentShaderShadingRateInterlockEXT
         }
         naga::back::spv::Capability::ShaderSMBuiltinsNV => {
-            ffi::SPVBackCapability_SPVBackCapability_ShaderSMBuiltinsNV
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_ShaderSMBuiltinsNV
         }
         naga::back::spv::Capability::FragmentShaderPixelInterlockEXT => {
-            ffi::SPVBackCapability_SPVBackCapability_FragmentShaderPixelInterlockEXT
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_FragmentShaderPixelInterlockEXT
         }
         naga::back::spv::Capability::DemoteToHelperInvocation => {
-            ffi::SPVBackCapability_SPVBackCapability_DemoteToHelperInvocation
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_DemoteToHelperInvocation
         }
         naga::back::spv::Capability::DisplacementMicromapNV => {
-            ffi::SPVBackCapability_SPVBackCapability_DisplacementMicromapNV
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_DisplacementMicromapNV
         }
         naga::back::spv::Capability::RayTracingOpacityMicromapEXT => {
-            ffi::SPVBackCapability_SPVBackCapability_RayTracingOpacityMicromapEXT
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_RayTracingOpacityMicromapEXT
         }
         naga::back::spv::Capability::ShaderInvocationReorderNV => {
-            ffi::SPVBackCapability_SPVBackCapability_ShaderInvocationReorderNV
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_ShaderInvocationReorderNV
         }
         naga::back::spv::Capability::BindlessTextureNV => {
-            ffi::SPVBackCapability_SPVBackCapability_BindlessTextureNV
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_BindlessTextureNV
         }
         naga::back::spv::Capability::RayQueryPositionFetchKHR => {
-            ffi::SPVBackCapability_SPVBackCapability_RayQueryPositionFetchKHR
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_RayQueryPositionFetchKHR
         }
         naga::back::spv::Capability::RayTracingDisplacementMicromapNV => {
-            ffi::SPVBackCapability_SPVBackCapability_RayTracingDisplacementMicromapNV
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_RayTracingDisplacementMicromapNV
         }
         naga::back::spv::Capability::SubgroupShuffleINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_SubgroupShuffleINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_SubgroupShuffleINTEL
         }
         naga::back::spv::Capability::SubgroupBufferBlockIOINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_SubgroupBufferBlockIOINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_SubgroupBufferBlockIOINTEL
         }
         naga::back::spv::Capability::SubgroupImageBlockIOINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_SubgroupImageBlockIOINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_SubgroupImageBlockIOINTEL
         }
         naga::back::spv::Capability::SubgroupImageMediaBlockIOINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_SubgroupImageMediaBlockIOINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_SubgroupImageMediaBlockIOINTEL
         }
         naga::back::spv::Capability::RoundToInfinityINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_RoundToInfinityINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_RoundToInfinityINTEL
         }
         naga::back::spv::Capability::FloatingPointModeINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_FloatingPointModeINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_FloatingPointModeINTEL
         }
         naga::back::spv::Capability::IntegerFunctions2INTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_IntegerFunctions2INTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_IntegerFunctions2INTEL
         }
         naga::back::spv::Capability::FunctionPointersINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_FunctionPointersINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_FunctionPointersINTEL
         }
         naga::back::spv::Capability::IndirectReferencesINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_IndirectReferencesINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_IndirectReferencesINTEL
         }
-        naga::back::spv::Capability::AsmINTEL => ffi::SPVBackCapability_SPVBackCapability_AsmINTEL,
+        naga::back::spv::Capability::AsmINTEL => ffi::NagaSPVBackCapability_NagaSPVBackCapability_AsmINTEL,
         naga::back::spv::Capability::AtomicFloat32MinMaxEXT => {
-            ffi::SPVBackCapability_SPVBackCapability_AtomicFloat32MinMaxEXT
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_AtomicFloat32MinMaxEXT
         }
         naga::back::spv::Capability::AtomicFloat64MinMaxEXT => {
-            ffi::SPVBackCapability_SPVBackCapability_AtomicFloat64MinMaxEXT
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_AtomicFloat64MinMaxEXT
         }
         naga::back::spv::Capability::AtomicFloat16MinMaxEXT => {
-            ffi::SPVBackCapability_SPVBackCapability_AtomicFloat16MinMaxEXT
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_AtomicFloat16MinMaxEXT
         }
         naga::back::spv::Capability::VectorComputeINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_VectorComputeINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_VectorComputeINTEL
         }
         naga::back::spv::Capability::VectorAnyINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_VectorAnyINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_VectorAnyINTEL
         }
         naga::back::spv::Capability::ExpectAssumeKHR => {
-            ffi::SPVBackCapability_SPVBackCapability_ExpectAssumeKHR
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_ExpectAssumeKHR
         }
         naga::back::spv::Capability::SubgroupAvcMotionEstimationINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_SubgroupAvcMotionEstimationINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_SubgroupAvcMotionEstimationINTEL
         }
         naga::back::spv::Capability::SubgroupAvcMotionEstimationIntraINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_SubgroupAvcMotionEstimationIntraINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_SubgroupAvcMotionEstimationIntraINTEL
         }
         naga::back::spv::Capability::SubgroupAvcMotionEstimationChromaINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_SubgroupAvcMotionEstimationChromaINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_SubgroupAvcMotionEstimationChromaINTEL
         }
         naga::back::spv::Capability::VariableLengthArrayINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_VariableLengthArrayINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_VariableLengthArrayINTEL
         }
         naga::back::spv::Capability::FunctionFloatControlINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_FunctionFloatControlINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_FunctionFloatControlINTEL
         }
         naga::back::spv::Capability::FPGAMemoryAttributesINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_FPGAMemoryAttributesINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_FPGAMemoryAttributesINTEL
         }
         naga::back::spv::Capability::FPFastMathModeINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_FPFastMathModeINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_FPFastMathModeINTEL
         }
         naga::back::spv::Capability::ArbitraryPrecisionIntegersINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_ArbitraryPrecisionIntegersINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_ArbitraryPrecisionIntegersINTEL
         }
         naga::back::spv::Capability::ArbitraryPrecisionFloatingPointINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_ArbitraryPrecisionFloatingPointINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_ArbitraryPrecisionFloatingPointINTEL
         }
         naga::back::spv::Capability::UnstructuredLoopControlsINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_UnstructuredLoopControlsINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_UnstructuredLoopControlsINTEL
         }
         naga::back::spv::Capability::FPGALoopControlsINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_FPGALoopControlsINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_FPGALoopControlsINTEL
         }
         naga::back::spv::Capability::KernelAttributesINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_KernelAttributesINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_KernelAttributesINTEL
         }
         naga::back::spv::Capability::FPGAKernelAttributesINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_FPGAKernelAttributesINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_FPGAKernelAttributesINTEL
         }
         naga::back::spv::Capability::FPGAMemoryAccessesINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_FPGAMemoryAccessesINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_FPGAMemoryAccessesINTEL
         }
         naga::back::spv::Capability::FPGAClusterAttributesINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_FPGAClusterAttributesINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_FPGAClusterAttributesINTEL
         }
         naga::back::spv::Capability::LoopFuseINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_LoopFuseINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_LoopFuseINTEL
         }
         naga::back::spv::Capability::FPGADSPControlINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_FPGADSPControlINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_FPGADSPControlINTEL
         }
         naga::back::spv::Capability::MemoryAccessAliasingINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_MemoryAccessAliasingINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_MemoryAccessAliasingINTEL
         }
         naga::back::spv::Capability::FPGAInvocationPipeliningAttributesINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_FPGAInvocationPipeliningAttributesINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_FPGAInvocationPipeliningAttributesINTEL
         }
         naga::back::spv::Capability::FPGABufferLocationINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_FPGABufferLocationINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_FPGABufferLocationINTEL
         }
         naga::back::spv::Capability::ArbitraryPrecisionFixedPointINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_ArbitraryPrecisionFixedPointINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_ArbitraryPrecisionFixedPointINTEL
         }
         naga::back::spv::Capability::USMStorageClassesINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_USMStorageClassesINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_USMStorageClassesINTEL
         }
         naga::back::spv::Capability::RuntimeAlignedAttributeINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_RuntimeAlignedAttributeINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_RuntimeAlignedAttributeINTEL
         }
         naga::back::spv::Capability::IOPipesINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_IOPipesINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_IOPipesINTEL
         }
         naga::back::spv::Capability::BlockingPipesINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_BlockingPipesINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_BlockingPipesINTEL
         }
         naga::back::spv::Capability::FPGARegINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_FPGARegINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_FPGARegINTEL
         }
         naga::back::spv::Capability::DotProductInputAll => {
-            ffi::SPVBackCapability_SPVBackCapability_DotProductInputAll
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_DotProductInputAll
         }
         naga::back::spv::Capability::DotProductInput4x8Bit => {
-            ffi::SPVBackCapability_SPVBackCapability_DotProductInput4x8Bit
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_DotProductInput4x8Bit
         }
         naga::back::spv::Capability::DotProductInput4x8BitPacked => {
-            ffi::SPVBackCapability_SPVBackCapability_DotProductInput4x8BitPacked
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_DotProductInput4x8BitPacked
         }
         naga::back::spv::Capability::DotProduct => {
-            ffi::SPVBackCapability_SPVBackCapability_DotProduct
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_DotProduct
         }
         naga::back::spv::Capability::RayCullMaskKHR => {
-            ffi::SPVBackCapability_SPVBackCapability_RayCullMaskKHR
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_RayCullMaskKHR
         }
         naga::back::spv::Capability::CooperativeMatrixKHR => {
-            ffi::SPVBackCapability_SPVBackCapability_CooperativeMatrixKHR
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_CooperativeMatrixKHR
         }
         naga::back::spv::Capability::BitInstructions => {
-            ffi::SPVBackCapability_SPVBackCapability_BitInstructions
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_BitInstructions
         }
         naga::back::spv::Capability::GroupNonUniformRotateKHR => {
-            ffi::SPVBackCapability_SPVBackCapability_GroupNonUniformRotateKHR
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_GroupNonUniformRotateKHR
         }
         naga::back::spv::Capability::AtomicFloat32AddEXT => {
-            ffi::SPVBackCapability_SPVBackCapability_AtomicFloat32AddEXT
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_AtomicFloat32AddEXT
         }
         naga::back::spv::Capability::AtomicFloat64AddEXT => {
-            ffi::SPVBackCapability_SPVBackCapability_AtomicFloat64AddEXT
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_AtomicFloat64AddEXT
         }
         naga::back::spv::Capability::LongConstantCompositeINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_LongConstantCompositeINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_LongConstantCompositeINTEL
         }
         naga::back::spv::Capability::OptNoneINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_OptNoneINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_OptNoneINTEL
         }
         naga::back::spv::Capability::AtomicFloat16AddEXT => {
-            ffi::SPVBackCapability_SPVBackCapability_AtomicFloat16AddEXT
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_AtomicFloat16AddEXT
         }
         naga::back::spv::Capability::DebugInfoModuleINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_DebugInfoModuleINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_DebugInfoModuleINTEL
         }
         naga::back::spv::Capability::BFloat16ConversionINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_BFloat16ConversionINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_BFloat16ConversionINTEL
         }
         naga::back::spv::Capability::SplitBarrierINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_SplitBarrierINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_SplitBarrierINTEL
         }
         naga::back::spv::Capability::GlobalVariableFPGADecorationsINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_GlobalVariableFPGADecorationsINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_GlobalVariableFPGADecorationsINTEL
         }
         naga::back::spv::Capability::FPGAKernelAttributesv2INTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_FPGAKernelAttributesv2INTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_FPGAKernelAttributesv2INTEL
         }
         naga::back::spv::Capability::GlobalVariableHostAccessINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_GlobalVariableHostAccessINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_GlobalVariableHostAccessINTEL
         }
         naga::back::spv::Capability::FPMaxErrorINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_FPMaxErrorINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_FPMaxErrorINTEL
         }
         naga::back::spv::Capability::FPGALatencyControlINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_FPGALatencyControlINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_FPGALatencyControlINTEL
         }
         naga::back::spv::Capability::FPGAArgumentInterfacesINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_FPGAArgumentInterfacesINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_FPGAArgumentInterfacesINTEL
         }
         naga::back::spv::Capability::GroupUniformArithmeticKHR => {
-            ffi::SPVBackCapability_SPVBackCapability_GroupUniformArithmeticKHR
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_GroupUniformArithmeticKHR
         }
         naga::back::spv::Capability::CacheControlsINTEL => {
-            ffi::SPVBackCapability_SPVBackCapability_CacheControlsINTEL
+            ffi::NagaSPVBackCapability_NagaSPVBackCapability_CacheControlsINTEL
         }
     }
 }
 
 pub fn spv_back_capability_to_naga(
-    capability: ffi::SPVBackCapability,
+    capability: ffi::NagaSPVBackCapability,
 ) -> naga::back::spv::Capability {
     match capability {
-        ffi::SPVBackCapability_SPVBackCapability_Matrix => naga::back::spv::Capability::Matrix,
-        ffi::SPVBackCapability_SPVBackCapability_Shader => naga::back::spv::Capability::Shader,
-        ffi::SPVBackCapability_SPVBackCapability_Geometry => naga::back::spv::Capability::Geometry,
-        ffi::SPVBackCapability_SPVBackCapability_Tessellation => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_Matrix => naga::back::spv::Capability::Matrix,
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_Shader => naga::back::spv::Capability::Shader,
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_Geometry => naga::back::spv::Capability::Geometry,
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_Tessellation => {
             naga::back::spv::Capability::Tessellation
         }
-        ffi::SPVBackCapability_SPVBackCapability_Addresses => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_Addresses => {
             naga::back::spv::Capability::Addresses
         }
-        ffi::SPVBackCapability_SPVBackCapability_Linkage => naga::back::spv::Capability::Linkage,
-        ffi::SPVBackCapability_SPVBackCapability_Kernel => naga::back::spv::Capability::Kernel,
-        ffi::SPVBackCapability_SPVBackCapability_Vector16 => naga::back::spv::Capability::Vector16,
-        ffi::SPVBackCapability_SPVBackCapability_Float16Buffer => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_Linkage => naga::back::spv::Capability::Linkage,
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_Kernel => naga::back::spv::Capability::Kernel,
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_Vector16 => naga::back::spv::Capability::Vector16,
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_Float16Buffer => {
             naga::back::spv::Capability::Float16Buffer
         }
-        ffi::SPVBackCapability_SPVBackCapability_Float16 => naga::back::spv::Capability::Float16,
-        ffi::SPVBackCapability_SPVBackCapability_Float64 => naga::back::spv::Capability::Float64,
-        ffi::SPVBackCapability_SPVBackCapability_Int64 => naga::back::spv::Capability::Int64,
-        ffi::SPVBackCapability_SPVBackCapability_Int64Atomics => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_Float16 => naga::back::spv::Capability::Float16,
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_Float64 => naga::back::spv::Capability::Float64,
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_Int64 => naga::back::spv::Capability::Int64,
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_Int64Atomics => {
             naga::back::spv::Capability::Int64Atomics
         }
-        ffi::SPVBackCapability_SPVBackCapability_ImageBasic => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_ImageBasic => {
             naga::back::spv::Capability::ImageBasic
         }
-        ffi::SPVBackCapability_SPVBackCapability_ImageReadWrite => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_ImageReadWrite => {
             naga::back::spv::Capability::ImageReadWrite
         }
-        ffi::SPVBackCapability_SPVBackCapability_ImageMipmap => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_ImageMipmap => {
             naga::back::spv::Capability::ImageMipmap
         }
-        ffi::SPVBackCapability_SPVBackCapability_Pipes => naga::back::spv::Capability::Pipes,
-        ffi::SPVBackCapability_SPVBackCapability_Groups => naga::back::spv::Capability::Groups,
-        ffi::SPVBackCapability_SPVBackCapability_DeviceEnqueue => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_Pipes => naga::back::spv::Capability::Pipes,
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_Groups => naga::back::spv::Capability::Groups,
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_DeviceEnqueue => {
             naga::back::spv::Capability::DeviceEnqueue
         }
-        ffi::SPVBackCapability_SPVBackCapability_LiteralSampler => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_LiteralSampler => {
             naga::back::spv::Capability::LiteralSampler
         }
-        ffi::SPVBackCapability_SPVBackCapability_AtomicStorage => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_AtomicStorage => {
             naga::back::spv::Capability::AtomicStorage
         }
-        ffi::SPVBackCapability_SPVBackCapability_Int16 => naga::back::spv::Capability::Int16,
-        ffi::SPVBackCapability_SPVBackCapability_TessellationPointSize => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_Int16 => naga::back::spv::Capability::Int16,
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_TessellationPointSize => {
             naga::back::spv::Capability::TessellationPointSize
         }
-        ffi::SPVBackCapability_SPVBackCapability_GeometryPointSize => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_GeometryPointSize => {
             naga::back::spv::Capability::GeometryPointSize
         }
-        ffi::SPVBackCapability_SPVBackCapability_ImageGatherExtended => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_ImageGatherExtended => {
             naga::back::spv::Capability::ImageGatherExtended
         }
-        ffi::SPVBackCapability_SPVBackCapability_StorageImageMultisample => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_StorageImageMultisample => {
             naga::back::spv::Capability::StorageImageMultisample
         }
-        ffi::SPVBackCapability_SPVBackCapability_UniformBufferArrayDynamicIndexing => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_UniformBufferArrayDynamicIndexing => {
             naga::back::spv::Capability::UniformBufferArrayDynamicIndexing
         }
-        ffi::SPVBackCapability_SPVBackCapability_SampledImageArrayDynamicIndexing => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_SampledImageArrayDynamicIndexing => {
             naga::back::spv::Capability::SampledImageArrayDynamicIndexing
         }
-        ffi::SPVBackCapability_SPVBackCapability_StorageBufferArrayDynamicIndexing => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_StorageBufferArrayDynamicIndexing => {
             naga::back::spv::Capability::StorageBufferArrayDynamicIndexing
         }
-        ffi::SPVBackCapability_SPVBackCapability_StorageImageArrayDynamicIndexing => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_StorageImageArrayDynamicIndexing => {
             naga::back::spv::Capability::StorageImageArrayDynamicIndexing
         }
-        ffi::SPVBackCapability_SPVBackCapability_ClipDistance => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_ClipDistance => {
             naga::back::spv::Capability::ClipDistance
         }
-        ffi::SPVBackCapability_SPVBackCapability_CullDistance => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_CullDistance => {
             naga::back::spv::Capability::CullDistance
         }
-        ffi::SPVBackCapability_SPVBackCapability_ImageCubeArray => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_ImageCubeArray => {
             naga::back::spv::Capability::ImageCubeArray
         }
-        ffi::SPVBackCapability_SPVBackCapability_SampleRateShading => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_SampleRateShading => {
             naga::back::spv::Capability::SampleRateShading
         }
-        ffi::SPVBackCapability_SPVBackCapability_ImageRect => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_ImageRect => {
             naga::back::spv::Capability::ImageRect
         }
-        ffi::SPVBackCapability_SPVBackCapability_SampledRect => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_SampledRect => {
             naga::back::spv::Capability::SampledRect
         }
-        ffi::SPVBackCapability_SPVBackCapability_GenericPointer => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_GenericPointer => {
             naga::back::spv::Capability::GenericPointer
         }
-        ffi::SPVBackCapability_SPVBackCapability_Int8 => naga::back::spv::Capability::Int8,
-        ffi::SPVBackCapability_SPVBackCapability_InputAttachment => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_Int8 => naga::back::spv::Capability::Int8,
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_InputAttachment => {
             naga::back::spv::Capability::InputAttachment
         }
-        ffi::SPVBackCapability_SPVBackCapability_SparseResidency => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_SparseResidency => {
             naga::back::spv::Capability::SparseResidency
         }
-        ffi::SPVBackCapability_SPVBackCapability_MinLod => naga::back::spv::Capability::MinLod,
-        ffi::SPVBackCapability_SPVBackCapability_Sampled1D => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_MinLod => naga::back::spv::Capability::MinLod,
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_Sampled1D => {
             naga::back::spv::Capability::Sampled1D
         }
-        ffi::SPVBackCapability_SPVBackCapability_Image1D => naga::back::spv::Capability::Image1D,
-        ffi::SPVBackCapability_SPVBackCapability_SampledCubeArray => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_Image1D => naga::back::spv::Capability::Image1D,
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_SampledCubeArray => {
             naga::back::spv::Capability::SampledCubeArray
         }
-        ffi::SPVBackCapability_SPVBackCapability_SampledBuffer => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_SampledBuffer => {
             naga::back::spv::Capability::SampledBuffer
         }
-        ffi::SPVBackCapability_SPVBackCapability_ImageBuffer => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_ImageBuffer => {
             naga::back::spv::Capability::ImageBuffer
         }
-        ffi::SPVBackCapability_SPVBackCapability_ImageMSArray => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_ImageMSArray => {
             naga::back::spv::Capability::ImageMSArray
         }
-        ffi::SPVBackCapability_SPVBackCapability_StorageImageExtendedFormats => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_StorageImageExtendedFormats => {
             naga::back::spv::Capability::StorageImageExtendedFormats
         }
-        ffi::SPVBackCapability_SPVBackCapability_ImageQuery => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_ImageQuery => {
             naga::back::spv::Capability::ImageQuery
         }
-        ffi::SPVBackCapability_SPVBackCapability_DerivativeControl => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_DerivativeControl => {
             naga::back::spv::Capability::DerivativeControl
         }
-        ffi::SPVBackCapability_SPVBackCapability_InterpolationFunction => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_InterpolationFunction => {
             naga::back::spv::Capability::InterpolationFunction
         }
-        ffi::SPVBackCapability_SPVBackCapability_TransformFeedback => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_TransformFeedback => {
             naga::back::spv::Capability::TransformFeedback
         }
-        ffi::SPVBackCapability_SPVBackCapability_GeometryStreams => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_GeometryStreams => {
             naga::back::spv::Capability::GeometryStreams
         }
-        ffi::SPVBackCapability_SPVBackCapability_StorageImageReadWithoutFormat => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_StorageImageReadWithoutFormat => {
             naga::back::spv::Capability::StorageImageReadWithoutFormat
         }
-        ffi::SPVBackCapability_SPVBackCapability_StorageImageWriteWithoutFormat => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_StorageImageWriteWithoutFormat => {
             naga::back::spv::Capability::StorageImageWriteWithoutFormat
         }
-        ffi::SPVBackCapability_SPVBackCapability_MultiViewport => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_MultiViewport => {
             naga::back::spv::Capability::MultiViewport
         }
-        ffi::SPVBackCapability_SPVBackCapability_SubgroupDispatch => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_SubgroupDispatch => {
             naga::back::spv::Capability::SubgroupDispatch
         }
-        ffi::SPVBackCapability_SPVBackCapability_NamedBarrier => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_NamedBarrier => {
             naga::back::spv::Capability::NamedBarrier
         }
-        ffi::SPVBackCapability_SPVBackCapability_PipeStorage => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_PipeStorage => {
             naga::back::spv::Capability::PipeStorage
         }
-        ffi::SPVBackCapability_SPVBackCapability_GroupNonUniform => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_GroupNonUniform => {
             naga::back::spv::Capability::GroupNonUniform
         }
-        ffi::SPVBackCapability_SPVBackCapability_GroupNonUniformVote => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_GroupNonUniformVote => {
             naga::back::spv::Capability::GroupNonUniformVote
         }
-        ffi::SPVBackCapability_SPVBackCapability_GroupNonUniformArithmetic => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_GroupNonUniformArithmetic => {
             naga::back::spv::Capability::GroupNonUniformArithmetic
         }
-        ffi::SPVBackCapability_SPVBackCapability_GroupNonUniformBallot => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_GroupNonUniformBallot => {
             naga::back::spv::Capability::GroupNonUniformBallot
         }
-        ffi::SPVBackCapability_SPVBackCapability_GroupNonUniformShuffle => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_GroupNonUniformShuffle => {
             naga::back::spv::Capability::GroupNonUniformShuffle
         }
-        ffi::SPVBackCapability_SPVBackCapability_GroupNonUniformShuffleRelative => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_GroupNonUniformShuffleRelative => {
             naga::back::spv::Capability::GroupNonUniformShuffleRelative
         }
-        ffi::SPVBackCapability_SPVBackCapability_GroupNonUniformClustered => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_GroupNonUniformClustered => {
             naga::back::spv::Capability::GroupNonUniformClustered
         }
-        ffi::SPVBackCapability_SPVBackCapability_GroupNonUniformQuad => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_GroupNonUniformQuad => {
             naga::back::spv::Capability::GroupNonUniformQuad
         }
-        ffi::SPVBackCapability_SPVBackCapability_ShaderLayer => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_ShaderLayer => {
             naga::back::spv::Capability::ShaderLayer
         }
-        ffi::SPVBackCapability_SPVBackCapability_ShaderViewportIndex => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_ShaderViewportIndex => {
             naga::back::spv::Capability::ShaderViewportIndex
         }
-        ffi::SPVBackCapability_SPVBackCapability_UniformDecoration => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_UniformDecoration => {
             naga::back::spv::Capability::UniformDecoration
         }
-        ffi::SPVBackCapability_SPVBackCapability_CoreBuiltinsARM => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_CoreBuiltinsARM => {
             naga::back::spv::Capability::CoreBuiltinsARM
         }
-        ffi::SPVBackCapability_SPVBackCapability_TileImageColorReadAccessEXT => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_TileImageColorReadAccessEXT => {
             naga::back::spv::Capability::TileImageColorReadAccessEXT
         }
-        ffi::SPVBackCapability_SPVBackCapability_TileImageDepthReadAccessEXT => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_TileImageDepthReadAccessEXT => {
             naga::back::spv::Capability::TileImageDepthReadAccessEXT
         }
-        ffi::SPVBackCapability_SPVBackCapability_TileImageStencilReadAccessEXT => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_TileImageStencilReadAccessEXT => {
             naga::back::spv::Capability::TileImageStencilReadAccessEXT
         }
-        ffi::SPVBackCapability_SPVBackCapability_FragmentShadingRateKHR => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_FragmentShadingRateKHR => {
             naga::back::spv::Capability::FragmentShadingRateKHR
         }
-        ffi::SPVBackCapability_SPVBackCapability_SubgroupBallotKHR => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_SubgroupBallotKHR => {
             naga::back::spv::Capability::SubgroupBallotKHR
         }
-        ffi::SPVBackCapability_SPVBackCapability_DrawParameters => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_DrawParameters => {
             naga::back::spv::Capability::DrawParameters
         }
-        ffi::SPVBackCapability_SPVBackCapability_WorkgroupMemoryExplicitLayoutKHR => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_WorkgroupMemoryExplicitLayoutKHR => {
             naga::back::spv::Capability::WorkgroupMemoryExplicitLayoutKHR
         }
-        ffi::SPVBackCapability_SPVBackCapability_WorkgroupMemoryExplicitLayout8BitAccessKHR => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_WorkgroupMemoryExplicitLayout8BitAccessKHR => {
             naga::back::spv::Capability::WorkgroupMemoryExplicitLayout8BitAccessKHR
         }
-        ffi::SPVBackCapability_SPVBackCapability_WorkgroupMemoryExplicitLayout16BitAccessKHR => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_WorkgroupMemoryExplicitLayout16BitAccessKHR => {
             naga::back::spv::Capability::WorkgroupMemoryExplicitLayout16BitAccessKHR
         }
-        ffi::SPVBackCapability_SPVBackCapability_SubgroupVoteKHR => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_SubgroupVoteKHR => {
             naga::back::spv::Capability::SubgroupVoteKHR
         }
-        ffi::SPVBackCapability_SPVBackCapability_StorageBuffer16BitAccess => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_StorageBuffer16BitAccess => {
             naga::back::spv::Capability::StorageBuffer16BitAccess
         }
-        ffi::SPVBackCapability_SPVBackCapability_UniformAndStorageBuffer16BitAccess => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_UniformAndStorageBuffer16BitAccess => {
             naga::back::spv::Capability::UniformAndStorageBuffer16BitAccess
         }
-        ffi::SPVBackCapability_SPVBackCapability_StoragePushConstant16 => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_StoragePushConstant16 => {
             naga::back::spv::Capability::StoragePushConstant16
         }
-        ffi::SPVBackCapability_SPVBackCapability_StorageInputOutput16 => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_StorageInputOutput16 => {
             naga::back::spv::Capability::StorageInputOutput16
         }
-        ffi::SPVBackCapability_SPVBackCapability_DeviceGroup => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_DeviceGroup => {
             naga::back::spv::Capability::DeviceGroup
         }
-        ffi::SPVBackCapability_SPVBackCapability_MultiView => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_MultiView => {
             naga::back::spv::Capability::MultiView
         }
-        ffi::SPVBackCapability_SPVBackCapability_VariablePointersStorageBuffer => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_VariablePointersStorageBuffer => {
             naga::back::spv::Capability::VariablePointersStorageBuffer
         }
-        ffi::SPVBackCapability_SPVBackCapability_VariablePointers => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_VariablePointers => {
             naga::back::spv::Capability::VariablePointers
         }
-        ffi::SPVBackCapability_SPVBackCapability_AtomicStorageOps => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_AtomicStorageOps => {
             naga::back::spv::Capability::AtomicStorageOps
         }
-        ffi::SPVBackCapability_SPVBackCapability_SampleMaskPostDepthCoverage => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_SampleMaskPostDepthCoverage => {
             naga::back::spv::Capability::SampleMaskPostDepthCoverage
         }
-        ffi::SPVBackCapability_SPVBackCapability_StorageBuffer8BitAccess => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_StorageBuffer8BitAccess => {
             naga::back::spv::Capability::StorageBuffer8BitAccess
         }
-        ffi::SPVBackCapability_SPVBackCapability_UniformAndStorageBuffer8BitAccess => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_UniformAndStorageBuffer8BitAccess => {
             naga::back::spv::Capability::UniformAndStorageBuffer8BitAccess
         }
-        ffi::SPVBackCapability_SPVBackCapability_StoragePushConstant8 => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_StoragePushConstant8 => {
             naga::back::spv::Capability::StoragePushConstant8
         }
-        ffi::SPVBackCapability_SPVBackCapability_DenormPreserve => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_DenormPreserve => {
             naga::back::spv::Capability::DenormPreserve
         }
-        ffi::SPVBackCapability_SPVBackCapability_DenormFlushToZero => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_DenormFlushToZero => {
             naga::back::spv::Capability::DenormFlushToZero
         }
-        ffi::SPVBackCapability_SPVBackCapability_SignedZeroInfNanPreserve => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_SignedZeroInfNanPreserve => {
             naga::back::spv::Capability::SignedZeroInfNanPreserve
         }
-        ffi::SPVBackCapability_SPVBackCapability_RoundingModeRTE => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_RoundingModeRTE => {
             naga::back::spv::Capability::RoundingModeRTE
         }
-        ffi::SPVBackCapability_SPVBackCapability_RoundingModeRTZ => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_RoundingModeRTZ => {
             naga::back::spv::Capability::RoundingModeRTZ
         }
-        ffi::SPVBackCapability_SPVBackCapability_RayQueryProvisionalKHR => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_RayQueryProvisionalKHR => {
             naga::back::spv::Capability::RayQueryProvisionalKHR
         }
-        ffi::SPVBackCapability_SPVBackCapability_RayQueryKHR => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_RayQueryKHR => {
             naga::back::spv::Capability::RayQueryKHR
         }
-        ffi::SPVBackCapability_SPVBackCapability_RayTraversalPrimitiveCullingKHR => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_RayTraversalPrimitiveCullingKHR => {
             naga::back::spv::Capability::RayTraversalPrimitiveCullingKHR
         }
-        ffi::SPVBackCapability_SPVBackCapability_RayTracingKHR => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_RayTracingKHR => {
             naga::back::spv::Capability::RayTracingKHR
         }
-        ffi::SPVBackCapability_SPVBackCapability_TextureSampleWeightedQCOM => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_TextureSampleWeightedQCOM => {
             naga::back::spv::Capability::TextureSampleWeightedQCOM
         }
-        ffi::SPVBackCapability_SPVBackCapability_TextureBoxFilterQCOM => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_TextureBoxFilterQCOM => {
             naga::back::spv::Capability::TextureBoxFilterQCOM
         }
-        ffi::SPVBackCapability_SPVBackCapability_TextureBlockMatchQCOM => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_TextureBlockMatchQCOM => {
             naga::back::spv::Capability::TextureBlockMatchQCOM
         }
-        ffi::SPVBackCapability_SPVBackCapability_Float16ImageAMD => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_Float16ImageAMD => {
             naga::back::spv::Capability::Float16ImageAMD
         }
-        ffi::SPVBackCapability_SPVBackCapability_ImageGatherBiasLodAMD => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_ImageGatherBiasLodAMD => {
             naga::back::spv::Capability::ImageGatherBiasLodAMD
         }
-        ffi::SPVBackCapability_SPVBackCapability_FragmentMaskAMD => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_FragmentMaskAMD => {
             naga::back::spv::Capability::FragmentMaskAMD
         }
-        ffi::SPVBackCapability_SPVBackCapability_StencilExportEXT => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_StencilExportEXT => {
             naga::back::spv::Capability::StencilExportEXT
         }
-        ffi::SPVBackCapability_SPVBackCapability_ImageReadWriteLodAMD => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_ImageReadWriteLodAMD => {
             naga::back::spv::Capability::ImageReadWriteLodAMD
         }
-        ffi::SPVBackCapability_SPVBackCapability_Int64ImageEXT => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_Int64ImageEXT => {
             naga::back::spv::Capability::Int64ImageEXT
         }
-        ffi::SPVBackCapability_SPVBackCapability_ShaderClockKHR => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_ShaderClockKHR => {
             naga::back::spv::Capability::ShaderClockKHR
         }
-        ffi::SPVBackCapability_SPVBackCapability_ShaderEnqueueAMDX => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_ShaderEnqueueAMDX => {
             naga::back::spv::Capability::ShaderEnqueueAMDX
         }
-        ffi::SPVBackCapability_SPVBackCapability_SampleMaskOverrideCoverageNV => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_SampleMaskOverrideCoverageNV => {
             naga::back::spv::Capability::SampleMaskOverrideCoverageNV
         }
-        ffi::SPVBackCapability_SPVBackCapability_GeometryShaderPassthroughNV => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_GeometryShaderPassthroughNV => {
             naga::back::spv::Capability::GeometryShaderPassthroughNV
         }
-        ffi::SPVBackCapability_SPVBackCapability_ShaderViewportIndexLayerEXT => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_ShaderViewportIndexLayerEXT => {
             naga::back::spv::Capability::ShaderViewportIndexLayerEXT
         }
-        ffi::SPVBackCapability_SPVBackCapability_ShaderViewportMaskNV => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_ShaderViewportMaskNV => {
             naga::back::spv::Capability::ShaderViewportMaskNV
         }
-        ffi::SPVBackCapability_SPVBackCapability_ShaderStereoViewNV => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_ShaderStereoViewNV => {
             naga::back::spv::Capability::ShaderStereoViewNV
         }
-        ffi::SPVBackCapability_SPVBackCapability_PerViewAttributesNV => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_PerViewAttributesNV => {
             naga::back::spv::Capability::PerViewAttributesNV
         }
-        ffi::SPVBackCapability_SPVBackCapability_FragmentFullyCoveredEXT => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_FragmentFullyCoveredEXT => {
             naga::back::spv::Capability::FragmentFullyCoveredEXT
         }
-        ffi::SPVBackCapability_SPVBackCapability_MeshShadingNV => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_MeshShadingNV => {
             naga::back::spv::Capability::MeshShadingNV
         }
-        ffi::SPVBackCapability_SPVBackCapability_ImageFootprintNV => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_ImageFootprintNV => {
             naga::back::spv::Capability::ImageFootprintNV
         }
-        ffi::SPVBackCapability_SPVBackCapability_MeshShadingEXT => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_MeshShadingEXT => {
             naga::back::spv::Capability::MeshShadingEXT
         }
-        ffi::SPVBackCapability_SPVBackCapability_FragmentBarycentricKHR => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_FragmentBarycentricKHR => {
             naga::back::spv::Capability::FragmentBarycentricKHR
         }
-        ffi::SPVBackCapability_SPVBackCapability_ComputeDerivativeGroupQuadsNV => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_ComputeDerivativeGroupQuadsNV => {
             naga::back::spv::Capability::ComputeDerivativeGroupQuadsNV
         }
-        ffi::SPVBackCapability_SPVBackCapability_FragmentDensityEXT => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_FragmentDensityEXT => {
             naga::back::spv::Capability::FragmentDensityEXT
         }
-        ffi::SPVBackCapability_SPVBackCapability_GroupNonUniformPartitionedNV => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_GroupNonUniformPartitionedNV => {
             naga::back::spv::Capability::GroupNonUniformPartitionedNV
         }
-        ffi::SPVBackCapability_SPVBackCapability_ShaderNonUniform => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_ShaderNonUniform => {
             naga::back::spv::Capability::ShaderNonUniform
         }
-        ffi::SPVBackCapability_SPVBackCapability_RuntimeDescriptorArray => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_RuntimeDescriptorArray => {
             naga::back::spv::Capability::RuntimeDescriptorArray
         }
-        ffi::SPVBackCapability_SPVBackCapability_InputAttachmentArrayDynamicIndexing => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_InputAttachmentArrayDynamicIndexing => {
             naga::back::spv::Capability::InputAttachmentArrayDynamicIndexing
         }
-        ffi::SPVBackCapability_SPVBackCapability_UniformTexelBufferArrayDynamicIndexing => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_UniformTexelBufferArrayDynamicIndexing => {
             naga::back::spv::Capability::UniformTexelBufferArrayDynamicIndexing
         }
-        ffi::SPVBackCapability_SPVBackCapability_StorageTexelBufferArrayDynamicIndexing => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_StorageTexelBufferArrayDynamicIndexing => {
             naga::back::spv::Capability::StorageTexelBufferArrayDynamicIndexing
         }
-        ffi::SPVBackCapability_SPVBackCapability_UniformBufferArrayNonUniformIndexing => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_UniformBufferArrayNonUniformIndexing => {
             naga::back::spv::Capability::UniformBufferArrayNonUniformIndexing
         }
-        ffi::SPVBackCapability_SPVBackCapability_SampledImageArrayNonUniformIndexing => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_SampledImageArrayNonUniformIndexing => {
             naga::back::spv::Capability::SampledImageArrayNonUniformIndexing
         }
-        ffi::SPVBackCapability_SPVBackCapability_StorageBufferArrayNonUniformIndexing => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_StorageBufferArrayNonUniformIndexing => {
             naga::back::spv::Capability::StorageBufferArrayNonUniformIndexing
         }
-        ffi::SPVBackCapability_SPVBackCapability_StorageImageArrayNonUniformIndexing => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_StorageImageArrayNonUniformIndexing => {
             naga::back::spv::Capability::StorageImageArrayNonUniformIndexing
         }
-        ffi::SPVBackCapability_SPVBackCapability_InputAttachmentArrayNonUniformIndexing => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_InputAttachmentArrayNonUniformIndexing => {
             naga::back::spv::Capability::InputAttachmentArrayNonUniformIndexing
         }
-        ffi::SPVBackCapability_SPVBackCapability_UniformTexelBufferArrayNonUniformIndexing => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_UniformTexelBufferArrayNonUniformIndexing => {
             naga::back::spv::Capability::UniformTexelBufferArrayNonUniformIndexing
         }
-        ffi::SPVBackCapability_SPVBackCapability_StorageTexelBufferArrayNonUniformIndexing => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_StorageTexelBufferArrayNonUniformIndexing => {
             naga::back::spv::Capability::StorageTexelBufferArrayNonUniformIndexing
         }
-        ffi::SPVBackCapability_SPVBackCapability_RayTracingPositionFetchKHR => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_RayTracingPositionFetchKHR => {
             naga::back::spv::Capability::RayTracingPositionFetchKHR
         }
-        ffi::SPVBackCapability_SPVBackCapability_RayTracingNV => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_RayTracingNV => {
             naga::back::spv::Capability::RayTracingNV
         }
-        ffi::SPVBackCapability_SPVBackCapability_RayTracingMotionBlurNV => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_RayTracingMotionBlurNV => {
             naga::back::spv::Capability::RayTracingMotionBlurNV
         }
-        ffi::SPVBackCapability_SPVBackCapability_VulkanMemoryModel => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_VulkanMemoryModel => {
             naga::back::spv::Capability::VulkanMemoryModel
         }
-        ffi::SPVBackCapability_SPVBackCapability_VulkanMemoryModelDeviceScope => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_VulkanMemoryModelDeviceScope => {
             naga::back::spv::Capability::VulkanMemoryModelDeviceScope
         }
-        ffi::SPVBackCapability_SPVBackCapability_PhysicalStorageBufferAddresses => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_PhysicalStorageBufferAddresses => {
             naga::back::spv::Capability::PhysicalStorageBufferAddresses
         }
-        ffi::SPVBackCapability_SPVBackCapability_ComputeDerivativeGroupLinearNV => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_ComputeDerivativeGroupLinearNV => {
             naga::back::spv::Capability::ComputeDerivativeGroupLinearNV
         }
-        ffi::SPVBackCapability_SPVBackCapability_RayTracingProvisionalKHR => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_RayTracingProvisionalKHR => {
             naga::back::spv::Capability::RayTracingProvisionalKHR
         }
-        ffi::SPVBackCapability_SPVBackCapability_CooperativeMatrixNV => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_CooperativeMatrixNV => {
             naga::back::spv::Capability::CooperativeMatrixNV
         }
-        ffi::SPVBackCapability_SPVBackCapability_FragmentShaderSampleInterlockEXT => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_FragmentShaderSampleInterlockEXT => {
             naga::back::spv::Capability::FragmentShaderSampleInterlockEXT
         }
-        ffi::SPVBackCapability_SPVBackCapability_FragmentShaderShadingRateInterlockEXT => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_FragmentShaderShadingRateInterlockEXT => {
             naga::back::spv::Capability::FragmentShaderShadingRateInterlockEXT
         }
-        ffi::SPVBackCapability_SPVBackCapability_ShaderSMBuiltinsNV => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_ShaderSMBuiltinsNV => {
             naga::back::spv::Capability::ShaderSMBuiltinsNV
         }
-        ffi::SPVBackCapability_SPVBackCapability_FragmentShaderPixelInterlockEXT => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_FragmentShaderPixelInterlockEXT => {
             naga::back::spv::Capability::FragmentShaderPixelInterlockEXT
         }
-        ffi::SPVBackCapability_SPVBackCapability_DemoteToHelperInvocation => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_DemoteToHelperInvocation => {
             naga::back::spv::Capability::DemoteToHelperInvocation
         }
-        ffi::SPVBackCapability_SPVBackCapability_DisplacementMicromapNV => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_DisplacementMicromapNV => {
             naga::back::spv::Capability::DisplacementMicromapNV
         }
-        ffi::SPVBackCapability_SPVBackCapability_RayTracingOpacityMicromapEXT => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_RayTracingOpacityMicromapEXT => {
             naga::back::spv::Capability::RayTracingOpacityMicromapEXT
         }
-        ffi::SPVBackCapability_SPVBackCapability_ShaderInvocationReorderNV => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_ShaderInvocationReorderNV => {
             naga::back::spv::Capability::ShaderInvocationReorderNV
         }
-        ffi::SPVBackCapability_SPVBackCapability_BindlessTextureNV => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_BindlessTextureNV => {
             naga::back::spv::Capability::BindlessTextureNV
         }
-        ffi::SPVBackCapability_SPVBackCapability_RayQueryPositionFetchKHR => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_RayQueryPositionFetchKHR => {
             naga::back::spv::Capability::RayQueryPositionFetchKHR
         }
-        ffi::SPVBackCapability_SPVBackCapability_RayTracingDisplacementMicromapNV => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_RayTracingDisplacementMicromapNV => {
             naga::back::spv::Capability::RayTracingDisplacementMicromapNV
         }
-        ffi::SPVBackCapability_SPVBackCapability_SubgroupShuffleINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_SubgroupShuffleINTEL => {
             naga::back::spv::Capability::SubgroupShuffleINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_SubgroupBufferBlockIOINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_SubgroupBufferBlockIOINTEL => {
             naga::back::spv::Capability::SubgroupBufferBlockIOINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_SubgroupImageBlockIOINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_SubgroupImageBlockIOINTEL => {
             naga::back::spv::Capability::SubgroupImageBlockIOINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_SubgroupImageMediaBlockIOINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_SubgroupImageMediaBlockIOINTEL => {
             naga::back::spv::Capability::SubgroupImageMediaBlockIOINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_RoundToInfinityINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_RoundToInfinityINTEL => {
             naga::back::spv::Capability::RoundToInfinityINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_FloatingPointModeINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_FloatingPointModeINTEL => {
             naga::back::spv::Capability::FloatingPointModeINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_IntegerFunctions2INTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_IntegerFunctions2INTEL => {
             naga::back::spv::Capability::IntegerFunctions2INTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_FunctionPointersINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_FunctionPointersINTEL => {
             naga::back::spv::Capability::FunctionPointersINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_IndirectReferencesINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_IndirectReferencesINTEL => {
             naga::back::spv::Capability::IndirectReferencesINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_AsmINTEL => naga::back::spv::Capability::AsmINTEL,
-        ffi::SPVBackCapability_SPVBackCapability_AtomicFloat32MinMaxEXT => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_AsmINTEL => naga::back::spv::Capability::AsmINTEL,
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_AtomicFloat32MinMaxEXT => {
             naga::back::spv::Capability::AtomicFloat32MinMaxEXT
         }
-        ffi::SPVBackCapability_SPVBackCapability_AtomicFloat64MinMaxEXT => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_AtomicFloat64MinMaxEXT => {
             naga::back::spv::Capability::AtomicFloat64MinMaxEXT
         }
-        ffi::SPVBackCapability_SPVBackCapability_AtomicFloat16MinMaxEXT => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_AtomicFloat16MinMaxEXT => {
             naga::back::spv::Capability::AtomicFloat16MinMaxEXT
         }
-        ffi::SPVBackCapability_SPVBackCapability_VectorComputeINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_VectorComputeINTEL => {
             naga::back::spv::Capability::VectorComputeINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_VectorAnyINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_VectorAnyINTEL => {
             naga::back::spv::Capability::VectorAnyINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_ExpectAssumeKHR => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_ExpectAssumeKHR => {
             naga::back::spv::Capability::ExpectAssumeKHR
         }
-        ffi::SPVBackCapability_SPVBackCapability_SubgroupAvcMotionEstimationINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_SubgroupAvcMotionEstimationINTEL => {
             naga::back::spv::Capability::SubgroupAvcMotionEstimationINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_SubgroupAvcMotionEstimationIntraINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_SubgroupAvcMotionEstimationIntraINTEL => {
             naga::back::spv::Capability::SubgroupAvcMotionEstimationIntraINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_SubgroupAvcMotionEstimationChromaINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_SubgroupAvcMotionEstimationChromaINTEL => {
             naga::back::spv::Capability::SubgroupAvcMotionEstimationChromaINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_VariableLengthArrayINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_VariableLengthArrayINTEL => {
             naga::back::spv::Capability::VariableLengthArrayINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_FunctionFloatControlINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_FunctionFloatControlINTEL => {
             naga::back::spv::Capability::FunctionFloatControlINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_FPGAMemoryAttributesINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_FPGAMemoryAttributesINTEL => {
             naga::back::spv::Capability::FPGAMemoryAttributesINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_FPFastMathModeINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_FPFastMathModeINTEL => {
             naga::back::spv::Capability::FPFastMathModeINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_ArbitraryPrecisionIntegersINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_ArbitraryPrecisionIntegersINTEL => {
             naga::back::spv::Capability::ArbitraryPrecisionIntegersINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_ArbitraryPrecisionFloatingPointINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_ArbitraryPrecisionFloatingPointINTEL => {
             naga::back::spv::Capability::ArbitraryPrecisionFloatingPointINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_UnstructuredLoopControlsINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_UnstructuredLoopControlsINTEL => {
             naga::back::spv::Capability::UnstructuredLoopControlsINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_FPGALoopControlsINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_FPGALoopControlsINTEL => {
             naga::back::spv::Capability::FPGALoopControlsINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_KernelAttributesINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_KernelAttributesINTEL => {
             naga::back::spv::Capability::KernelAttributesINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_FPGAKernelAttributesINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_FPGAKernelAttributesINTEL => {
             naga::back::spv::Capability::FPGAKernelAttributesINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_FPGAMemoryAccessesINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_FPGAMemoryAccessesINTEL => {
             naga::back::spv::Capability::FPGAMemoryAccessesINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_FPGAClusterAttributesINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_FPGAClusterAttributesINTEL => {
             naga::back::spv::Capability::FPGAClusterAttributesINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_LoopFuseINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_LoopFuseINTEL => {
             naga::back::spv::Capability::LoopFuseINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_FPGADSPControlINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_FPGADSPControlINTEL => {
             naga::back::spv::Capability::FPGADSPControlINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_MemoryAccessAliasingINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_MemoryAccessAliasingINTEL => {
             naga::back::spv::Capability::MemoryAccessAliasingINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_FPGAInvocationPipeliningAttributesINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_FPGAInvocationPipeliningAttributesINTEL => {
             naga::back::spv::Capability::FPGAInvocationPipeliningAttributesINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_FPGABufferLocationINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_FPGABufferLocationINTEL => {
             naga::back::spv::Capability::FPGABufferLocationINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_ArbitraryPrecisionFixedPointINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_ArbitraryPrecisionFixedPointINTEL => {
             naga::back::spv::Capability::ArbitraryPrecisionFixedPointINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_USMStorageClassesINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_USMStorageClassesINTEL => {
             naga::back::spv::Capability::USMStorageClassesINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_RuntimeAlignedAttributeINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_RuntimeAlignedAttributeINTEL => {
             naga::back::spv::Capability::RuntimeAlignedAttributeINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_IOPipesINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_IOPipesINTEL => {
             naga::back::spv::Capability::IOPipesINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_BlockingPipesINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_BlockingPipesINTEL => {
             naga::back::spv::Capability::BlockingPipesINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_FPGARegINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_FPGARegINTEL => {
             naga::back::spv::Capability::FPGARegINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_DotProductInputAll => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_DotProductInputAll => {
             naga::back::spv::Capability::DotProductInputAll
         }
-        ffi::SPVBackCapability_SPVBackCapability_DotProductInput4x8Bit => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_DotProductInput4x8Bit => {
             naga::back::spv::Capability::DotProductInput4x8Bit
         }
-        ffi::SPVBackCapability_SPVBackCapability_DotProductInput4x8BitPacked => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_DotProductInput4x8BitPacked => {
             naga::back::spv::Capability::DotProductInput4x8BitPacked
         }
-        ffi::SPVBackCapability_SPVBackCapability_DotProduct => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_DotProduct => {
             naga::back::spv::Capability::DotProduct
         }
-        ffi::SPVBackCapability_SPVBackCapability_RayCullMaskKHR => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_RayCullMaskKHR => {
             naga::back::spv::Capability::RayCullMaskKHR
         }
-        ffi::SPVBackCapability_SPVBackCapability_CooperativeMatrixKHR => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_CooperativeMatrixKHR => {
             naga::back::spv::Capability::CooperativeMatrixKHR
         }
-        ffi::SPVBackCapability_SPVBackCapability_BitInstructions => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_BitInstructions => {
             naga::back::spv::Capability::BitInstructions
         }
-        ffi::SPVBackCapability_SPVBackCapability_GroupNonUniformRotateKHR => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_GroupNonUniformRotateKHR => {
             naga::back::spv::Capability::GroupNonUniformRotateKHR
         }
-        ffi::SPVBackCapability_SPVBackCapability_AtomicFloat32AddEXT => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_AtomicFloat32AddEXT => {
             naga::back::spv::Capability::AtomicFloat32AddEXT
         }
-        ffi::SPVBackCapability_SPVBackCapability_AtomicFloat64AddEXT => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_AtomicFloat64AddEXT => {
             naga::back::spv::Capability::AtomicFloat64AddEXT
         }
-        ffi::SPVBackCapability_SPVBackCapability_LongConstantCompositeINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_LongConstantCompositeINTEL => {
             naga::back::spv::Capability::LongConstantCompositeINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_OptNoneINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_OptNoneINTEL => {
             naga::back::spv::Capability::OptNoneINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_AtomicFloat16AddEXT => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_AtomicFloat16AddEXT => {
             naga::back::spv::Capability::AtomicFloat16AddEXT
         }
-        ffi::SPVBackCapability_SPVBackCapability_DebugInfoModuleINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_DebugInfoModuleINTEL => {
             naga::back::spv::Capability::DebugInfoModuleINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_BFloat16ConversionINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_BFloat16ConversionINTEL => {
             naga::back::spv::Capability::BFloat16ConversionINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_SplitBarrierINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_SplitBarrierINTEL => {
             naga::back::spv::Capability::SplitBarrierINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_GlobalVariableFPGADecorationsINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_GlobalVariableFPGADecorationsINTEL => {
             naga::back::spv::Capability::GlobalVariableFPGADecorationsINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_FPGAKernelAttributesv2INTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_FPGAKernelAttributesv2INTEL => {
             naga::back::spv::Capability::FPGAKernelAttributesv2INTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_GlobalVariableHostAccessINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_GlobalVariableHostAccessINTEL => {
             naga::back::spv::Capability::GlobalVariableHostAccessINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_FPMaxErrorINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_FPMaxErrorINTEL => {
             naga::back::spv::Capability::FPMaxErrorINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_FPGALatencyControlINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_FPGALatencyControlINTEL => {
             naga::back::spv::Capability::FPGALatencyControlINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_FPGAArgumentInterfacesINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_FPGAArgumentInterfacesINTEL => {
             naga::back::spv::Capability::FPGAArgumentInterfacesINTEL
         }
-        ffi::SPVBackCapability_SPVBackCapability_GroupUniformArithmeticKHR => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_GroupUniformArithmeticKHR => {
             naga::back::spv::Capability::GroupUniformArithmeticKHR
         }
-        ffi::SPVBackCapability_SPVBackCapability_CacheControlsINTEL => {
+        ffi::NagaSPVBackCapability_NagaSPVBackCapability_CacheControlsINTEL => {
             naga::back::spv::Capability::CacheControlsINTEL
         }
         _ => panic!("Unknown SPVBackCapability"),
@@ -1308,7 +1308,7 @@ pub fn spv_back_capability_to_naga(
 }
 
 pub fn spv_back_capability_set_to_naga(
-    capability_set: &ffi::SPVBackCapabilitySet,
+    capability_set: &ffi::NagaSPVBackCapabilitySet,
 ) -> naga::FastHashSet<naga::back::spv::Capability> {
     unsafe {
         std::slice::from_raw_parts(capability_set.capabilities, capability_set.capabilities_len)
@@ -1319,26 +1319,27 @@ pub fn spv_back_capability_set_to_naga(
 }
 
 pub fn spv_back_writer_flags_to_naga(
-    flags: ffi::SPVBackWriterFlags,
+    flags: ffi::NagaSPVBackWriterFlags,
 ) -> naga::back::spv::WriterFlags {
     let mut result = naga::back::spv::WriterFlags::empty();
 
-    if flags & ffi::SPVBackWriterFlags_SPVBackWriterFlags_DEBUG != 0 {
+    if flags & ffi::NagaSPVBackWriterFlags_NagaSPVBackWriterFlags_DEBUG != 0 {
         result |= naga::back::spv::WriterFlags::DEBUG;
     }
-    if flags & ffi::SPVBackWriterFlags_SPVBackWriterFlags_ADJUST_COORDINATE_SPACE != 0 {
+    if flags & ffi::NagaSPVBackWriterFlags_NagaSPVBackWriterFlags_ADJUST_COORDINATE_SPACE != 0 {
         result |= naga::back::spv::WriterFlags::ADJUST_COORDINATE_SPACE;
     }
-    if flags & ffi::SPVBackWriterFlags_SPVBackWriterFlags_LABEL_VARYINGS != 0 {
+    if flags & ffi::NagaSPVBackWriterFlags_NagaSPVBackWriterFlags_LABEL_VARYINGS != 0 {
         result |= naga::back::spv::WriterFlags::LABEL_VARYINGS;
     }
-    if flags & ffi::SPVBackWriterFlags_SPVBackWriterFlags_FORCE_POINT_SIZE != 0 {
+    if flags & ffi::NagaSPVBackWriterFlags_NagaSPVBackWriterFlags_FORCE_POINT_SIZE != 0 {
         result |= naga::back::spv::WriterFlags::FORCE_POINT_SIZE;
     }
-    if flags & ffi::SPVBackWriterFlags_SPVBackWriterFlags_CLAMP_FRAG_DEPTH != 0 {
+    if flags & ffi::NagaSPVBackWriterFlags_NagaSPVBackWriterFlags_CLAMP_FRAG_DEPTH != 0 {
         result |= naga::back::spv::WriterFlags::CLAMP_FRAG_DEPTH;
     }
-    if flags & ffi::SPVBackWriterFlags_SPVBackWriterFlags_PRINT_ON_RAY_QUERY_INITIALIZATION_FAIL
+    if flags
+        & ffi::NagaSPVBackWriterFlags_NagaSPVBackWriterFlags_PRINT_ON_RAY_QUERY_INITIALIZATION_FAIL
         != 0
     {
         result |= naga::back::spv::WriterFlags::PRINT_ON_RAY_QUERY_INITIALIZATION_FAIL;
@@ -1358,7 +1359,7 @@ pub fn spv_back_writer_flags_to_naga(
 }
 
 pub fn spv_back_binding_info_to_naga(
-    info: &ffi::SPVBackBindingInfo,
+    info: &ffi::NagaSPVBackBindingInfo,
 ) -> naga::back::spv::BindingInfo {
     naga::back::spv::BindingInfo {
         descriptor_set: info.descriptor_set,
@@ -1371,7 +1372,9 @@ pub fn spv_back_binding_info_to_naga(
     }
 }
 
-pub fn spv_back_binding_map_to_naga(map: &ffi::SPVBackBindingMap) -> naga::back::spv::BindingMap {
+pub fn spv_back_binding_map_to_naga(
+    map: &ffi::NagaSPVBackBindingMap,
+) -> naga::back::spv::BindingMap {
     unsafe {
         std::slice::from_raw_parts(map.entries, map.entries_len)
             .iter()
@@ -1386,16 +1389,16 @@ pub fn spv_back_binding_map_to_naga(map: &ffi::SPVBackBindingMap) -> naga::back:
 }
 
 pub fn spv_back_zero_initialize_workgroup_memory_mode_to_naga(
-    mode: ffi::SPVBackZeroInitializeWorkgroupMemoryMode,
+    mode: ffi::NagaSPVBackZeroInitializeWorkgroupMemoryMode,
 ) -> naga::back::spv::ZeroInitializeWorkgroupMemoryMode {
     match mode {
-        ffi::SPVBackZeroInitializeWorkgroupMemoryMode_SPVBackZeroInitializeWorkgroupMemoryMode_Native => {
+        ffi::NagaSPVBackZeroInitializeWorkgroupMemoryMode_NagaSPVBackZeroInitializeWorkgroupMemoryMode_Native => {
             naga::back::spv::ZeroInitializeWorkgroupMemoryMode::Native
         }
-        ffi::SPVBackZeroInitializeWorkgroupMemoryMode_SPVBackZeroInitializeWorkgroupMemoryMode_Polyfill => {
+        ffi::NagaSPVBackZeroInitializeWorkgroupMemoryMode_NagaSPVBackZeroInitializeWorkgroupMemoryMode_Polyfill => {
             naga::back::spv::ZeroInitializeWorkgroupMemoryMode::Polyfill
         }
-        ffi::SPVBackZeroInitializeWorkgroupMemoryMode_SPVBackZeroInitializeWorkgroupMemoryMode_None => {
+        ffi::NagaSPVBackZeroInitializeWorkgroupMemoryMode_NagaSPVBackZeroInitializeWorkgroupMemoryMode_None => {
             naga::back::spv::ZeroInitializeWorkgroupMemoryMode::None
         }
         _ => panic!("Unknown SPVBackZeroInitializeWorkgroupMemoryMode"),
@@ -1403,50 +1406,50 @@ pub fn spv_back_zero_initialize_workgroup_memory_mode_to_naga(
 }
 
 pub fn spv_back_source_language_to_naga(
-    lang: ffi::SPVBackSourceLanguage,
+    lang: ffi::NagaSPVBackSourceLanguage,
 ) -> naga::back::spv::SourceLanguage {
     match lang {
-        ffi::SPVBackSourceLanguage_SPVBackSourceLanguage_Unknown => {
+        ffi::NagaSPVBackSourceLanguage_NagaSPVBackSourceLanguage_Unknown => {
             naga::back::spv::SourceLanguage::Unknown
         }
-        ffi::SPVBackSourceLanguage_SPVBackSourceLanguage_ESSL => {
+        ffi::NagaSPVBackSourceLanguage_NagaSPVBackSourceLanguage_ESSL => {
             naga::back::spv::SourceLanguage::ESSL
         }
-        ffi::SPVBackSourceLanguage_SPVBackSourceLanguage_GLSL => {
+        ffi::NagaSPVBackSourceLanguage_NagaSPVBackSourceLanguage_GLSL => {
             naga::back::spv::SourceLanguage::GLSL
         }
-        ffi::SPVBackSourceLanguage_SPVBackSourceLanguage_OpenCL_C => {
+        ffi::NagaSPVBackSourceLanguage_NagaSPVBackSourceLanguage_OpenCL_C => {
             naga::back::spv::SourceLanguage::OpenCL_C
         }
-        ffi::SPVBackSourceLanguage_SPVBackSourceLanguage_OpenCL_CPP => {
+        ffi::NagaSPVBackSourceLanguage_NagaSPVBackSourceLanguage_OpenCL_CPP => {
             naga::back::spv::SourceLanguage::OpenCL_CPP
         }
-        ffi::SPVBackSourceLanguage_SPVBackSourceLanguage_HLSL => {
+        ffi::NagaSPVBackSourceLanguage_NagaSPVBackSourceLanguage_HLSL => {
             naga::back::spv::SourceLanguage::HLSL
         }
-        ffi::SPVBackSourceLanguage_SPVBackSourceLanguage_CPP_for_OpenCL => {
+        ffi::NagaSPVBackSourceLanguage_NagaSPVBackSourceLanguage_CPP_for_OpenCL => {
             naga::back::spv::SourceLanguage::CPP_for_OpenCL
         }
-        ffi::SPVBackSourceLanguage_SPVBackSourceLanguage_SYCL => {
+        ffi::NagaSPVBackSourceLanguage_NagaSPVBackSourceLanguage_SYCL => {
             naga::back::spv::SourceLanguage::SYCL
         }
-        ffi::SPVBackSourceLanguage_SPVBackSourceLanguage_HERO_C => {
+        ffi::NagaSPVBackSourceLanguage_NagaSPVBackSourceLanguage_HERO_C => {
             naga::back::spv::SourceLanguage::HERO_C
         }
-        ffi::SPVBackSourceLanguage_SPVBackSourceLanguage_NZSL => {
+        ffi::NagaSPVBackSourceLanguage_NagaSPVBackSourceLanguage_NZSL => {
             naga::back::spv::SourceLanguage::NZSL
         }
-        ffi::SPVBackSourceLanguage_SPVBackSourceLanguage_WGSL => {
+        ffi::NagaSPVBackSourceLanguage_NagaSPVBackSourceLanguage_WGSL => {
             naga::back::spv::SourceLanguage::WGSL
         }
-        ffi::SPVBackSourceLanguage_SPVBackSourceLanguage_Slang => {
+        ffi::NagaSPVBackSourceLanguage_NagaSPVBackSourceLanguage_Slang => {
             naga::back::spv::SourceLanguage::Slang
         }
         _ => panic!("Unknown SPVBackSourceLanguage"),
     }
 }
 
-pub fn spv_back_options_to_naga(options: &ffi::SPVBackOptions) -> naga::back::spv::Options<'_> {
+pub fn spv_back_options_to_naga(options: &ffi::NagaSPVBackOptions) -> naga::back::spv::Options<'_> {
     naga::back::spv::Options {
         lang_version: (options.lang_version[0], options.lang_version[1]),
         flags: spv_back_writer_flags_to_naga(options.flags),
@@ -1469,7 +1472,7 @@ pub fn spv_back_options_to_naga(options: &ffi::SPVBackOptions) -> naga::back::sp
 }
 
 pub fn spv_back_pipeline_options_to_naga(
-    options: &ffi::SPVBackPipelineOptions,
+    options: &ffi::NagaSPVBackPipelineOptions,
 ) -> naga::back::spv::PipelineOptions {
     naga::back::spv::PipelineOptions {
         shader_stage: shader_stage_to_naga(&options.shader_stage),
@@ -1477,24 +1480,24 @@ pub fn spv_back_pipeline_options_to_naga(
     }
 }
 
-pub fn spv_back_error_to_ffi(error: &naga::back::spv::Error) -> ffi::SPVBackError {
-    let default_data = ffi::SPVBackError__bindgen_ty_1::default();
+pub fn spv_back_error_to_ffi(error: &naga::back::spv::Error) -> ffi::NagaSPVBackError {
+    let default_data = ffi::NagaSPVBackError__bindgen_ty_1::default();
 
     match error {
-        naga::back::spv::Error::EntryPointNotFound => ffi::SPVBackError {
-            tag: ffi::SPVBackErrorTag_SPVBackErrorTag_EntryPointNotFound,
+        naga::back::spv::Error::EntryPointNotFound => ffi::NagaSPVBackError {
+            tag: ffi::NagaSPVBackErrorTag_NagaSPVBackErrorTag_EntryPointNotFound,
             data: default_data,
         },
-        naga::back::spv::Error::UnsupportedVersion(v0, v1) => ffi::SPVBackError {
-            tag: ffi::SPVBackErrorTag_SPVBackErrorTag_UnsupportedVersion,
-            data: ffi::SPVBackError__bindgen_ty_1 {
+        naga::back::spv::Error::UnsupportedVersion(v0, v1) => ffi::NagaSPVBackError {
+            tag: ffi::NagaSPVBackErrorTag_NagaSPVBackErrorTag_UnsupportedVersion,
+            data: ffi::NagaSPVBackError__bindgen_ty_1 {
                 unsupported_version: [*v0, *v1],
             },
         },
-        naga::back::spv::Error::MissingCapabilities(error, capabilities) => ffi::SPVBackError {
-            tag: ffi::SPVBackErrorTag_SPVBackErrorTag_MissingCapabilities,
-            data: ffi::SPVBackError__bindgen_ty_1 {
-                missing_capabilities: ffi::SPVBackError__bindgen_ty_1__bindgen_ty_1 {
+        naga::back::spv::Error::MissingCapabilities(error, capabilities) => ffi::NagaSPVBackError {
+            tag: ffi::NagaSPVBackErrorTag_NagaSPVBackErrorTag_MissingCapabilities,
+            data: ffi::NagaSPVBackError__bindgen_ty_1 {
+                missing_capabilities: ffi::NagaSPVBackError__bindgen_ty_1__bindgen_ty_1 {
                     error: unsafe { string_to_ffi(error) },
                     capabilities: unsafe {
                         slice_to_ffi(capabilities.as_slice(), spv_back_capability_to_ffi)
@@ -1503,41 +1506,41 @@ pub fn spv_back_error_to_ffi(error: &naga::back::spv::Error) -> ffi::SPVBackErro
                 },
             },
         },
-        naga::back::spv::Error::FeatureNotImplemented(feature) => ffi::SPVBackError {
-            tag: ffi::SPVBackErrorTag_SPVBackErrorTag_FeatureNotImplemented,
-            data: ffi::SPVBackError__bindgen_ty_1 {
+        naga::back::spv::Error::FeatureNotImplemented(feature) => ffi::NagaSPVBackError {
+            tag: ffi::NagaSPVBackErrorTag_NagaSPVBackErrorTag_FeatureNotImplemented,
+            data: ffi::NagaSPVBackError__bindgen_ty_1 {
                 feature_not_implemented: unsafe { string_to_ffi(feature) },
             },
         },
-        naga::back::spv::Error::Validation(error) => ffi::SPVBackError {
-            tag: ffi::SPVBackErrorTag_SPVBackErrorTag_Validation,
-            data: ffi::SPVBackError__bindgen_ty_1 {
+        naga::back::spv::Error::Validation(error) => ffi::NagaSPVBackError {
+            tag: ffi::NagaSPVBackErrorTag_NagaSPVBackErrorTag_Validation,
+            data: ffi::NagaSPVBackError__bindgen_ty_1 {
                 validation: unsafe { string_to_ffi(error) },
             },
         },
-        naga::back::spv::Error::Override => ffi::SPVBackError {
-            tag: ffi::SPVBackErrorTag_SPVBackErrorTag_Override,
+        naga::back::spv::Error::Override => ffi::NagaSPVBackError {
+            tag: ffi::NagaSPVBackErrorTag_NagaSPVBackErrorTag_Override,
             data: default_data,
         },
         naga::back::spv::Error::ResolveArraySizeError(resolve_array_size_error) => {
-            ffi::SPVBackError {
-                tag: ffi::SPVBackErrorTag_SPVBackErrorTag_ResolveArraySizeError,
-                data: ffi::SPVBackError__bindgen_ty_1 {
+            ffi::NagaSPVBackError {
+                tag: ffi::NagaSPVBackErrorTag_NagaSPVBackErrorTag_ResolveArraySizeError,
+                data: ffi::NagaSPVBackError__bindgen_ty_1 {
                     resolve_array_size_error: resolve_array_size_error_to_ffi(
                         resolve_array_size_error,
                     ),
                 },
             }
         }
-        naga::back::spv::Error::SpirvVersionTooLow(v0, v1) => ffi::SPVBackError {
-            tag: ffi::SPVBackErrorTag_SPVBackErrorTag_SpirvVersionTooLow,
-            data: ffi::SPVBackError__bindgen_ty_1 {
+        naga::back::spv::Error::SpirvVersionTooLow(v0, v1) => ffi::NagaSPVBackError {
+            tag: ffi::NagaSPVBackErrorTag_NagaSPVBackErrorTag_SpirvVersionTooLow,
+            data: ffi::NagaSPVBackError__bindgen_ty_1 {
                 spirv_version_too_low: [*v0, *v1],
             },
         },
-        naga::back::spv::Error::MissingBinding(resource_binding) => ffi::SPVBackError {
-            tag: ffi::SPVBackErrorTag_SPVBackErrorTag_MissingBinding,
-            data: ffi::SPVBackError__bindgen_ty_1 {
+        naga::back::spv::Error::MissingBinding(resource_binding) => ffi::NagaSPVBackError {
+            tag: ffi::NagaSPVBackErrorTag_NagaSPVBackErrorTag_MissingBinding,
+            data: ffi::NagaSPVBackError__bindgen_ty_1 {
                 missing_binding: resource_binding_to_ffi(resource_binding),
             },
         },
