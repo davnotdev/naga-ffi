@@ -10,7 +10,7 @@
 
 #define DEFINE_OPTIONAL(T) \
 	struct {               \
-		Bool some;         \
+		NagaBool some;     \
 		T value;           \
 	}
 #define DEFINE_HANDLE_INDEX(T) size_t
@@ -19,604 +19,604 @@
 extern "C" {
 #endif
 
-struct Empty {
+struct NagaEmpty {
 	uint8_t _phantom;
 };
-typedef uint8_t Bool;
+typedef uint8_t NagaBool;
 
 // TODO: desctructors to free everything
 // TODO: validator errors
 // TODO: implement *::ReflectionInfo
 
-typedef struct Span {
+typedef struct NagaSpan {
 	uint32_t start;
 	uint32_t end;
-} Span;
+} NagaSpan;
 
 #define NAGA_FLAGS_EMPTY(T) (T)0
-#define NAGA_FLAGS_ALL(T) (T)((T)~(T)0)
+#define NAGA_FLAGS_ALL(T) (T)((T) ~(T)0)
 
 // --- naga::ir ---
 
-typedef uint8_t Bytes;
+typedef uint8_t NagaBytes;
 
-typedef struct Type Type;
-typedef struct Override Override;
+typedef struct NagaType NagaType;
+typedef struct NagaOverride NagaOverride;
 
-typedef enum ScalarKind {
-	ScalarKind_Sint = 0,
-	ScalarKind_Uint = 1,
-	ScalarKind_Float = 2,
-	ScalarKind_Bool = 3,
-	ScalarKind_AbstractInt = 4,
-	ScalarKind_AbstractFloat = 5,
-} ScalarKind;
+typedef enum NagaScalarKind {
+	NagaScalarKind_Sint = 0,
+	NagaScalarKind_Uint = 1,
+	NagaScalarKind_Float = 2,
+	NagaScalarKind_Bool = 3,
+	NagaScalarKind_AbstractInt = 4,
+	NagaScalarKind_AbstractFloat = 5,
+} NagaScalarKind;
 
-typedef struct Scalar {
-	ScalarKind kind;
-	Bytes width;
-} Scalar;
+typedef struct NagaScalar {
+	NagaScalarKind kind;
+	NagaBytes width;
+} NagaScalar;
 
-typedef enum VectorSize {
-	VectorSize_Bi = 2,
-	VectorSize_Tri = 3,
-	VectorSize_Quad = 4,
-} VectorSize;
+typedef enum NagaVectorSize {
+	NagaVectorSize_Bi = 2,
+	NagaVectorSize_Tri = 3,
+	NagaVectorSize_Quad = 4,
+} NagaVectorSize;
 
-typedef enum ArraySizeTag {
-	ArraySizeTag_Constant,
-	ArraySizeTag_Pending,
-	ArraySizeTag_Dynamic,
-} ArraySizeTag;
+typedef enum NagaArraySizeTag {
+	NagaArraySizeTag_Constant,
+	NagaArraySizeTag_Pending,
+	NagaArraySizeTag_Dynamic,
+} NagaArraySizeTag;
 
-typedef struct ArraySize {
-	ArraySizeTag tag;
+typedef struct NagaArraySize {
+	NagaArraySizeTag tag;
 	union {
 		uint32_t constant;
-		DEFINE_HANDLE_INDEX(Override)
+		DEFINE_HANDLE_INDEX(NagaOverride)
 		pending;
 	} data;
-} ArraySize;
+} NagaArraySize;
 
-typedef enum StorageFormat {
-	StorageFormat_R8Unorm,
-	StorageFormat_R8Snorm,
-	StorageFormat_R8Uint,
-	StorageFormat_R8Sint,
-	StorageFormat_R16Uint,
-	StorageFormat_R16Sint,
-	StorageFormat_R16Float,
-	StorageFormat_Rg8Unorm,
-	StorageFormat_Rg8Snorm,
-	StorageFormat_Rg8Uint,
-	StorageFormat_Rg8Sint,
-	StorageFormat_R32Uint,
-	StorageFormat_R32Sint,
-	StorageFormat_R32Float,
-	StorageFormat_Rg16Uint,
-	StorageFormat_Rg16Sint,
-	StorageFormat_Rg16Float,
-	StorageFormat_Rgba8Unorm,
-	StorageFormat_Rgba8Snorm,
-	StorageFormat_Rgba8Uint,
-	StorageFormat_Rgba8Sint,
-	StorageFormat_Bgra8Unorm,
-	StorageFormat_Rgb10a2Uint,
-	StorageFormat_Rgb10a2Unorm,
-	StorageFormat_Rg11b10Ufloat,
-	StorageFormat_R64Uint,
-	StorageFormat_Rg32Uint,
-	StorageFormat_Rg32Sint,
-	StorageFormat_Rg32Float,
-	StorageFormat_Rgba16Uint,
-	StorageFormat_Rgba16Sint,
-	StorageFormat_Rgba16Float,
-	StorageFormat_Rgba32Uint,
-	StorageFormat_Rgba32Sint,
-	StorageFormat_Rgba32Float,
-	StorageFormat_R16Unorm,
-	StorageFormat_R16Snorm,
-	StorageFormat_Rg16Unorm,
-	StorageFormat_Rg16Snorm,
-	StorageFormat_Rgba16Unorm,
-	StorageFormat_Rgba16Snorm,
-} StorageFormat;
+typedef enum NagaStorageFormat {
+	NagaStorageFormat_R8Unorm,
+	NagaStorageFormat_R8Snorm,
+	NagaStorageFormat_R8Uint,
+	NagaStorageFormat_R8Sint,
+	NagaStorageFormat_R16Uint,
+	NagaStorageFormat_R16Sint,
+	NagaStorageFormat_R16Float,
+	NagaStorageFormat_Rg8Unorm,
+	NagaStorageFormat_Rg8Snorm,
+	NagaStorageFormat_Rg8Uint,
+	NagaStorageFormat_Rg8Sint,
+	NagaStorageFormat_R32Uint,
+	NagaStorageFormat_R32Sint,
+	NagaStorageFormat_R32Float,
+	NagaStorageFormat_Rg16Uint,
+	NagaStorageFormat_Rg16Sint,
+	NagaStorageFormat_Rg16Float,
+	NagaStorageFormat_Rgba8Unorm,
+	NagaStorageFormat_Rgba8Snorm,
+	NagaStorageFormat_Rgba8Uint,
+	NagaStorageFormat_Rgba8Sint,
+	NagaStorageFormat_Bgra8Unorm,
+	NagaStorageFormat_Rgb10a2Uint,
+	NagaStorageFormat_Rgb10a2Unorm,
+	NagaStorageFormat_Rg11b10Ufloat,
+	NagaStorageFormat_R64Uint,
+	NagaStorageFormat_Rg32Uint,
+	NagaStorageFormat_Rg32Sint,
+	NagaStorageFormat_Rg32Float,
+	NagaStorageFormat_Rgba16Uint,
+	NagaStorageFormat_Rgba16Sint,
+	NagaStorageFormat_Rgba16Float,
+	NagaStorageFormat_Rgba32Uint,
+	NagaStorageFormat_Rgba32Sint,
+	NagaStorageFormat_Rgba32Float,
+	NagaStorageFormat_R16Unorm,
+	NagaStorageFormat_R16Snorm,
+	NagaStorageFormat_Rg16Unorm,
+	NagaStorageFormat_Rg16Snorm,
+	NagaStorageFormat_Rgba16Unorm,
+	NagaStorageFormat_Rgba16Snorm,
+} NagaStorageFormat;
 
-typedef uint32_t StorageAccessFlags;
-typedef enum StorageAccess {
-	StorageAccess_LOAD = 0x1,
-	StorageAccess_STORE = 0x2,
-	StorageAccess_ATOMIC = 0x4,
-} StorageAccess;
+typedef uint32_t NagaStorageAccessFlags;
+typedef enum NagaStorageAccess {
+	NagaStorageAccess_LOAD = 0x1,
+	NagaStorageAccess_STORE = 0x2,
+	NagaStorageAccess_ATOMIC = 0x4,
+} NagaStorageAccess;
 
-typedef enum RelationalFunction {
-	RelationalFunction_All,
-	RelationalFunction_Any,
-	RelationalFunction_IsNan,
-	RelationalFunction_IsInf,
-} RelationalFunction;
+typedef enum NagaRelationalFunction {
+	NagaRelationalFunction_All,
+	NagaRelationalFunction_Any,
+	NagaRelationalFunction_IsNan,
+	NagaRelationalFunction_IsInf,
+} NagaRelationalFunction;
 
-typedef enum ImageClassTag {
-	ImageClassTag_Sampled,
-	ImageClassTag_Depth,
-	ImageClassTag_External,
-	ImageClassTag_Storage,
-} ImageClassTag;
+typedef enum NagaImageClassTag {
+	NagaImageClassTag_Sampled,
+	NagaImageClassTag_Depth,
+	NagaImageClassTag_External,
+	NagaImageClassTag_Storage,
+} NagaImageClassTag;
 
-typedef struct ImageClass {
-	ImageClassTag tag;
+typedef struct NagaImageClass {
+	NagaImageClassTag tag;
 	union {
 		struct {
-			ScalarKind kind;
-			Bool multi;
+			NagaScalarKind kind;
+			NagaBool multi;
 		} sampled;
 		struct {
-			Bool multi;
+			NagaBool multi;
 		} depth;
 		struct {
-			StorageFormat format;
-			StorageAccessFlags access;
+			NagaStorageFormat format;
+			NagaStorageAccessFlags access;
 		} storage;
 	} data;
-} ImageClass;
+} NagaImageClass;
 
-typedef enum AddressSpaceTag {
-	AddressSpaceTag_Function,
-	AddressSpaceTag_Private,
-	AddressSpaceTag_WorkGroup,
-	AddressSpaceTag_Uniform,
-	AddressSpaceTag_Storage,
-	AddressSpaceTag_Handle,
-	AddressSpaceTag_Immediate,
-	AddressSpaceTag_TaskPayload,
-} AddressSpaceTag;
+typedef enum NagaAddressSpaceTag {
+	NagaAddressSpaceTag_Function,
+	NagaAddressSpaceTag_Private,
+	NagaAddressSpaceTag_WorkGroup,
+	NagaAddressSpaceTag_Uniform,
+	NagaAddressSpaceTag_Storage,
+	NagaAddressSpaceTag_Handle,
+	NagaAddressSpaceTag_Immediate,
+	NagaAddressSpaceTag_TaskPayload,
+} NagaAddressSpaceTag;
 
-typedef struct AddressSpace {
-	AddressSpaceTag tag;
+typedef struct NagaAddressSpace {
+	NagaAddressSpaceTag tag;
 	union {
 		struct {
-			StorageAccessFlags access;
+			NagaStorageAccessFlags access;
 		} storage;
 	} data;
-} AddressSpace;
+} NagaAddressSpace;
 
-typedef enum MathFunction {
-	MathFunction_Abs,
-	MathFunction_Min,
-	MathFunction_Max,
-	MathFunction_Clamp,
-	MathFunction_Saturate,
-	MathFunction_Cos,
-	MathFunction_Cosh,
-	MathFunction_Sin,
-	MathFunction_Sinh,
-	MathFunction_Tan,
-	MathFunction_Tanh,
-	MathFunction_Acos,
-	MathFunction_Asin,
-	MathFunction_Atan,
-	MathFunction_Atan2,
-	MathFunction_Asinh,
-	MathFunction_Acosh,
-	MathFunction_Atanh,
-	MathFunction_Radians,
-	MathFunction_Degrees,
-	MathFunction_Ceil,
-	MathFunction_Floor,
-	MathFunction_Round,
-	MathFunction_Fract,
-	MathFunction_Trunc,
-	MathFunction_Modf,
-	MathFunction_Frexp,
-	MathFunction_Ldexp,
-	MathFunction_Exp,
-	MathFunction_Exp2,
-	MathFunction_Log,
-	MathFunction_Log2,
-	MathFunction_Pow,
-	MathFunction_Dot,
-	MathFunction_Dot4I8Packed,
-	MathFunction_Dot4U8Packed,
-	MathFunction_Outer,
-	MathFunction_Cross,
-	MathFunction_Distance,
-	MathFunction_Length,
-	MathFunction_Normalize,
-	MathFunction_FaceForward,
-	MathFunction_Reflect,
-	MathFunction_Refract,
-	MathFunction_Sign,
-	MathFunction_Fma,
-	MathFunction_Mix,
-	MathFunction_Step,
-	MathFunction_SmoothStep,
-	MathFunction_Sqrt,
-	MathFunction_InverseSqrt,
-	MathFunction_Inverse,
-	MathFunction_Transpose,
-	MathFunction_Determinant,
-	MathFunction_QuantizeToF16,
-	MathFunction_CountTrailingZeros,
-	MathFunction_CountLeadingZeros,
-	MathFunction_CountOneBits,
-	MathFunction_ReverseBits,
-	MathFunction_ExtractBits,
-	MathFunction_InsertBits,
-	MathFunction_FirstTrailingBit,
-	MathFunction_FirstLeadingBit,
-	MathFunction_Pack4x8snorm,
-	MathFunction_Pack4x8unorm,
-	MathFunction_Pack2x16snorm,
-	MathFunction_Pack2x16unorm,
-	MathFunction_Pack2x16float,
-	MathFunction_Pack4xI8,
-	MathFunction_Pack4xU8,
-	MathFunction_Pack4xI8Clamp,
-	MathFunction_Pack4xU8Clamp,
-	MathFunction_Unpack4x8snorm,
-	MathFunction_Unpack4x8unorm,
-	MathFunction_Unpack2x16snorm,
-	MathFunction_Unpack2x16unorm,
-	MathFunction_Unpack2x16float,
-	MathFunction_Unpack4xI8,
-	MathFunction_Unpack4xU8,
-} MathFunction;
+typedef enum NagaMathFunction {
+	NagaMathFunction_Abs,
+	NagaMathFunction_Min,
+	NagaMathFunction_Max,
+	NagaMathFunction_Clamp,
+	NagaMathFunction_Saturate,
+	NagaMathFunction_Cos,
+	NagaMathFunction_Cosh,
+	NagaMathFunction_Sin,
+	NagaMathFunction_Sinh,
+	NagaMathFunction_Tan,
+	NagaMathFunction_Tanh,
+	NagaMathFunction_Acos,
+	NagaMathFunction_Asin,
+	NagaMathFunction_Atan,
+	NagaMathFunction_Atan2,
+	NagaMathFunction_Asinh,
+	NagaMathFunction_Acosh,
+	NagaMathFunction_Atanh,
+	NagaMathFunction_Radians,
+	NagaMathFunction_Degrees,
+	NagaMathFunction_Ceil,
+	NagaMathFunction_Floor,
+	NagaMathFunction_Round,
+	NagaMathFunction_Fract,
+	NagaMathFunction_Trunc,
+	NagaMathFunction_Modf,
+	NagaMathFunction_Frexp,
+	NagaMathFunction_Ldexp,
+	NagaMathFunction_Exp,
+	NagaMathFunction_Exp2,
+	NagaMathFunction_Log,
+	NagaMathFunction_Log2,
+	NagaMathFunction_Pow,
+	NagaMathFunction_Dot,
+	NagaMathFunction_Dot4I8Packed,
+	NagaMathFunction_Dot4U8Packed,
+	NagaMathFunction_Outer,
+	NagaMathFunction_Cross,
+	NagaMathFunction_Distance,
+	NagaMathFunction_Length,
+	NagaMathFunction_Normalize,
+	NagaMathFunction_FaceForward,
+	NagaMathFunction_Reflect,
+	NagaMathFunction_Refract,
+	NagaMathFunction_Sign,
+	NagaMathFunction_Fma,
+	NagaMathFunction_Mix,
+	NagaMathFunction_Step,
+	NagaMathFunction_SmoothStep,
+	NagaMathFunction_Sqrt,
+	NagaMathFunction_InverseSqrt,
+	NagaMathFunction_Inverse,
+	NagaMathFunction_Transpose,
+	NagaMathFunction_Determinant,
+	NagaMathFunction_QuantizeToF16,
+	NagaMathFunction_CountTrailingZeros,
+	NagaMathFunction_CountLeadingZeros,
+	NagaMathFunction_CountOneBits,
+	NagaMathFunction_ReverseBits,
+	NagaMathFunction_ExtractBits,
+	NagaMathFunction_InsertBits,
+	NagaMathFunction_FirstTrailingBit,
+	NagaMathFunction_FirstLeadingBit,
+	NagaMathFunction_Pack4x8snorm,
+	NagaMathFunction_Pack4x8unorm,
+	NagaMathFunction_Pack2x16snorm,
+	NagaMathFunction_Pack2x16unorm,
+	NagaMathFunction_Pack2x16float,
+	NagaMathFunction_Pack4xI8,
+	NagaMathFunction_Pack4xU8,
+	NagaMathFunction_Pack4xI8Clamp,
+	NagaMathFunction_Pack4xU8Clamp,
+	NagaMathFunction_Unpack4x8snorm,
+	NagaMathFunction_Unpack4x8unorm,
+	NagaMathFunction_Unpack2x16snorm,
+	NagaMathFunction_Unpack2x16unorm,
+	NagaMathFunction_Unpack2x16float,
+	NagaMathFunction_Unpack4xI8,
+	NagaMathFunction_Unpack4xU8,
+} NagaMathFunction;
 
-typedef enum Interpolation {
-	Interpolation_Perspective,
-	Interpolation_Linear,
-	Interpolation_Flat,
-} Interpolation;
+typedef enum NagaInterpolation {
+	NagaInterpolation_Perspective,
+	NagaInterpolation_Linear,
+	NagaInterpolation_Flat,
+} NagaInterpolation;
 
-typedef enum Sampling {
-	Sampling_Center,
-	Sampling_Centroid,
-	Sampling_Sample,
-	Sampling_First,
-	Sampling_Either,
-} Sampling;
+typedef enum NagaSampling {
+	NagaSampling_Center,
+	NagaSampling_Centroid,
+	NagaSampling_Sample,
+	NagaSampling_First,
+	NagaSampling_Either,
+} NagaSampling;
 
-typedef enum BuiltInTag {
-	BuiltInTag_Position,
-	BuiltInTag_ViewIndex,
-	BuiltInTag_BaseInstance,
-	BuiltInTag_BaseVertex,
-	BuiltInTag_ClipDistance,
-	BuiltInTag_CullDistance,
-	BuiltInTag_InstanceIndex,
-	BuiltInTag_PointSize,
-	BuiltInTag_VertexIndex,
-	BuiltInTag_DrawID,
-	BuiltInTag_FragDepth,
-	BuiltInTag_PointCoord,
-	BuiltInTag_FrontFacing,
-	BuiltInTag_PrimitiveIndex,
-	BuiltInTag_Barycentric,
-	BuiltInTag_SampleIndex,
-	BuiltInTag_SampleMask,
-	BuiltInTag_GlobalInvocationId,
-	BuiltInTag_LocalInvocationId,
-	BuiltInTag_LocalInvocationIndex,
-	BuiltInTag_WorkGroupId,
-	BuiltInTag_WorkGroupSize,
-	BuiltInTag_NumWorkGroups,
-	BuiltInTag_NumSubgroups,
-	BuiltInTag_SubgroupId,
-	BuiltInTag_SubgroupSize,
-	BuiltInTag_SubgroupInvocationId,
-	BuiltInTag_MeshTaskSize,
-	BuiltInTag_CullPrimitive,
-	BuiltInTag_PointIndex,
-	BuiltInTag_LineIndices,
-	BuiltInTag_TriangleIndices,
-	BuiltInTag_VertexCount,
-	BuiltInTag_Vertices,
-	BuiltInTag_PrimitiveCount,
-	BuiltInTag_Primitives,
-} BuiltInTag;
+typedef enum NagaBuiltInTag {
+	NagaBuiltInTag_Position,
+	NagaBuiltInTag_ViewIndex,
+	NagaBuiltInTag_BaseInstance,
+	NagaBuiltInTag_BaseVertex,
+	NagaBuiltInTag_ClipDistance,
+	NagaBuiltInTag_CullDistance,
+	NagaBuiltInTag_InstanceIndex,
+	NagaBuiltInTag_PointSize,
+	NagaBuiltInTag_VertexIndex,
+	NagaBuiltInTag_DrawID,
+	NagaBuiltInTag_FragDepth,
+	NagaBuiltInTag_PointCoord,
+	NagaBuiltInTag_FrontFacing,
+	NagaBuiltInTag_PrimitiveIndex,
+	NagaBuiltInTag_Barycentric,
+	NagaBuiltInTag_SampleIndex,
+	NagaBuiltInTag_SampleMask,
+	NagaBuiltInTag_GlobalInvocationId,
+	NagaBuiltInTag_LocalInvocationId,
+	NagaBuiltInTag_LocalInvocationIndex,
+	NagaBuiltInTag_WorkGroupId,
+	NagaBuiltInTag_WorkGroupSize,
+	NagaBuiltInTag_NumWorkGroups,
+	NagaBuiltInTag_NumSubgroups,
+	NagaBuiltInTag_SubgroupId,
+	NagaBuiltInTag_SubgroupSize,
+	NagaBuiltInTag_SubgroupInvocationId,
+	NagaBuiltInTag_MeshTaskSize,
+	NagaBuiltInTag_CullPrimitive,
+	NagaBuiltInTag_PointIndex,
+	NagaBuiltInTag_LineIndices,
+	NagaBuiltInTag_TriangleIndices,
+	NagaBuiltInTag_VertexCount,
+	NagaBuiltInTag_Vertices,
+	NagaBuiltInTag_PrimitiveCount,
+	NagaBuiltInTag_Primitives,
+} NagaBuiltInTag;
 
-typedef struct BuiltIn {
-	BuiltInTag tag;
+typedef struct NagaBuiltIn {
+	NagaBuiltInTag tag;
 	union {
 		struct {
-			Bool invariant;
+			NagaBool invariant;
 		} position;
 	} data;
-} BuiltIn;
+} NagaBuiltIn;
 
-typedef enum BindingTag {
-	BindingTag_BuiltIn,
-	BindingTag_Location,
-} BindingTag;
+typedef enum NagaBindingTag {
+	NagaBindingTag_BuiltIn,
+	NagaBindingTag_Location,
+} NagaBindingTag;
 
-typedef struct Binding {
-	BindingTag tag;
+typedef struct NagaBinding {
+	NagaBindingTag tag;
 	union {
-		BuiltIn built_in;
+		NagaBuiltIn built_in;
 		struct {
 			uint32_t location;
-			Interpolation interpolation;
-			Sampling sampling;
+			NagaInterpolation interpolation;
+			NagaSampling sampling;
 			uint32_t blend_src;
-			Bool per_primitive;
+			NagaBool per_primitive;
 		} location;
 	} data;
-} Binding;
+} NagaBinding;
 
-typedef struct StructMember {
+typedef struct NagaStructMember {
 	char *NAGA_NULLABLE name;
-	DEFINE_HANDLE_INDEX(Type)
+	DEFINE_HANDLE_INDEX(NagaType)
 	ty;
-	DEFINE_OPTIONAL(Binding)
+	DEFINE_OPTIONAL(NagaBinding)
 	binding;
 	uint32_t offset;
-} StructMember;
+} NagaStructMember;
 
-typedef enum ImageDimension {
-	D1,
-	D2,
-	D3,
-	Cube,
-} ImageDimension;
+typedef enum NagaImageDimension {
+	NagaImageDimension_D1,
+	NagaImageDimension_D2,
+	NagaImageDimension_D3,
+	NagaImageDimension_Cube,
+} NagaImageDimension;
 
-typedef enum TypeInnerTag {
-	TypeInnerTag_Scalar,
-	TypeInnerTag_Vector,
-	TypeInnerTag_Matrix,
-	TypeInnerTag_Atomic,
-	TypeInnerTag_Pointer,
-	TypeInnerTag_ValuePointer,
-	TypeInnerTag_Array,
-	TypeInnerTag_Struct,
-	TypeInnerTag_Image,
-	TypeInnerTag_Sampler,
-	TypeInnerTag_AccelerationStructure,
-	TypeInnerTag_RayQuery,
-	TypeInnerTag_BindingArray,
-} TypeInnerTag;
+typedef enum NagaTypeInnerTag {
+	NagaTypeInnerTag_Scalar,
+	NagaTypeInnerTag_Vector,
+	NagaTypeInnerTag_Matrix,
+	NagaTypeInnerTag_Atomic,
+	NagaTypeInnerTag_Pointer,
+	NagaTypeInnerTag_ValuePointer,
+	NagaTypeInnerTag_Array,
+	NagaTypeInnerTag_Struct,
+	NagaTypeInnerTag_Image,
+	NagaTypeInnerTag_Sampler,
+	NagaTypeInnerTag_AccelerationStructure,
+	NagaTypeInnerTag_RayQuery,
+	NagaTypeInnerTag_BindingArray,
+} NagaTypeInnerTag;
 
-typedef struct TypeInner {
-	TypeInnerTag tag;
+typedef struct NagaTypeInner {
+	NagaTypeInnerTag tag;
 	union {
-		Scalar scalar;
+		NagaScalar scalar;
 		struct {
-			VectorSize size;
-			Scalar scalar;
+			NagaVectorSize size;
+			NagaScalar scalar;
 		} vector;
 		struct {
-			VectorSize columns;
-			VectorSize rows;
-			Scalar scalar;
+			NagaVectorSize columns;
+			NagaVectorSize rows;
+			NagaScalar scalar;
 		} matrix;
-		Scalar atomic;
+		NagaScalar atomic;
 		struct {
-			DEFINE_HANDLE_INDEX(Type)
+			DEFINE_HANDLE_INDEX(NagaType)
 			base;
-			AddressSpace space;
+			NagaAddressSpace space;
 		} pointer;
 		struct {
-			VectorSize size;
-			Scalar scalar;
-			AddressSpace space;
+			NagaVectorSize size;
+			NagaScalar scalar;
+			NagaAddressSpace space;
 		} value_pointer;
 		struct {
-			DEFINE_HANDLE_INDEX(Type)
+			DEFINE_HANDLE_INDEX(NagaType)
 			base;
-			ArraySize size;
+			NagaArraySize size;
 			uint32_t stride;
 		} array;
 		struct {
-			StructMember *members;
+			NagaStructMember *members;
 			size_t members_len;
 			uint32_t span;
 		} struct_;
 		struct {
-			ImageDimension dim;
-			Bool arrayed;
-			ImageClass class_;
+			NagaImageDimension dim;
+			NagaBool arrayed;
+			NagaImageClass class_;
 		} image;
 		struct {
-			Bool comparison;
+			NagaBool comparison;
 		} sampler;
 		struct {
-			Bool vertex_return;
+			NagaBool vertex_return;
 		} acceleration_structure;
 		struct {
-			Bool vertex_return;
+			NagaBool vertex_return;
 		} ray_query;
 		struct {
-			DEFINE_HANDLE_INDEX(Type)
+			DEFINE_HANDLE_INDEX(NagaType)
 			base;
-			ArraySize size;
+			NagaArraySize size;
 		} binding_array;
 	} data;
-} TypeInner;
+} NagaTypeInner;
 
-typedef struct Type {
+typedef struct NagaType {
 	char *NAGA_NULLABLE name;
-	TypeInner inner;
-} Type;
+	NagaTypeInner inner;
+} NagaType;
 
-typedef struct Constant {
+typedef struct NagaConstant {
 	char *NAGA_NULLABLE name;
-	DEFINE_HANDLE_INDEX(Type)
+	DEFINE_HANDLE_INDEX(NagaType)
 	ty;
-	struct Empty *NAGA_UNIMPLEMENTED init;
-} Constant;
+	struct NagaEmpty *NAGA_UNIMPLEMENTED init;
+} NagaConstant;
 
-typedef struct Override {
+typedef struct NagaOverride {
 	char *NAGA_NULLABLE name;
 	DEFINE_OPTIONAL(uint16_t)
 	id;
-	DEFINE_HANDLE_INDEX(Type)
+	DEFINE_HANDLE_INDEX(NagaType)
 	ty;
-	struct Empty *NAGA_UNIMPLEMENTED init;
-} Override;
+	struct NagaEmpty *NAGA_UNIMPLEMENTED init;
+} NagaOverride;
 
-typedef struct ResourceBinding {
+typedef struct NagaResourceBinding {
 	uint32_t group;
 	uint32_t binding;
-} ResourceBinding;
+} NagaResourceBinding;
 
-typedef struct GlobalVariable {
+typedef struct NagaGlobalVariable {
 	char *NAGA_NULLABLE name;
-	AddressSpace space;
-	DEFINE_OPTIONAL(ResourceBinding)
+	NagaAddressSpace space;
+	DEFINE_OPTIONAL(NagaResourceBinding)
 	binding;
-	DEFINE_HANDLE_INDEX(Type)
+	DEFINE_HANDLE_INDEX(NagaType)
 	ty;
-	struct Empty *NAGA_UNIMPLEMENTED init;
-} GlobalVariable;
+	struct NagaEmpty *NAGA_UNIMPLEMENTED init;
+} NagaGlobalVariable;
 
-typedef enum ConservativeDepth {
-	ConservativeDepth_GreaterEqual,
-	ConservativeDepth_LessEqual,
-	ConservativeDepth_Unchanged,
-} ConservativeDepth;
+typedef enum NagaConservativeDepth {
+	NagaConservativeDepth_GreaterEqual,
+	NagaConservativeDepth_LessEqual,
+	NagaConservativeDepth_Unchanged,
+} NagaConservativeDepth;
 
-typedef enum EarlyDepthTestTag {
-	EarlyDepthTestTag_Force,
-	EarlyDepthTestTag_Allow,
-} EarlyDepthTestTag;
+typedef enum NagaEarlyDepthTestTag {
+	NagaEarlyDepthTestTag_Force,
+	NagaEarlyDepthTestTag_Allow,
+} NagaEarlyDepthTestTag;
 
-typedef struct EarlyDepthTest {
-	EarlyDepthTestTag tag;
+typedef struct NagaEarlyDepthTest {
+	NagaEarlyDepthTestTag tag;
 	union {
 		struct {
-			ConservativeDepth conservative;
+			NagaConservativeDepth conservative;
 		} allow;
 	} data;
-} EarlyDepthTest;
+} NagaEarlyDepthTest;
 
-typedef enum ShaderStage {
-	ShaderStage_Vertex,
-	ShaderStage_Task,
-	ShaderStage_Mesh,
-	ShaderStage_Fragment,
-	ShaderStage_Compute,
-} ShaderStage;
+typedef enum NagaShaderStage {
+	NagaShaderStage_Vertex,
+	NagaShaderStage_Task,
+	NagaShaderStage_Mesh,
+	NagaShaderStage_Fragment,
+	NagaShaderStage_Compute,
+} NagaShaderStage;
 
-typedef struct EntryPoint {
+typedef struct NagaEntryPoint {
 	char *name;
-	ShaderStage stage;
-	DEFINE_OPTIONAL(EarlyDepthTest)
+	NagaShaderStage stage;
+	DEFINE_OPTIONAL(NagaEarlyDepthTest)
 	early_depth_test;
 	uint32_t workgroup_size[3];
-	struct Empty *NAGA_UNIMPLEMENTED workgroup_size_overrides[3];
-	struct Empty *NAGA_UNIMPLEMENTED function;
-	struct Empty *NAGA_UNIMPLEMENTED mesh_info;
-	struct Empty *NAGA_UNIMPLEMENTED task_payload;
-} EntryPoint;
+	struct NagaEmpty *NAGA_UNIMPLEMENTED workgroup_size_overrides[3];
+	struct NagaEmpty *NAGA_UNIMPLEMENTED function;
+	struct NagaEmpty *NAGA_UNIMPLEMENTED mesh_info;
+	struct NagaEmpty *NAGA_UNIMPLEMENTED task_payload;
+} NagaEntryPoint;
 
-typedef uint32_t ModuleFillFlags;
-typedef enum ModuleFill {
-	ModuleFill_Types = 0x1,
-	ModuleFill_Constants = 0x2,
-	ModuleFill_Overrides = 0x4,
-	ModuleFill_GlobalVariables = 0x8,
-	ModuleFill_GlobalExpressions = 0x10,
-	ModuleFill_Functions = 0x20,
-	ModuleFill_EntryPoints = 0x40,
-	ModuleFill_DiagnosticFilters = 0x80,
-} ModuleFill;
+typedef uint32_t NagaModuleFillFlags;
+typedef enum NagaModuleFill {
+	NagaModuleFill_Types = 0x1,
+	NagaModuleFill_Constants = 0x2,
+	NagaModuleFill_Overrides = 0x4,
+	NagaModuleFill_GlobalVariables = 0x8,
+	NagaModuleFill_GlobalExpressions = 0x10,
+	NagaModuleFill_Functions = 0x20,
+	NagaModuleFill_EntryPoints = 0x40,
+	NagaModuleFill_DiagnosticFilters = 0x80,
+} NagaModuleFill;
 
-typedef struct Module {
+typedef struct NagaModule {
 	void *_inner_module;
 
-	Type *types;
+	NagaType *types;
 	size_t types_len;
-	struct Empty *NAGA_UNIMPLEMENTED special_types;
-	Constant *constants;
+	struct NagaEmpty *NAGA_UNIMPLEMENTED special_types;
+	NagaConstant *constants;
 	size_t constants_len;
-	Override *overrides;
+	NagaOverride *overrides;
 	size_t overrides_len;
-	GlobalVariable *global_variables;
+	NagaGlobalVariable *global_variables;
 	size_t global_variables_len;
-	struct Empty *NAGA_UNIMPLEMENTED global_expressions;
+	struct NagaEmpty *NAGA_UNIMPLEMENTED global_expressions;
 	size_t global_expressions_len;
-	struct Empty *NAGA_UNIMPLEMENTED functions;
+	struct NagaEmpty *NAGA_UNIMPLEMENTED functions;
 	size_t functions_len;
-	EntryPoint *entry_points;
+	NagaEntryPoint *entry_points;
 	size_t entry_points_len;
-	struct Empty *NAGA_UNIMPLEMENTED diagnostic_filters;
+	struct NagaEmpty *NAGA_UNIMPLEMENTED diagnostic_filters;
 	size_t diagnostic_filters_len;
-	struct Empty *NAGA_UNIMPLEMENTED diagnostic_filter_leaf;
-	struct Empty *NAGA_UNIMPLEMENTED doc_comments;
-} Module;
+	struct NagaEmpty *NAGA_UNIMPLEMENTED diagnostic_filter_leaf;
+	struct NagaEmpty *NAGA_UNIMPLEMENTED doc_comments;
+} NagaModule;
 
-typedef enum ModuleInfoFillFlags {
-	ModuleInfoFillFlags_Unimplemented = UINT32_MAX
-} ModuleInfoFillFlags;
+typedef enum NagaModuleInfoFillFlags {
+	NagaModuleInfoFillFlags_Unimplemented = UINT32_MAX
+} NagaModuleInfoFillFlags;
 
-typedef struct ModuleInfo {
+typedef struct NagaModuleInfo {
 	void *_inner_module_info;
-} ModuleInfo;
+} NagaModuleInfo;
 
 // --- naga::proc ---
 
-typedef enum ConstantEvaluatorErrorTag {
-	ConstantEvaluatorErrorTag_FunctionArg,
-	ConstantEvaluatorErrorTag_GlobalVariable,
-	ConstantEvaluatorErrorTag_LocalVariable,
-	ConstantEvaluatorErrorTag_InvalidArrayLengthArg,
-	ConstantEvaluatorErrorTag_ArrayLengthDynamic,
-	ConstantEvaluatorErrorTag_ArrayLengthOverridden,
-	ConstantEvaluatorErrorTag_Call,
-	ConstantEvaluatorErrorTag_WorkGroupUniformLoadResult,
-	ConstantEvaluatorErrorTag_Atomic,
-	ConstantEvaluatorErrorTag_Derivative,
-	ConstantEvaluatorErrorTag_Load,
-	ConstantEvaluatorErrorTag_ImageExpression,
-	ConstantEvaluatorErrorTag_RayQueryExpression,
-	ConstantEvaluatorErrorTag_SubgroupExpression,
-	ConstantEvaluatorErrorTag_InvalidAccessBase,
-	ConstantEvaluatorErrorTag_InvalidAccessIndex,
-	ConstantEvaluatorErrorTag_InvalidAccessIndexTy,
-	ConstantEvaluatorErrorTag_ArrayLength,
-	ConstantEvaluatorErrorTag_InvalidCastArg,
-	ConstantEvaluatorErrorTag_InvalidUnaryOpArg,
-	ConstantEvaluatorErrorTag_InvalidBinaryOpArgs,
-	ConstantEvaluatorErrorTag_InvalidMathArg,
-	ConstantEvaluatorErrorTag_InvalidMathArgCount,
-	ConstantEvaluatorErrorTag_InvalidRelationalArg,
-	ConstantEvaluatorErrorTag_InvalidClamp,
-	ConstantEvaluatorErrorTag_InvalidVectorComposeLength,
-	ConstantEvaluatorErrorTag_InvalidVectorComposeComponent,
-	ConstantEvaluatorErrorTag_SplatScalarOnly,
-	ConstantEvaluatorErrorTag_SwizzleVectorOnly,
-	ConstantEvaluatorErrorTag_SwizzleOutOfBounds,
-	ConstantEvaluatorErrorTag_TypeNotConstructible,
-	ConstantEvaluatorErrorTag_SubexpressionsAreNotConstant,
-	ConstantEvaluatorErrorTag_NotImplemented,
-	ConstantEvaluatorErrorTag_Overflow,
-	ConstantEvaluatorErrorTag_AutomaticConversionLossy,
-	ConstantEvaluatorErrorTag_DivisionByZero,
-	ConstantEvaluatorErrorTag_RemainderByZero,
-	ConstantEvaluatorErrorTag_ShiftedMoreThan32Bits,
-	ConstantEvaluatorErrorTag_Literal,
-	ConstantEvaluatorErrorTag_Override,
-	ConstantEvaluatorErrorTag_RuntimeExpr,
-	ConstantEvaluatorErrorTag_OverrideExpr,
-	ConstantEvaluatorErrorTag_SelectScalarConditionNotABool,
-	ConstantEvaluatorErrorTag_SelectVecRejectAcceptSizeMismatch,
-	ConstantEvaluatorErrorTag_SelectConditionNotAVecBool,
-	ConstantEvaluatorErrorTag_SelectConditionVecSizeMismatch,
-	ConstantEvaluatorErrorTag_SelectAcceptRejectTypeMismatch,
-} ConstantEvaluatorErrorTag;
+typedef enum NagaConstantEvaluatorErrorTag {
+	NagaConstantEvaluatorErrorTag_FunctionArg,
+	NagaConstantEvaluatorErrorTag_GlobalVariable,
+	NagaConstantEvaluatorErrorTag_LocalVariable,
+	NagaConstantEvaluatorErrorTag_InvalidArrayLengthArg,
+	NagaConstantEvaluatorErrorTag_ArrayLengthDynamic,
+	NagaConstantEvaluatorErrorTag_ArrayLengthOverridden,
+	NagaConstantEvaluatorErrorTag_Call,
+	NagaConstantEvaluatorErrorTag_WorkGroupUniformLoadResult,
+	NagaConstantEvaluatorErrorTag_Atomic,
+	NagaConstantEvaluatorErrorTag_Derivative,
+	NagaConstantEvaluatorErrorTag_Load,
+	NagaConstantEvaluatorErrorTag_ImageExpression,
+	NagaConstantEvaluatorErrorTag_RayQueryExpression,
+	NagaConstantEvaluatorErrorTag_SubgroupExpression,
+	NagaConstantEvaluatorErrorTag_InvalidAccessBase,
+	NagaConstantEvaluatorErrorTag_InvalidAccessIndex,
+	NagaConstantEvaluatorErrorTag_InvalidAccessIndexTy,
+	NagaConstantEvaluatorErrorTag_ArrayLength,
+	NagaConstantEvaluatorErrorTag_InvalidCastArg,
+	NagaConstantEvaluatorErrorTag_InvalidUnaryOpArg,
+	NagaConstantEvaluatorErrorTag_InvalidBinaryOpArgs,
+	NagaConstantEvaluatorErrorTag_InvalidMathArg,
+	NagaConstantEvaluatorErrorTag_InvalidMathArgCount,
+	NagaConstantEvaluatorErrorTag_InvalidRelationalArg,
+	NagaConstantEvaluatorErrorTag_InvalidClamp,
+	NagaConstantEvaluatorErrorTag_InvalidVectorComposeLength,
+	NagaConstantEvaluatorErrorTag_InvalidVectorComposeComponent,
+	NagaConstantEvaluatorErrorTag_SplatScalarOnly,
+	NagaConstantEvaluatorErrorTag_SwizzleVectorOnly,
+	NagaConstantEvaluatorErrorTag_SwizzleOutOfBounds,
+	NagaConstantEvaluatorErrorTag_TypeNotConstructible,
+	NagaConstantEvaluatorErrorTag_SubexpressionsAreNotConstant,
+	NagaConstantEvaluatorErrorTag_NotImplemented,
+	NagaConstantEvaluatorErrorTag_Overflow,
+	NagaConstantEvaluatorErrorTag_AutomaticConversionLossy,
+	NagaConstantEvaluatorErrorTag_DivisionByZero,
+	NagaConstantEvaluatorErrorTag_RemainderByZero,
+	NagaConstantEvaluatorErrorTag_ShiftedMoreThan32Bits,
+	NagaConstantEvaluatorErrorTag_Literal,
+	NagaConstantEvaluatorErrorTag_Override,
+	NagaConstantEvaluatorErrorTag_RuntimeExpr,
+	NagaConstantEvaluatorErrorTag_OverrideExpr,
+	NagaConstantEvaluatorErrorTag_SelectScalarConditionNotABool,
+	NagaConstantEvaluatorErrorTag_SelectVecRejectAcceptSizeMismatch,
+	NagaConstantEvaluatorErrorTag_SelectConditionNotAVecBool,
+	NagaConstantEvaluatorErrorTag_SelectConditionVecSizeMismatch,
+	NagaConstantEvaluatorErrorTag_SelectAcceptRejectTypeMismatch,
+} NagaConstantEvaluatorErrorTag;
 
-typedef struct ConstantEvaluatorError {
-	ConstantEvaluatorErrorTag tag;
+typedef struct NagaConstantEvaluatorError {
+	NagaConstantEvaluatorErrorTag tag;
 	union {
 		struct {
 			char *from;
 			char *to;
 		} invalid_cast_arg;
 		struct {
-			MathFunction function;
+			NagaMathFunction function;
 			size_t expected;
 			size_t actual;
 		} invalid_math_arg_count;
-		struct Empty *NAGA_UNIMPLEMENTED invalid_relational_arg;
+		struct NagaEmpty *NAGA_UNIMPLEMENTED invalid_relational_arg;
 		struct {
 			size_t expected;
 			size_t actual;
@@ -627,1234 +627,1234 @@ typedef struct ConstantEvaluatorError {
 			char *value;
 			char *to_type;
 		} automatic_conversion_lossy;
-		struct Empty *NAGA_UNIMPLEMENTED literal;
+		struct NagaEmpty *NAGA_UNIMPLEMENTED literal;
 		struct {
-			VectorSize reject;
-			VectorSize accept;
+			NagaVectorSize reject;
+			NagaVectorSize accept;
 		} select_vec_reject_accept_size_mismatch;
 	} data;
-} ConstantEvaluatorError;
+} NagaConstantEvaluatorError;
 
-typedef enum BoundsCheckPolicy {
-	BoundsCheckPolicy_Restrict,
-	BoundsCheckPolicy_ReadZeroSkipWrite,
-	BoundsCheckPolicy_Unchecked,
-} BoundsCheckPolicy;
+typedef enum NagaBoundsCheckPolicy {
+	NagaBoundsCheckPolicy_Restrict,
+	NagaBoundsCheckPolicy_ReadZeroSkipWrite,
+	NagaBoundsCheckPolicy_Unchecked,
+} NagaBoundsCheckPolicy;
 
-typedef struct BoundsCheckPolicies {
-	BoundsCheckPolicy index;
-	BoundsCheckPolicy buffer;
-	BoundsCheckPolicy image_load;
-	BoundsCheckPolicy binding_array;
-} BoundsCheckPolicies;
+typedef struct NagaBoundsCheckPolicies {
+	NagaBoundsCheckPolicy index;
+	NagaBoundsCheckPolicy buffer;
+	NagaBoundsCheckPolicy image_load;
+	NagaBoundsCheckPolicy binding_array;
+} NagaBoundsCheckPolicies;
 
-typedef enum ResolveArraySizeError {
-	ResolveArraySizeError_ExpectedPositiveArrayLength,
-	ResolveArraySizeError_NonConstArrayLength,
-} ResolveArraySizeError;
+typedef enum NagaResolveArraySizeError {
+	NagaResolveArraySizeError_ExpectedPositiveArrayLength,
+	NagaResolveArraySizeError_NonConstArrayLength,
+} NagaResolveArraySizeError;
 
 // --- naga::valid ---
 
-typedef struct Validator {
+typedef struct NagaValidator {
 	void *_inner_validator;
-} Validator;
+} NagaValidator;
 
-typedef uint64_t CapabilitiesFlags;
-typedef enum Capabilities {
-	Capabilities_IMMEDIATES = 0x1,
-	Capabilities_FLOAT64 = 0x2,
-	Capabilities_PRIMITIVE_INDEX = 0x4,
-	Capabilities_TEXTURE_AND_SAMPLER_BINDING_ARRAY = 0x8,
-	Capabilities_BUFFER_BINDING_ARRAY = 0x10,
-	Capabilities_STORAGE_TEXTURE_BINDING_ARRAY = 0x20,
-	Capabilities_STORAGE_BUFFER_BINDING_ARRAY = 0x40,
-	Capabilities_CLIP_DISTANCE = 0x80,
-	Capabilities_CULL_DISTANCE = 0x100,
-	Capabilities_STORAGE_TEXTURE_16BIT_NORM_FORMATS = 0x200,
-	Capabilities_MULTIVIEW = 0x400,
-	Capabilities_EARLY_DEPTH_TEST = 0x800,
-	Capabilities_MULTISAMPLED_SHADING = 0x1000,
-	Capabilities_RAY_QUERY = 0x2000,
-	Capabilities_DUAL_SOURCE_BLENDING = 0x4000,
-	Capabilities_CUBE_ARRAY_TEXTURES = 0x8000,
-	Capabilities_SHADER_INT64 = 0x10000,
-	Capabilities_SUBGROUP = 0x20000,
-	Capabilities_SUBGROUP_BARRIER = 0x40000,
-	Capabilities_SUBGROUP_VERTEX_STAGE = 0x80000,
-	Capabilities_SHADER_INT64_ATOMIC_MIN_MAX = 0x100000,
-	Capabilities_SHADER_INT64_ATOMIC_ALL_OPS = 0x200000,
-	Capabilities_SHADER_FLOAT32_ATOMIC = 0x400000,
-	Capabilities_TEXTURE_ATOMIC = 0x800000,
-	Capabilities_TEXTURE_INT64_ATOMIC = 0x1000000,
-	Capabilities_RAY_HIT_VERTEX_POSITION = 0x2000000,
-	Capabilities_SHADER_FLOAT16 = 0x4000000,
-	Capabilities_TEXTURE_EXTERNAL = 0x8000000,
-	Capabilities_SHADER_FLOAT16_IN_FLOAT32 = 0x10000000,
-	Capabilities_SHADER_BARYCENTRICS = 0x20000000,
-	Capabilities_MESH_SHADER = 0x40000000,
-	Capabilities_MESH_SHADER_POINT_TOPOLOGY = 0x80000000,
-	Capabilities_TEXTURE_AND_SAMPLER_BINDING_ARRAY_NON_UNIFORM_INDEXING = 0x100000000,
-	Capabilities_BUFFER_BINDING_ARRAY_NON_UNIFORM_INDEXING = 0x200000000,
-	Capabilities_STORAGE_TEXTURE_BINDING_ARRAY_NON_UNIFORM_INDEXING = 0x400000000,
-	Capabilities_STORAGE_BUFFER_BINDING_ARRAY_NON_UNIFORM_INDEXING = 0x800000000,
-} Capabilities;
+typedef uint64_t NagaCapabilitiesFlags;
+typedef enum NagaCapabilities {
+	NagaCapabilities_IMMEDIATES = 0x1,
+	NagaCapabilities_FLOAT64 = 0x2,
+	NagaCapabilities_PRIMITIVE_INDEX = 0x4,
+	NagaCapabilities_TEXTURE_AND_SAMPLER_BINDING_ARRAY = 0x8,
+	NagaCapabilities_BUFFER_BINDING_ARRAY = 0x10,
+	NagaCapabilities_STORAGE_TEXTURE_BINDING_ARRAY = 0x20,
+	NagaCapabilities_STORAGE_BUFFER_BINDING_ARRAY = 0x40,
+	NagaCapabilities_CLIP_DISTANCE = 0x80,
+	NagaCapabilities_CULL_DISTANCE = 0x100,
+	NagaCapabilities_STORAGE_TEXTURE_16BIT_NORM_FORMATS = 0x200,
+	NagaCapabilities_MULTIVIEW = 0x400,
+	NagaCapabilities_EARLY_DEPTH_TEST = 0x800,
+	NagaCapabilities_MULTISAMPLED_SHADING = 0x1000,
+	NagaCapabilities_RAY_QUERY = 0x2000,
+	NagaCapabilities_DUAL_SOURCE_BLENDING = 0x4000,
+	NagaCapabilities_CUBE_ARRAY_TEXTURES = 0x8000,
+	NagaCapabilities_SHADER_INT64 = 0x10000,
+	NagaCapabilities_SUBGROUP = 0x20000,
+	NagaCapabilities_SUBGROUP_BARRIER = 0x40000,
+	NagaCapabilities_SUBGROUP_VERTEX_STAGE = 0x80000,
+	NagaCapabilities_SHADER_INT64_ATOMIC_MIN_MAX = 0x100000,
+	NagaCapabilities_SHADER_INT64_ATOMIC_ALL_OPS = 0x200000,
+	NagaCapabilities_SHADER_FLOAT32_ATOMIC = 0x400000,
+	NagaCapabilities_TEXTURE_ATOMIC = 0x800000,
+	NagaCapabilities_TEXTURE_INT64_ATOMIC = 0x1000000,
+	NagaCapabilities_RAY_HIT_VERTEX_POSITION = 0x2000000,
+	NagaCapabilities_SHADER_FLOAT16 = 0x4000000,
+	NagaCapabilities_TEXTURE_EXTERNAL = 0x8000000,
+	NagaCapabilities_SHADER_FLOAT16_IN_FLOAT32 = 0x10000000,
+	NagaCapabilities_SHADER_BARYCENTRICS = 0x20000000,
+	NagaCapabilities_MESH_SHADER = 0x40000000,
+	NagaCapabilities_MESH_SHADER_POINT_TOPOLOGY = 0x80000000,
+	NagaCapabilities_TEXTURE_AND_SAMPLER_BINDING_ARRAY_NON_UNIFORM_INDEXING = 0x100000000,
+	NagaCapabilities_BUFFER_BINDING_ARRAY_NON_UNIFORM_INDEXING = 0x200000000,
+	NagaCapabilities_STORAGE_TEXTURE_BINDING_ARRAY_NON_UNIFORM_INDEXING = 0x400000000,
+	NagaCapabilities_STORAGE_BUFFER_BINDING_ARRAY_NON_UNIFORM_INDEXING = 0x800000000,
+} NagaCapabilities;
 
 // On the topic of `FlagsFlags1, I'd pick consistency over grammar any day.
-typedef uint8_t ValidationFlagsFlags;
-typedef enum ValidationFlags {
-	ValidationFlags_EXPRESSIONS = 0x1,
-	ValidationFlags_BLOCKS = 0x2,
-	ValidationFlags_CONTROL_FLOW_UNIFORMITY = 0x4,
-	ValidationFlags_STRUCT_LAYOUTS = 0x8,
-	ValidationFlags_CONSTANTS = 0x10,
-	ValidationFlags_BINDINGS = 0x20,
-} ValidationFlags;
+typedef uint8_t NagaValidationFlagsFlags;
+typedef enum NagaValidationFlags {
+	NagaValidationFlags_EXPRESSIONS = 0x1,
+	NagaValidationFlags_BLOCKS = 0x2,
+	NagaValidationFlags_CONTROL_FLOW_UNIFORMITY = 0x4,
+	NagaValidationFlags_STRUCT_LAYOUTS = 0x8,
+	NagaValidationFlags_CONSTANTS = 0x10,
+	NagaValidationFlags_BINDINGS = 0x20,
+} NagaValidationFlags;
 
 // --- naga::back::dot ---
 
-typedef struct DOTBackOptions {
-	Bool cfg_only;
-} DOTBackOptions;
+typedef struct NagaDOTBackOptions {
+	NagaBool cfg_only;
+} NagaDOTBackOptions;
 
 // --- naga::back::glsl ---
 
-typedef enum GLSLBackVersionTag {
-	GLSLBackVersionTag_Desktop,
-	GLSLBackVersionTag_Embedded,
-} GLSLBackVersionTag;
+typedef enum NagaGLSLBackVersionTag {
+	NagaGLSLBackVersionTag_Desktop,
+	NagaGLSLBackVersionTag_Embedded,
+} NagaGLSLBackVersionTag;
 
-typedef struct GLSLBackVersion {
-	GLSLBackVersionTag tag;
+typedef struct NagaGLSLBackVersion {
+	NagaGLSLBackVersionTag tag;
 	union {
 		uint16_t desktop;
 		struct {
 			uint16_t version;
-			Bool is_webgl;
+			NagaBool is_webgl;
 		} embedded;
 	} data;
-} GLSLBackVersion;
+} NagaGLSLBackVersion;
 
-typedef uint32_t GLSLBackWriterFlagsFlags;
-typedef enum GLSLBackWriterFlags {
-	GLSLBackWriterFlags_ADJUST_COORDINATE_SPACE = 0x1,
-	GLSLBackWriterFlags_TEXTURE_SHADOW_LOD = 0x2,
-	GLSLBackWriterFlags_DRAW_PARAMETERS = 0x4,
-	GLSLBackWriterFlags_INCLUDE_UNUSED_ITEMS = 0x10,
-	GLSLBackWriterFlags_FORCE_POINT_SIZE = 0x20,
-} GLSLBackWriterFlags;
+typedef uint32_t NagaGLSLBackWriterFlagsFlags;
+typedef enum NagaGLSLBackWriterFlags {
+	NagaGLSLBackWriterFlags_ADJUST_COORDINATE_SPACE = 0x1,
+	NagaGLSLBackWriterFlags_TEXTURE_SHADOW_LOD = 0x2,
+	NagaGLSLBackWriterFlags_DRAW_PARAMETERS = 0x4,
+	NagaGLSLBackWriterFlags_INCLUDE_UNUSED_ITEMS = 0x10,
+	NagaGLSLBackWriterFlags_FORCE_POINT_SIZE = 0x20,
+} NagaGLSLBackWriterFlags;
 
-typedef struct GLSLBackBindingMapEntry {
-	ResourceBinding key;
+typedef struct NagaGLSLBackBindingMapEntry {
+	NagaResourceBinding key;
 	uint8_t value;
-} GLSLBackBindingMapEntry;
+} NagaGLSLBackBindingMapEntry;
 
-typedef struct GLSLBackBindingMap {
-	GLSLBackBindingMapEntry *entries;
+typedef struct NagaGLSLBackBindingMap {
+	NagaGLSLBackBindingMapEntry *entries;
 	size_t entries_len;
-} GLSLBackBindingMap;
+} NagaGLSLBackBindingMap;
 
-typedef struct GLSLBackOptions {
-	GLSLBackVersion version;
-	GLSLBackWriterFlagsFlags writer_flags;
-	GLSLBackBindingMap binding_map;
-	Bool zero_initialize_workgroup_memory;
-} GLSLBackOptions;
+typedef struct NagaGLSLBackOptions {
+	NagaGLSLBackVersion version;
+	NagaGLSLBackWriterFlagsFlags writer_flags;
+	NagaGLSLBackBindingMap binding_map;
+	NagaBool zero_initialize_workgroup_memory;
+} NagaGLSLBackOptions;
 
-typedef struct GLSLBackPipelineOptions {
-	ShaderStage shader_stage;
+typedef struct NagaGLSLBackPipelineOptions {
+	NagaShaderStage shader_stage;
 	char *entry_point;
 	DEFINE_OPTIONAL(uint32_t)
 	multiview;
-} GLSLBackPipelineOptions;
+} NagaGLSLBackPipelineOptions;
 
-typedef uint32_t GLSLBackFeaturesFlags;
-typedef enum GLSLBackFeatures {
-	GLSLBackFeatures_BUFFER_STORAGE = 0x1,
-	GLSLBackFeatures_ARRAY_OF_ARRAYS = 0x2,
-	GLSLBackFeatures_DOUBLE_TYPE = 0x4,
-	GLSLBackFeatures_FULL_IMAGE_FORMATS = 0x8,
-	GLSLBackFeatures_MULTISAMPLED_TEXTURES = 0x10,
-	GLSLBackFeatures_MULTISAMPLED_TEXTURE_ARRAYS = 0x20,
-	GLSLBackFeatures_CUBE_TEXTURES_ARRAY = 0x40,
-	GLSLBackFeatures_COMPUTE_SHADER = 0x80,
-	GLSLBackFeatures_IMAGE_LOAD_STORE = 0x100,
-	GLSLBackFeatures_CONSERVATIVE_DEPTH = 0x200,
-	GLSLBackFeatures_NOPERSPECTIVE_QUALIFIER = 0x800,
-	GLSLBackFeatures_SAMPLE_QUALIFIER = 0x1000,
-	GLSLBackFeatures_CLIP_DISTANCE = 0x2000,
-	GLSLBackFeatures_CULL_DISTANCE = 0x4000,
-	GLSLBackFeatures_SAMPLE_VARIABLES = 0x8000,
-	GLSLBackFeatures_DYNAMIC_ARRAY_SIZE = 0x10000,
-	GLSLBackFeatures_MULTI_VIEW = 0x20000,
-	GLSLBackFeatures_TEXTURE_SAMPLES = 0x40000,
-	GLSLBackFeatures_TEXTURE_LEVELS = 0x80000,
-	GLSLBackFeatures_IMAGE_SIZE = 0x100000,
-	GLSLBackFeatures_DUAL_SOURCE_BLENDING = 0x200000,
-	GLSLBackFeatures_INSTANCE_INDEX = 0x400000,
-	GLSLBackFeatures_TEXTURE_SHADOW_LOD = 0x800000,
-	GLSLBackFeatures_SUBGROUP_OPERATIONS = 0x1000000,
-	GLSLBackFeatures_TEXTURE_ATOMICS = 0x2000000,
-	GLSLBackFeatures_SHADER_BARYCENTRICS = 0x4000000,
-} GLSLBackFeatures;
+typedef uint32_t NagaGLSLBackFeaturesFlags;
+typedef enum NagaGLSLBackFeatures {
+	NagaGLSLBackFeatures_BUFFER_STORAGE = 0x1,
+	NagaGLSLBackFeatures_ARRAY_OF_ARRAYS = 0x2,
+	NagaGLSLBackFeatures_DOUBLE_TYPE = 0x4,
+	NagaGLSLBackFeatures_FULL_IMAGE_FORMATS = 0x8,
+	NagaGLSLBackFeatures_MULTISAMPLED_TEXTURES = 0x10,
+	NagaGLSLBackFeatures_MULTISAMPLED_TEXTURE_ARRAYS = 0x20,
+	NagaGLSLBackFeatures_CUBE_TEXTURES_ARRAY = 0x40,
+	NagaGLSLBackFeatures_COMPUTE_SHADER = 0x80,
+	NagaGLSLBackFeatures_IMAGE_LOAD_STORE = 0x100,
+	NagaGLSLBackFeatures_CONSERVATIVE_DEPTH = 0x200,
+	NagaGLSLBackFeatures_NOPERSPECTIVE_QUALIFIER = 0x800,
+	NagaGLSLBackFeatures_SAMPLE_QUALIFIER = 0x1000,
+	NagaGLSLBackFeatures_CLIP_DISTANCE = 0x2000,
+	NagaGLSLBackFeatures_CULL_DISTANCE = 0x4000,
+	NagaGLSLBackFeatures_SAMPLE_VARIABLES = 0x8000,
+	NagaGLSLBackFeatures_DYNAMIC_ARRAY_SIZE = 0x10000,
+	NagaGLSLBackFeatures_MULTI_VIEW = 0x20000,
+	NagaGLSLBackFeatures_TEXTURE_SAMPLES = 0x40000,
+	NagaGLSLBackFeatures_TEXTURE_LEVELS = 0x80000,
+	NagaGLSLBackFeatures_IMAGE_SIZE = 0x100000,
+	NagaGLSLBackFeatures_DUAL_SOURCE_BLENDING = 0x200000,
+	NagaGLSLBackFeatures_INSTANCE_INDEX = 0x400000,
+	NagaGLSLBackFeatures_TEXTURE_SHADOW_LOD = 0x800000,
+	NagaGLSLBackFeatures_SUBGROUP_OPERATIONS = 0x1000000,
+	NagaGLSLBackFeatures_TEXTURE_ATOMICS = 0x2000000,
+	NagaGLSLBackFeatures_SHADER_BARYCENTRICS = 0x4000000,
+} NagaGLSLBackFeatures;
 
-typedef enum GLSLBackErrorTag {
-	GLSLBackErrorTag_FmtError,
-	GLSLBackErrorTag_MissingFeatures,
-	GLSLBackErrorTag_MultipleImmediateData,
-	GLSLBackErrorTag_VersionNotSupported,
-	GLSLBackErrorTag_EntryPointNotFound,
-	GLSLBackErrorTag_UnsupportedExternal,
-	GLSLBackErrorTag_UnsupportedScalar,
-	GLSLBackErrorTag_ImageMultipleSamplers,
-	GLSLBackErrorTag_Custom,
-	GLSLBackErrorTag_Override,
-	GLSLBackErrorTag_FirstSamplingNotSupported,
-	GLSLBackErrorTag_ResolveArraySizeError,
-} GLSLBackErrorTag;
+typedef enum NagaGLSLBackErrorTag {
+	NagaGLSLBackErrorTag_FmtError,
+	NagaGLSLBackErrorTag_MissingFeatures,
+	NagaGLSLBackErrorTag_MultipleImmediateData,
+	NagaGLSLBackErrorTag_VersionNotSupported,
+	NagaGLSLBackErrorTag_EntryPointNotFound,
+	NagaGLSLBackErrorTag_UnsupportedExternal,
+	NagaGLSLBackErrorTag_UnsupportedScalar,
+	NagaGLSLBackErrorTag_ImageMultipleSamplers,
+	NagaGLSLBackErrorTag_Custom,
+	NagaGLSLBackErrorTag_Override,
+	NagaGLSLBackErrorTag_FirstSamplingNotSupported,
+	NagaGLSLBackErrorTag_ResolveArraySizeError,
+} NagaGLSLBackErrorTag;
 
-typedef struct GLSLBackError {
-	GLSLBackErrorTag tag;
+typedef struct NagaGLSLBackError {
+	NagaGLSLBackErrorTag tag;
 	union {
 		char *fmt_error;
-		GLSLBackFeaturesFlags missing_features;
+		NagaGLSLBackFeaturesFlags missing_features;
 		char *unsupported_external;
-		Scalar unsupported_scalar;
+		NagaScalar unsupported_scalar;
 		char *custom;
-		ResolveArraySizeError resolve_array_size_error;
+		NagaResolveArraySizeError resolve_array_size_error;
 	} data;
-} GLSLBackError;
+} NagaGLSLBackError;
 
-typedef struct Empty NAGA_UNIMPLEMENTED *GLSLBackReflectionInfo;
+typedef struct NagaEmpty NAGA_UNIMPLEMENTED *NagaGLSLBackReflectionInfo;
 
 // --- naga::back::hlsl ---
 
-typedef enum HLSLBackShaderModel {
-	HLSLBackShaderModel_V5_0,
-	HLSLBackShaderModel_V5_1,
-	HLSLBackShaderModel_V6_0,
-	HLSLBackShaderModel_V6_1,
-	HLSLBackShaderModel_V6_2,
-	HLSLBackShaderModel_V6_3,
-	HLSLBackShaderModel_V6_4,
-	HLSLBackShaderModel_V6_5,
-	HLSLBackShaderModel_V6_6,
-	HLSLBackShaderModel_V6_7,
-} HLSLBackShaderModel;
+typedef enum NagaHLSLBackShaderModel {
+	NagaHLSLBackShaderModel_V5_0,
+	NagaHLSLBackShaderModel_V5_1,
+	NagaHLSLBackShaderModel_V6_0,
+	NagaHLSLBackShaderModel_V6_1,
+	NagaHLSLBackShaderModel_V6_2,
+	NagaHLSLBackShaderModel_V6_3,
+	NagaHLSLBackShaderModel_V6_4,
+	NagaHLSLBackShaderModel_V6_5,
+	NagaHLSLBackShaderModel_V6_6,
+	NagaHLSLBackShaderModel_V6_7,
+} NagaHLSLBackShaderModel;
 
-typedef struct HLSLBackBindTarget {
+typedef struct NagaHLSLBackBindTarget {
 	uint8_t space;
 	uint32_t register_;
 	DEFINE_OPTIONAL(uint32_t)
 	binding_array_size;
 	DEFINE_OPTIONAL(uint32_t)
 	dynamic_storage_buffer_offsets_index;
-	Bool restrict_indexing;
-} HLSLBackBindTarget;
+	NagaBool restrict_indexing;
+} NagaHLSLBackBindTarget;
 
-typedef struct HLSLBackBindingMapEntry {
-	ResourceBinding key;
-	HLSLBackBindTarget value;
-} HLSLBackBindingMapEntry;
+typedef struct NagaHLSLBackBindingMapEntry {
+	NagaResourceBinding key;
+	NagaHLSLBackBindTarget value;
+} NagaHLSLBackBindingMapEntry;
 
-typedef struct HLSLBackBindingMap {
-	HLSLBackBindingMapEntry *entries;
+typedef struct NagaHLSLBackBindingMap {
+	NagaHLSLBackBindingMapEntry *entries;
 	size_t entries_len;
-} HLSLBackBindingMap;
+} NagaHLSLBackBindingMap;
 
-typedef struct HLSLBackSamplerHeapBindTargets {
-	HLSLBackBindTarget standard_samplers;
-	HLSLBackBindTarget comparison_samplers;
-} HLSLBackSamplerHeapBindTargets;
+typedef struct NagaHLSLBackSamplerHeapBindTargets {
+	NagaHLSLBackBindTarget standard_samplers;
+	NagaHLSLBackBindTarget comparison_samplers;
+} NagaHLSLBackSamplerHeapBindTargets;
 
-typedef struct HLSLBackSamplerIndexBufferKey {
+typedef struct NagaHLSLBackSamplerIndexBufferKey {
 	uint32_t group;
-} HLSLBackSamplerIndexBufferKey;
+} NagaHLSLBackSamplerIndexBufferKey;
 
-typedef struct HLSLBackSamplerIndexBufferBindingMapEntry {
-	HLSLBackSamplerIndexBufferKey key;
-	HLSLBackBindTarget value;
-} HLSLBackSamplerIndexBufferBindingMapEntry;
+typedef struct NagaHLSLBackSamplerIndexBufferBindingMapEntry {
+	NagaHLSLBackSamplerIndexBufferKey key;
+	NagaHLSLBackBindTarget value;
+} NagaHLSLBackSamplerIndexBufferBindingMapEntry;
 
-typedef struct HLSLBackSamplerIndexBufferBindingMap {
-	HLSLBackSamplerIndexBufferBindingMapEntry *entries;
+typedef struct NagaHLSLBackSamplerIndexBufferBindingMap {
+	NagaHLSLBackSamplerIndexBufferBindingMapEntry *entries;
 	size_t entries_len;
-} HLSLBackSamplerIndexBufferBindingMap;
+} NagaHLSLBackSamplerIndexBufferBindingMap;
 
-typedef struct HLSLBackOffsetsBindTarget {
+typedef struct NagaHLSLBackOffsetsBindTarget {
 	uint8_t space;
 	uint32_t register_;
 	uint32_t size;
-} HLSLBackOffsetsBindTarget;
+} NagaHLSLBackOffsetsBindTarget;
 
-typedef struct HLSLBackDynamicStorageBufferOffsetsTargetsEntry {
+typedef struct NagaHLSLBackDynamicStorageBufferOffsetsTargetsEntry {
 	uint32_t key;
-	HLSLBackOffsetsBindTarget value;
-} HLSLBackDynamicStorageBufferOffsetsTargetsEntry;
+	NagaHLSLBackOffsetsBindTarget value;
+} NagaHLSLBackDynamicStorageBufferOffsetsTargetsEntry;
 
-typedef struct HLSLBackDynamicStorageBufferOffsetsTargets {
-	HLSLBackDynamicStorageBufferOffsetsTargetsEntry *entries;
+typedef struct NagaHLSLBackDynamicStorageBufferOffsetsTargets {
+	NagaHLSLBackDynamicStorageBufferOffsetsTargetsEntry *entries;
 	size_t entries_len;
-} HLSLBackDynamicStorageBufferOffsetsTargets;
+} NagaHLSLBackDynamicStorageBufferOffsetsTargets;
 
-typedef struct HLSLBackExternalTextureBindTarget {
-	HLSLBackBindTarget planes[3];
-	HLSLBackBindTarget params;
-} HLSLBackExternalTextureBindTarget;
+typedef struct NagaHLSLBackExternalTextureBindTarget {
+	NagaHLSLBackBindTarget planes[3];
+	NagaHLSLBackBindTarget params;
+} NagaHLSLBackExternalTextureBindTarget;
 
-typedef struct HLSLBackExternalTextureBindingMapEntry {
-	ResourceBinding key;
-	HLSLBackExternalTextureBindTarget value;
-} HLSLBackExternalTextureBindingMapEntry;
+typedef struct NagaHLSLBackExternalTextureBindingMapEntry {
+	NagaResourceBinding key;
+	NagaHLSLBackExternalTextureBindTarget value;
+} NagaHLSLBackExternalTextureBindingMapEntry;
 
-typedef struct HLSLBackExternalTextureBindingMap {
-	HLSLBackExternalTextureBindingMapEntry *entries;
+typedef struct NagaHLSLBackExternalTextureBindingMap {
+	NagaHLSLBackExternalTextureBindingMapEntry *entries;
 	size_t entries_len;
-} HLSLBackExternalTextureBindingMap;
+} NagaHLSLBackExternalTextureBindingMap;
 
-typedef struct HLSLBackOptions {
-	HLSLBackShaderModel shader_model;
-	HLSLBackBindingMap binding_map;
-	Bool fake_missing_bindings;
-	DEFINE_OPTIONAL(HLSLBackBindTarget)
+typedef struct NagaHLSLBackOptions {
+	NagaHLSLBackShaderModel shader_model;
+	NagaHLSLBackBindingMap binding_map;
+	NagaBool fake_missing_bindings;
+	DEFINE_OPTIONAL(NagaHLSLBackBindTarget)
 	special_constants_binding;
-	DEFINE_OPTIONAL(HLSLBackBindTarget)
+	DEFINE_OPTIONAL(NagaHLSLBackBindTarget)
 	immediates_target;
-	HLSLBackSamplerHeapBindTargets sampler_heap_target;
-	HLSLBackSamplerIndexBufferBindingMap sampler_buffer_binding_map;
-	HLSLBackDynamicStorageBufferOffsetsTargets dynamic_storage_buffer_offsets_targets;
-	HLSLBackExternalTextureBindingMap external_texture_binding_map;
-	Bool zero_initialize_workgroup_memory;
-	Bool restrict_indexing;
-	Bool force_loop_bounding;
-} HLSLBackOptions;
+	NagaHLSLBackSamplerHeapBindTargets sampler_heap_target;
+	NagaHLSLBackSamplerIndexBufferBindingMap sampler_buffer_binding_map;
+	NagaHLSLBackDynamicStorageBufferOffsetsTargets dynamic_storage_buffer_offsets_targets;
+	NagaHLSLBackExternalTextureBindingMap external_texture_binding_map;
+	NagaBool zero_initialize_workgroup_memory;
+	NagaBool restrict_indexing;
+	NagaBool force_loop_bounding;
+} NagaHLSLBackOptions;
 
-typedef struct ShaderStageString {
-	ShaderStage shader_stage;
+typedef struct NagaShaderStageString {
+	NagaShaderStage shader_stage;
 	char *string;
 
-} ShaderStageString;
+} NagaShaderStageString;
 
-typedef struct HLSLBackPipelineOptions {
-	DEFINE_OPTIONAL(ShaderStageString)
+typedef struct NagaHLSLBackPipelineOptions {
+	DEFINE_OPTIONAL(NagaShaderStageString)
 	entry_point;
-} HLSLBackPipelineOptions;
+} NagaHLSLBackPipelineOptions;
 
-typedef enum HLSLBackErrorTag {
-	HLSLBackErrorTag_IoError,
-	HLSLBackErrorTag_UnsupportedScalar,
-	HLSLBackErrorTag_Unimplemented,
-	HLSLBackErrorTag_Custom,
-	HLSLBackErrorTag_Override,
-	HLSLBackErrorTag_ResolveArraySizeError,
-	HLSLBackErrorTag_EntryPointNotFound,
-	HLSLBackErrorTag_ShaderModelTooLow,
-} HLSLBackErrorTag;
+typedef enum NagaHLSLBackErrorTag {
+	NagaHLSLBackErrorTag_IoError,
+	NagaHLSLBackErrorTag_UnsupportedScalar,
+	NagaHLSLBackErrorTag_Unimplemented,
+	NagaHLSLBackErrorTag_Custom,
+	NagaHLSLBackErrorTag_Override,
+	NagaHLSLBackErrorTag_ResolveArraySizeError,
+	NagaHLSLBackErrorTag_EntryPointNotFound,
+	NagaHLSLBackErrorTag_ShaderModelTooLow,
+} NagaHLSLBackErrorTag;
 
-typedef struct HLSLBackError {
-	HLSLBackErrorTag tag;
+typedef struct NagaHLSLBackError {
+	NagaHLSLBackErrorTag tag;
 	union {
 		char *io_error;
-		Scalar unsupported_scalar;
+		NagaScalar unsupported_scalar;
 		char *unimplemented;
 		char *custom;
-		ResolveArraySizeError resolve_array_size_error;
+		NagaResolveArraySizeError resolve_array_size_error;
 		struct {
-			ShaderStage stage;
+			NagaShaderStage stage;
 			char *name;
 		} entry_point_not_found;
 		struct {
 			char *message;
-			HLSLBackShaderModel model;
+			NagaHLSLBackShaderModel model;
 		} shader_model_too_low;
 	} data;
-} HLSLBackError;
+} NagaHLSLBackError;
 
-typedef struct HLSLBackFragmentEntryPoint {
-	struct Empty *NAGA_UNIMPLEMENTED module;
-	struct Empty *NAGA_UNIMPLEMENTED func;
-} HLSLBackFragmentEntryPoint;
+typedef struct NagaHLSLBackFragmentEntryPoint {
+	struct NagaEmpty *NAGA_UNIMPLEMENTED module;
+	struct NagaEmpty *NAGA_UNIMPLEMENTED func;
+} NagaHLSLBackFragmentEntryPoint;
 
-typedef struct Empty NAGA_UNIMPLEMENTED *HLSLBackReflectionInfo;
+typedef struct NagaEmpty NAGA_UNIMPLEMENTED *NagaHLSLBackReflectionInfo;
 
 // --- naga::back::msl ---
 
-typedef enum MSLBackSamplerAddress {
-	MSLBackSamplerAddress_Repeat,
-	MSLBackSamplerAddress_MirroredRepeat,
-	MSLBackSamplerAddress_ClampToEdge,
-	MSLBackSamplerAddress_ClampToZero,
-	MSLBackSamplerAddress_ClampToBorder,
-} MSLBackSamplerAddress;
+typedef enum NagaMSLBackSamplerAddress {
+	NagaMSLBackSamplerAddress_Repeat,
+	NagaMSLBackSamplerAddress_MirroredRepeat,
+	NagaMSLBackSamplerAddress_ClampToEdge,
+	NagaMSLBackSamplerAddress_ClampToZero,
+	NagaMSLBackSamplerAddress_ClampToBorder,
+} NagaMSLBackSamplerAddress;
 
-typedef enum MSLBackSamplerBorderColor {
-	MSLBackSamplerBorderColor_TransparentBlack,
-	MSLBackSamplerBorderColor_OpaqueBlack,
-	MSLBackSamplerBorderColor_OpaqueWhite,
-} MSLBackSamplerBorderColor;
+typedef enum NagaMSLBackSamplerBorderColor {
+	NagaMSLBackSamplerBorderColor_TransparentBlack,
+	NagaMSLBackSamplerBorderColor_OpaqueBlack,
+	NagaMSLBackSamplerBorderColor_OpaqueWhite,
+} NagaMSLBackSamplerBorderColor;
 
-typedef enum MSLBackSamplerCompareFunc {
-	MSLBackSamplerCompareFunc_Never,
-	MSLBackSamplerCompareFunc_Less,
-	MSLBackSamplerCompareFunc_LessEqual,
-	MSLBackSamplerCompareFunc_Greater,
-	MSLBackSamplerCompareFunc_GreaterEqual,
-	MSLBackSamplerCompareFunc_Equal,
-	MSLBackSamplerCompareFunc_NotEqual,
-	MSLBackSamplerCompareFunc_Always,
-} MSLBackSamplerCompareFunc;
+typedef enum NagaMSLBackSamplerCompareFunc {
+	NagaMSLBackSamplerCompareFunc_Never,
+	NagaMSLBackSamplerCompareFunc_Less,
+	NagaMSLBackSamplerCompareFunc_LessEqual,
+	NagaMSLBackSamplerCompareFunc_Greater,
+	NagaMSLBackSamplerCompareFunc_GreaterEqual,
+	NagaMSLBackSamplerCompareFunc_Equal,
+	NagaMSLBackSamplerCompareFunc_NotEqual,
+	NagaMSLBackSamplerCompareFunc_Always,
+} NagaMSLBackSamplerCompareFunc;
 
-typedef enum MSLBackSamplerCoord {
-	MSLBackSamplerCoord_Normalized,
-	MSLBackSamplerCoord_Pixel,
-} MSLBackSamplerCoord;
+typedef enum NagaMSLBackSamplerCoord {
+	NagaMSLBackSamplerCoord_Normalized,
+	NagaMSLBackSamplerCoord_Pixel,
+} NagaMSLBackSamplerCoord;
 
-typedef enum MSLBackSamplerFilter {
-	MSLBackSamplerFilter_Nearest,
-	MSLBackSamplerFilter_Linear,
-} MSLBackSamplerFilter;
+typedef enum NagaMSLBackSamplerFilter {
+	NagaMSLBackSamplerFilter_Nearest,
+	NagaMSLBackSamplerFilter_Linear,
+} NagaMSLBackSamplerFilter;
 
-typedef struct MSLBackFloatRange {
+typedef struct NagaMSLBackFloatRange {
 	float start;
 	float end;
-} MSLBackFloatFloat;
+} NagaMSLBackFloatFloat;
 
-typedef struct MSLBackInlineSampler {
-	MSLBackSamplerCoord coord;
-	MSLBackSamplerAddress address[3];
-	MSLBackSamplerBorderColor border_color;
-	MSLBackSamplerFilter mag_filter;
-	MSLBackSamplerFilter min_filter;
-	DEFINE_OPTIONAL(MSLBackSamplerFilter)
+typedef struct NagaMSLBackInlineSampler {
+	NagaMSLBackSamplerCoord coord;
+	NagaMSLBackSamplerAddress address[3];
+	NagaMSLBackSamplerBorderColor border_color;
+	NagaMSLBackSamplerFilter mag_filter;
+	NagaMSLBackSamplerFilter min_filter;
+	DEFINE_OPTIONAL(NagaMSLBackSamplerFilter)
 	mip_filter;
-	DEFINE_OPTIONAL(MSLBackFloatFloat)
+	DEFINE_OPTIONAL(NagaMSLBackFloatFloat)
 	lod_clamp;
 	DEFINE_OPTIONAL(uint32_t)
 	max_anisotropy;
-	MSLBackSamplerCompareFunc compare_func;
-} MSLBackInlineSampler;
+	NagaMSLBackSamplerCompareFunc compare_func;
+} NagaMSLBackInlineSampler;
 
-typedef uint8_t MSLBackSlot;
+typedef uint8_t NagaMSLBackSlot;
 
-typedef enum MSLBackVertexFormat {
-	MSLBackVertexFormat_Uint8 = 0,
-	MSLBackVertexFormat_Uint8x2 = 1,
-	MSLBackVertexFormat_Uint8x4 = 2,
-	MSLBackVertexFormat_Sint8 = 3,
-	MSLBackVertexFormat_Sint8x2 = 4,
-	MSLBackVertexFormat_Sint8x4 = 5,
-	MSLBackVertexFormat_Unorm8 = 6,
-	MSLBackVertexFormat_Unorm8x2 = 7,
-	MSLBackVertexFormat_Unorm8x4 = 8,
-	MSLBackVertexFormat_Snorm8 = 9,
-	MSLBackVertexFormat_Snorm8x2 = 10,
-	MSLBackVertexFormat_Snorm8x4 = 11,
-	MSLBackVertexFormat_Uint16 = 12,
-	MSLBackVertexFormat_Uint16x2 = 13,
-	MSLBackVertexFormat_Uint16x4 = 14,
-	MSLBackVertexFormat_Sint16 = 15,
-	MSLBackVertexFormat_Sint16x2 = 16,
-	MSLBackVertexFormat_Sint16x4 = 17,
-	MSLBackVertexFormat_Unorm16 = 18,
-	MSLBackVertexFormat_Unorm16x2 = 19,
-	MSLBackVertexFormat_Unorm16x4 = 20,
-	MSLBackVertexFormat_Snorm16 = 21,
-	MSLBackVertexFormat_Snorm16x2 = 22,
-	MSLBackVertexFormat_Snorm16x4 = 23,
-	MSLBackVertexFormat_Float16 = 24,
-	MSLBackVertexFormat_Float16x2 = 25,
-	MSLBackVertexFormat_Float16x4 = 26,
-	MSLBackVertexFormat_Float32 = 27,
-	MSLBackVertexFormat_Float32x2 = 28,
-	MSLBackVertexFormat_Float32x3 = 29,
-	MSLBackVertexFormat_Float32x4 = 30,
-	MSLBackVertexFormat_Uint32 = 31,
-	MSLBackVertexFormat_Uint32x2 = 32,
-	MSLBackVertexFormat_Uint32x3 = 33,
-	MSLBackVertexFormat_Uint32x4 = 34,
-	MSLBackVertexFormat_Sint32 = 35,
-	MSLBackVertexFormat_Sint32x2 = 36,
-	MSLBackVertexFormat_Sint32x3 = 37,
-	MSLBackVertexFormat_Sint32x4 = 38,
-	MSLBackVertexFormat_Unorm10_10_10_2 = 43,
-	MSLBackVertexFormat_Unorm8x4Bgra = 44,
-} MSLBackVertexFormat;
+typedef enum NagaMSLBackVertexFormat {
+	NagaMSLBackVertexFormat_Uint8 = 0,
+	NagaMSLBackVertexFormat_Uint8x2 = 1,
+	NagaMSLBackVertexFormat_Uint8x4 = 2,
+	NagaMSLBackVertexFormat_Sint8 = 3,
+	NagaMSLBackVertexFormat_Sint8x2 = 4,
+	NagaMSLBackVertexFormat_Sint8x4 = 5,
+	NagaMSLBackVertexFormat_Unorm8 = 6,
+	NagaMSLBackVertexFormat_Unorm8x2 = 7,
+	NagaMSLBackVertexFormat_Unorm8x4 = 8,
+	NagaMSLBackVertexFormat_Snorm8 = 9,
+	NagaMSLBackVertexFormat_Snorm8x2 = 10,
+	NagaMSLBackVertexFormat_Snorm8x4 = 11,
+	NagaMSLBackVertexFormat_Uint16 = 12,
+	NagaMSLBackVertexFormat_Uint16x2 = 13,
+	NagaMSLBackVertexFormat_Uint16x4 = 14,
+	NagaMSLBackVertexFormat_Sint16 = 15,
+	NagaMSLBackVertexFormat_Sint16x2 = 16,
+	NagaMSLBackVertexFormat_Sint16x4 = 17,
+	NagaMSLBackVertexFormat_Unorm16 = 18,
+	NagaMSLBackVertexFormat_Unorm16x2 = 19,
+	NagaMSLBackVertexFormat_Unorm16x4 = 20,
+	NagaMSLBackVertexFormat_Snorm16 = 21,
+	NagaMSLBackVertexFormat_Snorm16x2 = 22,
+	NagaMSLBackVertexFormat_Snorm16x4 = 23,
+	NagaMSLBackVertexFormat_Float16 = 24,
+	NagaMSLBackVertexFormat_Float16x2 = 25,
+	NagaMSLBackVertexFormat_Float16x4 = 26,
+	NagaMSLBackVertexFormat_Float32 = 27,
+	NagaMSLBackVertexFormat_Float32x2 = 28,
+	NagaMSLBackVertexFormat_Float32x3 = 29,
+	NagaMSLBackVertexFormat_Float32x4 = 30,
+	NagaMSLBackVertexFormat_Uint32 = 31,
+	NagaMSLBackVertexFormat_Uint32x2 = 32,
+	NagaMSLBackVertexFormat_Uint32x3 = 33,
+	NagaMSLBackVertexFormat_Uint32x4 = 34,
+	NagaMSLBackVertexFormat_Sint32 = 35,
+	NagaMSLBackVertexFormat_Sint32x2 = 36,
+	NagaMSLBackVertexFormat_Sint32x3 = 37,
+	NagaMSLBackVertexFormat_Sint32x4 = 38,
+	NagaMSLBackVertexFormat_Unorm10_10_10_2 = 43,
+	NagaMSLBackVertexFormat_Unorm8x4Bgra = 44,
+} NagaMSLBackVertexFormat;
 
-typedef enum MSLBackVertexBufferStepMode {
-	MSLBackVertexBufferStepMode_Constant,
-	MSLBackVertexBufferStepMode_ByVertex,
-	MSLBackVertexBufferStepMode_ByInstance,
-} MSLBackVertexBufferStepMode;
+typedef enum NagaMSLBackVertexBufferStepMode {
+	NagaMSLBackVertexBufferStepMode_Constant,
+	NagaMSLBackVertexBufferStepMode_ByVertex,
+	NagaMSLBackVertexBufferStepMode_ByInstance,
+} NagaMSLBackVertexBufferStepMode;
 
-typedef struct MSLBackAttributeMapping {
+typedef struct NagaMSLBackAttributeMapping {
 	uint32_t shader_location;
 	uint32_t offset;
-	MSLBackVertexFormat format;
-} MSLBackAttributeMapping;
+	NagaMSLBackVertexFormat format;
+} NagaMSLBackAttributeMapping;
 
-typedef struct MSLBackBindExternalTextureTarget {
-	MSLBackSlot planes[3];
-	MSLBackSlot params;
-} MSLBackBindExternalTextureTarget;
+typedef struct NagaMSLBackBindExternalTextureTarget {
+	NagaMSLBackSlot planes[3];
+	NagaMSLBackSlot params;
+} NagaMSLBackBindExternalTextureTarget;
 
-typedef enum MSLBackBindSamplerTargetTag {
-	MSLBackBindSamplerTargetTag_Resource,
-	MSLBackBindSamplerTargetTag_Inline,
-} MSLBackBindSamplerTargetTag;
+typedef enum NagaMSLBackBindSamplerTargetTag {
+	NagaMSLBackBindSamplerTargetTag_Resource,
+	NagaMSLBackBindSamplerTargetTag_Inline,
+} NagaMSLBackBindSamplerTargetTag;
 
-typedef struct MSLBackBindSamplerTarget {
-	MSLBackBindSamplerTargetTag tag;
+typedef struct NagaMSLBackBindSamplerTarget {
+	NagaMSLBackBindSamplerTargetTag tag;
 	union {
-		MSLBackSlot resource;
+		NagaMSLBackSlot resource;
 		uint8_t inline_;
 	} data;
-} MSLBackBindSamplerTarget;
+} NagaMSLBackBindSamplerTarget;
 
-typedef struct MSLBackBindTarget {
-	DEFINE_OPTIONAL(MSLBackSlot)
+typedef struct NagaMSLBackBindTarget {
+	DEFINE_OPTIONAL(NagaMSLBackSlot)
 	buffer;
-	DEFINE_OPTIONAL(MSLBackSlot)
+	DEFINE_OPTIONAL(NagaMSLBackSlot)
 	texture;
-	DEFINE_OPTIONAL(MSLBackBindSamplerTarget)
+	DEFINE_OPTIONAL(NagaMSLBackBindSamplerTarget)
 	sampler;
-	DEFINE_OPTIONAL(MSLBackBindExternalTextureTarget)
+	DEFINE_OPTIONAL(NagaMSLBackBindExternalTextureTarget)
 	external_texture;
-	Bool mutable_;
-} MSLBackBindTarget;
+	NagaBool mutable_;
+} NagaMSLBackBindTarget;
 
-typedef struct MSLBackBindingMapEntry {
-	ResourceBinding key;
-	MSLBackBindTarget value;
-} MSLBackBindingMapEntry;
+typedef struct NagaMSLBackBindingMapEntry {
+	NagaResourceBinding key;
+	NagaMSLBackBindTarget value;
+} NagaMSLBackBindingMapEntry;
 
-typedef struct MSLBackBindingMap {
-	MSLBackBindingMapEntry *entries;
+typedef struct NagaMSLBackBindingMap {
+	NagaMSLBackBindingMapEntry *entries;
 	size_t entries_len;
-} MSLBackBindingMap;
+} NagaMSLBackBindingMap;
 
-typedef struct MSLBackEntryPointResources {
-	MSLBackBindingMap resources;
-	DEFINE_OPTIONAL(MSLBackSlot)
+typedef struct NagaMSLBackEntryPointResources {
+	NagaMSLBackBindingMap resources;
+	DEFINE_OPTIONAL(NagaMSLBackSlot)
 	immediates_buffer;
-	DEFINE_OPTIONAL(MSLBackSlot)
+	DEFINE_OPTIONAL(NagaMSLBackSlot)
 	sizes_buffer;
-} MSLBackEntryPointResources;
+} NagaMSLBackEntryPointResources;
 
-typedef struct MSLBackEntryPointResourceMapEntry {
+typedef struct NagaMSLBackEntryPointResourceMapEntry {
 	char *key;
-	MSLBackEntryPointResources value;
-} MSLBackEntryPointResourceMapEntry;
+	NagaMSLBackEntryPointResources value;
+} NagaMSLBackEntryPointResourceMapEntry;
 
-typedef struct MSLBackEntryPointResourceMap {
-	MSLBackEntryPointResourceMapEntry *entries;
+typedef struct NagaMSLBackEntryPointResourceMap {
+	NagaMSLBackEntryPointResourceMapEntry *entries;
 	size_t entries_len;
-} MSLBackEntryPointResourceMap;
+} NagaMSLBackEntryPointResourceMap;
 
-typedef struct MSLBackOptions {
+typedef struct NagaMSLBackOptions {
 	uint8_t lang_version[2];
-	MSLBackEntryPointResourceMap per_entry_point_map;
-	MSLBackInlineSampler *inline_samplers;
+	NagaMSLBackEntryPointResourceMap per_entry_point_map;
+	NagaMSLBackInlineSampler *inline_samplers;
 	size_t inline_samplers_len;
-	Bool spirv_cross_compatibility;
-	Bool fake_missing_bindings;
-	BoundsCheckPolicies bounds_check_policies;
-	Bool zero_initialize_workgroup_memory;
-	Bool force_loop_bounding;
-} MSLBackOptions;
+	NagaBool spirv_cross_compatibility;
+	NagaBool fake_missing_bindings;
+	NagaBoundsCheckPolicies bounds_check_policies;
+	NagaBool zero_initialize_workgroup_memory;
+	NagaBool force_loop_bounding;
+} NagaMSLBackOptions;
 
-typedef struct MSLBackVertexBufferMapping {
+typedef struct NagaMSLBackVertexBufferMapping {
 	uint32_t id;
 	uint32_t stride;
-	MSLBackVertexBufferStepMode step_mode;
-	MSLBackAttributeMapping *attributes;
+	NagaMSLBackVertexBufferStepMode step_mode;
+	NagaMSLBackAttributeMapping *attributes;
 	size_t attributes_len;
-} MSLBackVertexBufferMapping;
+} NagaMSLBackVertexBufferMapping;
 
-typedef struct MSLBackPipelineOptions {
-	DEFINE_OPTIONAL(ShaderStageString)
+typedef struct NagaMSLBackPipelineOptions {
+	DEFINE_OPTIONAL(NagaShaderStageString)
 	entry_point;
-	Bool allow_and_force_point_size;
-	Bool vertex_pulling_transform;
-	MSLBackVertexBufferMapping *vertex_buffer_mappings;
+	NagaBool allow_and_force_point_size;
+	NagaBool vertex_pulling_transform;
+	NagaMSLBackVertexBufferMapping *vertex_buffer_mappings;
 	size_t vertex_buffer_mappings_len;
-} MSLBackPipelineOptions;
+} NagaMSLBackPipelineOptions;
 
-typedef enum MSLBackEntryPointErrorTag {
-	MSLBackEntryPointErrorTag_MissingBinding,
-	MSLBackEntryPointErrorTag_MissingBindTarget,
-	MSLBackEntryPointErrorTag_MissingImmediateData,
-	MSLBackEntryPointErrorTag_MissingSizesBuffer,
-} MSLBackEntryPointErrorTag;
+typedef enum NagaMSLBackEntryPointErrorTag {
+	NagaMSLBackEntryPointErrorTag_MissingBinding,
+	NagaMSLBackEntryPointErrorTag_MissingBindTarget,
+	NagaMSLBackEntryPointErrorTag_MissingImmediateData,
+	NagaMSLBackEntryPointErrorTag_MissingSizesBuffer,
+} NagaMSLBackEntryPointErrorTag;
 
-typedef struct MSLBackEntryPointError {
-	MSLBackEntryPointErrorTag tag;
+typedef struct NagaMSLBackEntryPointError {
+	NagaMSLBackEntryPointErrorTag tag;
 	union {
 		char *missing_binding;
-		ResourceBinding missing_bind_target;
+		NagaResourceBinding missing_bind_target;
 	} data;
-} MSLBackEntryPointError;
+} NagaMSLBackEntryPointError;
 
-typedef enum MSLBackErrorTag {
-	MSLBackErrorTag_Format,
-	MSLBackErrorTag_UnimplementedBindTarget,
-	MSLBackErrorTag_UnsupportedCompose,
-	MSLBackErrorTag_UnsupportedBinaryOp,
-	MSLBackErrorTag_UnsupportedCall,
-	MSLBackErrorTag_FeatureNotImplemented,
-	MSLBackErrorTag_GenericValidation,
-	MSLBackErrorTag_UnsupportedBuiltIn,
-	MSLBackErrorTag_CapabilityNotSupported,
-	MSLBackErrorTag_UnsupportedAttribute,
-	MSLBackErrorTag_UnsupportedFunction,
-	MSLBackErrorTag_UnsupportedWriteableStorageBuffer,
-	MSLBackErrorTag_UnsupportedWriteableStorageTexture,
-	MSLBackErrorTag_UnsupportedRWStorageTexture,
-	MSLBackErrorTag_UnsupportedArrayOf,
-	MSLBackErrorTag_UnsupportedArrayOfType,
-	MSLBackErrorTag_UnsupportedRayTracing,
-	MSLBackErrorTag_Override,
-	MSLBackErrorTag_UnsupportedBitCast,
-	MSLBackErrorTag_ResolveArraySizeError,
-	MSLBackErrorTag_EntryPointNotFound,
-} MSLBackErrorTag;
+typedef enum NagaMSLBackErrorTag {
+	NagaMSLBackErrorTag_Format,
+	NagaMSLBackErrorTag_UnimplementedBindTarget,
+	NagaMSLBackErrorTag_UnsupportedCompose,
+	NagaMSLBackErrorTag_UnsupportedBinaryOp,
+	NagaMSLBackErrorTag_UnsupportedCall,
+	NagaMSLBackErrorTag_FeatureNotImplemented,
+	NagaMSLBackErrorTag_GenericValidation,
+	NagaMSLBackErrorTag_UnsupportedBuiltIn,
+	NagaMSLBackErrorTag_CapabilityNotSupported,
+	NagaMSLBackErrorTag_UnsupportedAttribute,
+	NagaMSLBackErrorTag_UnsupportedFunction,
+	NagaMSLBackErrorTag_UnsupportedWriteableStorageBuffer,
+	NagaMSLBackErrorTag_UnsupportedWriteableStorageTexture,
+	NagaMSLBackErrorTag_UnsupportedRWStorageTexture,
+	NagaMSLBackErrorTag_UnsupportedArrayOf,
+	NagaMSLBackErrorTag_UnsupportedArrayOfType,
+	NagaMSLBackErrorTag_UnsupportedRayTracing,
+	NagaMSLBackErrorTag_Override,
+	NagaMSLBackErrorTag_UnsupportedBitCast,
+	NagaMSLBackErrorTag_ResolveArraySizeError,
+	NagaMSLBackErrorTag_EntryPointNotFound,
+} NagaMSLBackErrorTag;
 
-typedef struct MSLBackError {
-	MSLBackErrorTag tag;
+typedef struct NagaMSLBackError {
+	NagaMSLBackErrorTag tag;
 	union {
 		char *format;
-		MSLBackBindTarget unimplemented_bind_target;
-		DEFINE_HANDLE_INDEX(Type)
+		NagaMSLBackBindTarget unimplemented_bind_target;
+		DEFINE_HANDLE_INDEX(NagaType)
 		unsupported_compose;
-		struct Empty *NAGA_UNIMPLEMENTED unsupported_binary_op;
+		struct NagaEmpty *NAGA_UNIMPLEMENTED unsupported_binary_op;
 		char *unsupported_call;
 		char *feature_not_implemented;
 		char *generic_validation;
-		BuiltIn unsupported_built_in;
-		CapabilitiesFlags capability_not_supported;
+		NagaBuiltIn unsupported_built_in;
+		NagaCapabilitiesFlags capability_not_supported;
 		char *unsupported_attribute;
 		char *unsupported_function;
-		ShaderStage unsupported_writeable_storage_texture;
+		NagaShaderStage unsupported_writeable_storage_texture;
 		char *unsupported_array_of;
-		DEFINE_HANDLE_INDEX(Type)
+		DEFINE_HANDLE_INDEX(NagaType)
 		unsupported_array_of_type;
-		TypeInner unsupported_bit_cast;
-		ResolveArraySizeError resolve_array_size_error;
-		ShaderStageString entry_point_not_found;
+		NagaTypeInner unsupported_bit_cast;
+		NagaResolveArraySizeError resolve_array_size_error;
+		NagaShaderStageString entry_point_not_found;
 	} data;
-} MSLBackError;
+} NagaMSLBackError;
 
-typedef struct Empty NAGA_UNIMPLEMENTED *MSLBackTranslationInfo;
+typedef struct NagaEmpty NAGA_UNIMPLEMENTED *NagaMSLBackTranslationInfo;
 
 // --- naga::back::spv ---
 
-typedef enum SPVBackCapability {
-	SPVBackCapability_Matrix = 0,
-	SPVBackCapability_Shader = 1,
-	SPVBackCapability_Geometry = 2,
-	SPVBackCapability_Tessellation = 3,
-	SPVBackCapability_Addresses = 4,
-	SPVBackCapability_Linkage = 5,
-	SPVBackCapability_Kernel = 6,
-	SPVBackCapability_Vector16 = 7,
-	SPVBackCapability_Float16Buffer = 8,
-	SPVBackCapability_Float16 = 9,
-	SPVBackCapability_Float64 = 10,
-	SPVBackCapability_Int64 = 11,
-	SPVBackCapability_Int64Atomics = 12,
-	SPVBackCapability_ImageBasic = 13,
-	SPVBackCapability_ImageReadWrite = 14,
-	SPVBackCapability_ImageMipmap = 15,
-	SPVBackCapability_Pipes = 17,
-	SPVBackCapability_Groups = 18,
-	SPVBackCapability_DeviceEnqueue = 19,
-	SPVBackCapability_LiteralSampler = 20,
-	SPVBackCapability_AtomicStorage = 21,
-	SPVBackCapability_Int16 = 22,
-	SPVBackCapability_TessellationPointSize = 23,
-	SPVBackCapability_GeometryPointSize = 24,
-	SPVBackCapability_ImageGatherExtended = 25,
-	SPVBackCapability_StorageImageMultisample = 27,
-	SPVBackCapability_UniformBufferArrayDynamicIndexing = 28,
-	SPVBackCapability_SampledImageArrayDynamicIndexing = 29,
-	SPVBackCapability_StorageBufferArrayDynamicIndexing = 30,
-	SPVBackCapability_StorageImageArrayDynamicIndexing = 31,
-	SPVBackCapability_ClipDistance = 32,
-	SPVBackCapability_CullDistance = 33,
-	SPVBackCapability_ImageCubeArray = 34,
-	SPVBackCapability_SampleRateShading = 35,
-	SPVBackCapability_ImageRect = 36,
-	SPVBackCapability_SampledRect = 37,
-	SPVBackCapability_GenericPointer = 38,
-	SPVBackCapability_Int8 = 39,
-	SPVBackCapability_InputAttachment = 40,
-	SPVBackCapability_SparseResidency = 41,
-	SPVBackCapability_MinLod = 42,
-	SPVBackCapability_Sampled1D = 43,
-	SPVBackCapability_Image1D = 44,
-	SPVBackCapability_SampledCubeArray = 45,
-	SPVBackCapability_SampledBuffer = 46,
-	SPVBackCapability_ImageBuffer = 47,
-	SPVBackCapability_ImageMSArray = 48,
-	SPVBackCapability_StorageImageExtendedFormats = 49,
-	SPVBackCapability_ImageQuery = 50,
-	SPVBackCapability_DerivativeControl = 51,
-	SPVBackCapability_InterpolationFunction = 52,
-	SPVBackCapability_TransformFeedback = 53,
-	SPVBackCapability_GeometryStreams = 54,
-	SPVBackCapability_StorageImageReadWithoutFormat = 55,
-	SPVBackCapability_StorageImageWriteWithoutFormat = 56,
-	SPVBackCapability_MultiViewport = 57,
-	SPVBackCapability_SubgroupDispatch = 58,
-	SPVBackCapability_NamedBarrier = 59,
-	SPVBackCapability_PipeStorage = 60,
-	SPVBackCapability_GroupNonUniform = 61,
-	SPVBackCapability_GroupNonUniformVote = 62,
-	SPVBackCapability_GroupNonUniformArithmetic = 63,
-	SPVBackCapability_GroupNonUniformBallot = 64,
-	SPVBackCapability_GroupNonUniformShuffle = 65,
-	SPVBackCapability_GroupNonUniformShuffleRelative = 66,
-	SPVBackCapability_GroupNonUniformClustered = 67,
-	SPVBackCapability_GroupNonUniformQuad = 68,
-	SPVBackCapability_ShaderLayer = 69,
-	SPVBackCapability_ShaderViewportIndex = 70,
-	SPVBackCapability_UniformDecoration = 71,
-	SPVBackCapability_CoreBuiltinsARM = 4165,
-	SPVBackCapability_TileImageColorReadAccessEXT = 4166,
-	SPVBackCapability_TileImageDepthReadAccessEXT = 4167,
-	SPVBackCapability_TileImageStencilReadAccessEXT = 4168,
-	SPVBackCapability_FragmentShadingRateKHR = 4422,
-	SPVBackCapability_SubgroupBallotKHR = 4423,
-	SPVBackCapability_DrawParameters = 4427,
-	SPVBackCapability_WorkgroupMemoryExplicitLayoutKHR = 4428,
-	SPVBackCapability_WorkgroupMemoryExplicitLayout8BitAccessKHR = 4429,
-	SPVBackCapability_WorkgroupMemoryExplicitLayout16BitAccessKHR = 4430,
-	SPVBackCapability_SubgroupVoteKHR = 4431,
-	SPVBackCapability_StorageBuffer16BitAccess = 4433,
-	SPVBackCapability_UniformAndStorageBuffer16BitAccess = 4434,
-	SPVBackCapability_StoragePushConstant16 = 4435,
-	SPVBackCapability_StorageInputOutput16 = 4436,
-	SPVBackCapability_DeviceGroup = 4437,
-	SPVBackCapability_MultiView = 4439,
-	SPVBackCapability_VariablePointersStorageBuffer = 4441,
-	SPVBackCapability_VariablePointers = 4442,
-	SPVBackCapability_AtomicStorageOps = 4445,
-	SPVBackCapability_SampleMaskPostDepthCoverage = 4447,
-	SPVBackCapability_StorageBuffer8BitAccess = 4448,
-	SPVBackCapability_UniformAndStorageBuffer8BitAccess = 4449,
-	SPVBackCapability_StoragePushConstant8 = 4450,
-	SPVBackCapability_DenormPreserve = 4464,
-	SPVBackCapability_DenormFlushToZero = 4465,
-	SPVBackCapability_SignedZeroInfNanPreserve = 4466,
-	SPVBackCapability_RoundingModeRTE = 4467,
-	SPVBackCapability_RoundingModeRTZ = 4468,
-	SPVBackCapability_RayQueryProvisionalKHR = 4471,
-	SPVBackCapability_RayQueryKHR = 4472,
-	SPVBackCapability_RayTraversalPrimitiveCullingKHR = 4478,
-	SPVBackCapability_RayTracingKHR = 4479,
-	SPVBackCapability_TextureSampleWeightedQCOM = 4484,
-	SPVBackCapability_TextureBoxFilterQCOM = 4485,
-	SPVBackCapability_TextureBlockMatchQCOM = 4486,
-	SPVBackCapability_Float16ImageAMD = 5008,
-	SPVBackCapability_ImageGatherBiasLodAMD = 5009,
-	SPVBackCapability_FragmentMaskAMD = 5010,
-	SPVBackCapability_StencilExportEXT = 5013,
-	SPVBackCapability_ImageReadWriteLodAMD = 5015,
-	SPVBackCapability_Int64ImageEXT = 5016,
-	SPVBackCapability_ShaderClockKHR = 5055,
-	SPVBackCapability_ShaderEnqueueAMDX = 5067,
-	SPVBackCapability_SampleMaskOverrideCoverageNV = 5249,
-	SPVBackCapability_GeometryShaderPassthroughNV = 5251,
-	SPVBackCapability_ShaderViewportIndexLayerEXT = 5254,
-	SPVBackCapability_ShaderViewportMaskNV = 5255,
-	SPVBackCapability_ShaderStereoViewNV = 5259,
-	SPVBackCapability_PerViewAttributesNV = 5260,
-	SPVBackCapability_FragmentFullyCoveredEXT = 5265,
-	SPVBackCapability_MeshShadingNV = 5266,
-	SPVBackCapability_ImageFootprintNV = 5282,
-	SPVBackCapability_MeshShadingEXT = 5283,
-	SPVBackCapability_FragmentBarycentricKHR = 5284,
-	SPVBackCapability_ComputeDerivativeGroupQuadsNV = 5288,
-	SPVBackCapability_FragmentDensityEXT = 5291,
-	SPVBackCapability_GroupNonUniformPartitionedNV = 5297,
-	SPVBackCapability_ShaderNonUniform = 5301,
-	SPVBackCapability_RuntimeDescriptorArray = 5302,
-	SPVBackCapability_InputAttachmentArrayDynamicIndexing = 5303,
-	SPVBackCapability_UniformTexelBufferArrayDynamicIndexing = 5304,
-	SPVBackCapability_StorageTexelBufferArrayDynamicIndexing = 5305,
-	SPVBackCapability_UniformBufferArrayNonUniformIndexing = 5306,
-	SPVBackCapability_SampledImageArrayNonUniformIndexing = 5307,
-	SPVBackCapability_StorageBufferArrayNonUniformIndexing = 5308,
-	SPVBackCapability_StorageImageArrayNonUniformIndexing = 5309,
-	SPVBackCapability_InputAttachmentArrayNonUniformIndexing = 5310,
-	SPVBackCapability_UniformTexelBufferArrayNonUniformIndexing = 5311,
-	SPVBackCapability_StorageTexelBufferArrayNonUniformIndexing = 5312,
-	SPVBackCapability_RayTracingPositionFetchKHR = 5336,
-	SPVBackCapability_RayTracingNV = 5340,
-	SPVBackCapability_RayTracingMotionBlurNV = 5341,
-	SPVBackCapability_VulkanMemoryModel = 5345,
-	SPVBackCapability_VulkanMemoryModelDeviceScope = 5346,
-	SPVBackCapability_PhysicalStorageBufferAddresses = 5347,
-	SPVBackCapability_ComputeDerivativeGroupLinearNV = 5350,
-	SPVBackCapability_RayTracingProvisionalKHR = 5353,
-	SPVBackCapability_CooperativeMatrixNV = 5357,
-	SPVBackCapability_FragmentShaderSampleInterlockEXT = 5363,
-	SPVBackCapability_FragmentShaderShadingRateInterlockEXT = 5372,
-	SPVBackCapability_ShaderSMBuiltinsNV = 5373,
-	SPVBackCapability_FragmentShaderPixelInterlockEXT = 5378,
-	SPVBackCapability_DemoteToHelperInvocation = 5379,
-	SPVBackCapability_DisplacementMicromapNV = 5380,
-	SPVBackCapability_RayTracingOpacityMicromapEXT = 5381,
-	SPVBackCapability_ShaderInvocationReorderNV = 5383,
-	SPVBackCapability_BindlessTextureNV = 5390,
-	SPVBackCapability_RayQueryPositionFetchKHR = 5391,
-	SPVBackCapability_RayTracingDisplacementMicromapNV = 5409,
-	SPVBackCapability_SubgroupShuffleINTEL = 5568,
-	SPVBackCapability_SubgroupBufferBlockIOINTEL = 5569,
-	SPVBackCapability_SubgroupImageBlockIOINTEL = 5570,
-	SPVBackCapability_SubgroupImageMediaBlockIOINTEL = 5579,
-	SPVBackCapability_RoundToInfinityINTEL = 5582,
-	SPVBackCapability_FloatingPointModeINTEL = 5583,
-	SPVBackCapability_IntegerFunctions2INTEL = 5584,
-	SPVBackCapability_FunctionPointersINTEL = 5603,
-	SPVBackCapability_IndirectReferencesINTEL = 5604,
-	SPVBackCapability_AsmINTEL = 5606,
-	SPVBackCapability_AtomicFloat32MinMaxEXT = 5612,
-	SPVBackCapability_AtomicFloat64MinMaxEXT = 5613,
-	SPVBackCapability_AtomicFloat16MinMaxEXT = 5616,
-	SPVBackCapability_VectorComputeINTEL = 5617,
-	SPVBackCapability_VectorAnyINTEL = 5619,
-	SPVBackCapability_ExpectAssumeKHR = 5629,
-	SPVBackCapability_SubgroupAvcMotionEstimationINTEL = 5696,
-	SPVBackCapability_SubgroupAvcMotionEstimationIntraINTEL = 5697,
-	SPVBackCapability_SubgroupAvcMotionEstimationChromaINTEL = 5698,
-	SPVBackCapability_VariableLengthArrayINTEL = 5817,
-	SPVBackCapability_FunctionFloatControlINTEL = 5821,
-	SPVBackCapability_FPGAMemoryAttributesINTEL = 5824,
-	SPVBackCapability_FPFastMathModeINTEL = 5837,
-	SPVBackCapability_ArbitraryPrecisionIntegersINTEL = 5844,
-	SPVBackCapability_ArbitraryPrecisionFloatingPointINTEL = 5845,
-	SPVBackCapability_UnstructuredLoopControlsINTEL = 5886,
-	SPVBackCapability_FPGALoopControlsINTEL = 5888,
-	SPVBackCapability_KernelAttributesINTEL = 5892,
-	SPVBackCapability_FPGAKernelAttributesINTEL = 5897,
-	SPVBackCapability_FPGAMemoryAccessesINTEL = 5898,
-	SPVBackCapability_FPGAClusterAttributesINTEL = 5904,
-	SPVBackCapability_LoopFuseINTEL = 5906,
-	SPVBackCapability_FPGADSPControlINTEL = 5908,
-	SPVBackCapability_MemoryAccessAliasingINTEL = 5910,
-	SPVBackCapability_FPGAInvocationPipeliningAttributesINTEL = 5916,
-	SPVBackCapability_FPGABufferLocationINTEL = 5920,
-	SPVBackCapability_ArbitraryPrecisionFixedPointINTEL = 5922,
-	SPVBackCapability_USMStorageClassesINTEL = 5935,
-	SPVBackCapability_RuntimeAlignedAttributeINTEL = 5939,
-	SPVBackCapability_IOPipesINTEL = 5943,
-	SPVBackCapability_BlockingPipesINTEL = 5945,
-	SPVBackCapability_FPGARegINTEL = 5948,
-	SPVBackCapability_DotProductInputAll = 6016,
-	SPVBackCapability_DotProductInput4x8Bit = 6017,
-	SPVBackCapability_DotProductInput4x8BitPacked = 6018,
-	SPVBackCapability_DotProduct = 6019,
-	SPVBackCapability_RayCullMaskKHR = 6020,
-	SPVBackCapability_CooperativeMatrixKHR = 6022,
-	SPVBackCapability_BitInstructions = 6025,
-	SPVBackCapability_GroupNonUniformRotateKHR = 6026,
-	SPVBackCapability_AtomicFloat32AddEXT = 6033,
-	SPVBackCapability_AtomicFloat64AddEXT = 6034,
-	SPVBackCapability_LongConstantCompositeINTEL = 6089,
-	SPVBackCapability_OptNoneINTEL = 6094,
-	SPVBackCapability_AtomicFloat16AddEXT = 6095,
-	SPVBackCapability_DebugInfoModuleINTEL = 6114,
-	SPVBackCapability_BFloat16ConversionINTEL = 6115,
-	SPVBackCapability_SplitBarrierINTEL = 6141,
-	SPVBackCapability_GlobalVariableFPGADecorationsINTEL = 6146,
-	SPVBackCapability_FPGAKernelAttributesv2INTEL = 6161,
-	SPVBackCapability_GlobalVariableHostAccessINTEL = 6167,
-	SPVBackCapability_FPMaxErrorINTEL = 6169,
-	SPVBackCapability_FPGALatencyControlINTEL = 6171,
-	SPVBackCapability_FPGAArgumentInterfacesINTEL = 6174,
-	SPVBackCapability_GroupUniformArithmeticKHR = 6400,
-	SPVBackCapability_CacheControlsINTEL = 6441,
-} SPVBackCapability;
+typedef enum NagaSPVBackCapability {
+	NagaSPVBackCapability_Matrix = 0,
+	NagaSPVBackCapability_Shader = 1,
+	NagaSPVBackCapability_Geometry = 2,
+	NagaSPVBackCapability_Tessellation = 3,
+	NagaSPVBackCapability_Addresses = 4,
+	NagaSPVBackCapability_Linkage = 5,
+	NagaSPVBackCapability_Kernel = 6,
+	NagaSPVBackCapability_Vector16 = 7,
+	NagaSPVBackCapability_Float16Buffer = 8,
+	NagaSPVBackCapability_Float16 = 9,
+	NagaSPVBackCapability_Float64 = 10,
+	NagaSPVBackCapability_Int64 = 11,
+	NagaSPVBackCapability_Int64Atomics = 12,
+	NagaSPVBackCapability_ImageBasic = 13,
+	NagaSPVBackCapability_ImageReadWrite = 14,
+	NagaSPVBackCapability_ImageMipmap = 15,
+	NagaSPVBackCapability_Pipes = 17,
+	NagaSPVBackCapability_Groups = 18,
+	NagaSPVBackCapability_DeviceEnqueue = 19,
+	NagaSPVBackCapability_LiteralSampler = 20,
+	NagaSPVBackCapability_AtomicStorage = 21,
+	NagaSPVBackCapability_Int16 = 22,
+	NagaSPVBackCapability_TessellationPointSize = 23,
+	NagaSPVBackCapability_GeometryPointSize = 24,
+	NagaSPVBackCapability_ImageGatherExtended = 25,
+	NagaSPVBackCapability_StorageImageMultisample = 27,
+	NagaSPVBackCapability_UniformBufferArrayDynamicIndexing = 28,
+	NagaSPVBackCapability_SampledImageArrayDynamicIndexing = 29,
+	NagaSPVBackCapability_StorageBufferArrayDynamicIndexing = 30,
+	NagaSPVBackCapability_StorageImageArrayDynamicIndexing = 31,
+	NagaSPVBackCapability_ClipDistance = 32,
+	NagaSPVBackCapability_CullDistance = 33,
+	NagaSPVBackCapability_ImageCubeArray = 34,
+	NagaSPVBackCapability_SampleRateShading = 35,
+	NagaSPVBackCapability_ImageRect = 36,
+	NagaSPVBackCapability_SampledRect = 37,
+	NagaSPVBackCapability_GenericPointer = 38,
+	NagaSPVBackCapability_Int8 = 39,
+	NagaSPVBackCapability_InputAttachment = 40,
+	NagaSPVBackCapability_SparseResidency = 41,
+	NagaSPVBackCapability_MinLod = 42,
+	NagaSPVBackCapability_Sampled1D = 43,
+	NagaSPVBackCapability_Image1D = 44,
+	NagaSPVBackCapability_SampledCubeArray = 45,
+	NagaSPVBackCapability_SampledBuffer = 46,
+	NagaSPVBackCapability_ImageBuffer = 47,
+	NagaSPVBackCapability_ImageMSArray = 48,
+	NagaSPVBackCapability_StorageImageExtendedFormats = 49,
+	NagaSPVBackCapability_ImageQuery = 50,
+	NagaSPVBackCapability_DerivativeControl = 51,
+	NagaSPVBackCapability_InterpolationFunction = 52,
+	NagaSPVBackCapability_TransformFeedback = 53,
+	NagaSPVBackCapability_GeometryStreams = 54,
+	NagaSPVBackCapability_StorageImageReadWithoutFormat = 55,
+	NagaSPVBackCapability_StorageImageWriteWithoutFormat = 56,
+	NagaSPVBackCapability_MultiViewport = 57,
+	NagaSPVBackCapability_SubgroupDispatch = 58,
+	NagaSPVBackCapability_NamedBarrier = 59,
+	NagaSPVBackCapability_PipeStorage = 60,
+	NagaSPVBackCapability_GroupNonUniform = 61,
+	NagaSPVBackCapability_GroupNonUniformVote = 62,
+	NagaSPVBackCapability_GroupNonUniformArithmetic = 63,
+	NagaSPVBackCapability_GroupNonUniformBallot = 64,
+	NagaSPVBackCapability_GroupNonUniformShuffle = 65,
+	NagaSPVBackCapability_GroupNonUniformShuffleRelative = 66,
+	NagaSPVBackCapability_GroupNonUniformClustered = 67,
+	NagaSPVBackCapability_GroupNonUniformQuad = 68,
+	NagaSPVBackCapability_ShaderLayer = 69,
+	NagaSPVBackCapability_ShaderViewportIndex = 70,
+	NagaSPVBackCapability_UniformDecoration = 71,
+	NagaSPVBackCapability_CoreBuiltinsARM = 4165,
+	NagaSPVBackCapability_TileImageColorReadAccessEXT = 4166,
+	NagaSPVBackCapability_TileImageDepthReadAccessEXT = 4167,
+	NagaSPVBackCapability_TileImageStencilReadAccessEXT = 4168,
+	NagaSPVBackCapability_FragmentShadingRateKHR = 4422,
+	NagaSPVBackCapability_SubgroupBallotKHR = 4423,
+	NagaSPVBackCapability_DrawParameters = 4427,
+	NagaSPVBackCapability_WorkgroupMemoryExplicitLayoutKHR = 4428,
+	NagaSPVBackCapability_WorkgroupMemoryExplicitLayout8BitAccessKHR = 4429,
+	NagaSPVBackCapability_WorkgroupMemoryExplicitLayout16BitAccessKHR = 4430,
+	NagaSPVBackCapability_SubgroupVoteKHR = 4431,
+	NagaSPVBackCapability_StorageBuffer16BitAccess = 4433,
+	NagaSPVBackCapability_UniformAndStorageBuffer16BitAccess = 4434,
+	NagaSPVBackCapability_StoragePushConstant16 = 4435,
+	NagaSPVBackCapability_StorageInputOutput16 = 4436,
+	NagaSPVBackCapability_DeviceGroup = 4437,
+	NagaSPVBackCapability_MultiView = 4439,
+	NagaSPVBackCapability_VariablePointersStorageBuffer = 4441,
+	NagaSPVBackCapability_VariablePointers = 4442,
+	NagaSPVBackCapability_AtomicStorageOps = 4445,
+	NagaSPVBackCapability_SampleMaskPostDepthCoverage = 4447,
+	NagaSPVBackCapability_StorageBuffer8BitAccess = 4448,
+	NagaSPVBackCapability_UniformAndStorageBuffer8BitAccess = 4449,
+	NagaSPVBackCapability_StoragePushConstant8 = 4450,
+	NagaSPVBackCapability_DenormPreserve = 4464,
+	NagaSPVBackCapability_DenormFlushToZero = 4465,
+	NagaSPVBackCapability_SignedZeroInfNanPreserve = 4466,
+	NagaSPVBackCapability_RoundingModeRTE = 4467,
+	NagaSPVBackCapability_RoundingModeRTZ = 4468,
+	NagaSPVBackCapability_RayQueryProvisionalKHR = 4471,
+	NagaSPVBackCapability_RayQueryKHR = 4472,
+	NagaSPVBackCapability_RayTraversalPrimitiveCullingKHR = 4478,
+	NagaSPVBackCapability_RayTracingKHR = 4479,
+	NagaSPVBackCapability_TextureSampleWeightedQCOM = 4484,
+	NagaSPVBackCapability_TextureBoxFilterQCOM = 4485,
+	NagaSPVBackCapability_TextureBlockMatchQCOM = 4486,
+	NagaSPVBackCapability_Float16ImageAMD = 5008,
+	NagaSPVBackCapability_ImageGatherBiasLodAMD = 5009,
+	NagaSPVBackCapability_FragmentMaskAMD = 5010,
+	NagaSPVBackCapability_StencilExportEXT = 5013,
+	NagaSPVBackCapability_ImageReadWriteLodAMD = 5015,
+	NagaSPVBackCapability_Int64ImageEXT = 5016,
+	NagaSPVBackCapability_ShaderClockKHR = 5055,
+	NagaSPVBackCapability_ShaderEnqueueAMDX = 5067,
+	NagaSPVBackCapability_SampleMaskOverrideCoverageNV = 5249,
+	NagaSPVBackCapability_GeometryShaderPassthroughNV = 5251,
+	NagaSPVBackCapability_ShaderViewportIndexLayerEXT = 5254,
+	NagaSPVBackCapability_ShaderViewportMaskNV = 5255,
+	NagaSPVBackCapability_ShaderStereoViewNV = 5259,
+	NagaSPVBackCapability_PerViewAttributesNV = 5260,
+	NagaSPVBackCapability_FragmentFullyCoveredEXT = 5265,
+	NagaSPVBackCapability_MeshShadingNV = 5266,
+	NagaSPVBackCapability_ImageFootprintNV = 5282,
+	NagaSPVBackCapability_MeshShadingEXT = 5283,
+	NagaSPVBackCapability_FragmentBarycentricKHR = 5284,
+	NagaSPVBackCapability_ComputeDerivativeGroupQuadsNV = 5288,
+	NagaSPVBackCapability_FragmentDensityEXT = 5291,
+	NagaSPVBackCapability_GroupNonUniformPartitionedNV = 5297,
+	NagaSPVBackCapability_ShaderNonUniform = 5301,
+	NagaSPVBackCapability_RuntimeDescriptorArray = 5302,
+	NagaSPVBackCapability_InputAttachmentArrayDynamicIndexing = 5303,
+	NagaSPVBackCapability_UniformTexelBufferArrayDynamicIndexing = 5304,
+	NagaSPVBackCapability_StorageTexelBufferArrayDynamicIndexing = 5305,
+	NagaSPVBackCapability_UniformBufferArrayNonUniformIndexing = 5306,
+	NagaSPVBackCapability_SampledImageArrayNonUniformIndexing = 5307,
+	NagaSPVBackCapability_StorageBufferArrayNonUniformIndexing = 5308,
+	NagaSPVBackCapability_StorageImageArrayNonUniformIndexing = 5309,
+	NagaSPVBackCapability_InputAttachmentArrayNonUniformIndexing = 5310,
+	NagaSPVBackCapability_UniformTexelBufferArrayNonUniformIndexing = 5311,
+	NagaSPVBackCapability_StorageTexelBufferArrayNonUniformIndexing = 5312,
+	NagaSPVBackCapability_RayTracingPositionFetchKHR = 5336,
+	NagaSPVBackCapability_RayTracingNV = 5340,
+	NagaSPVBackCapability_RayTracingMotionBlurNV = 5341,
+	NagaSPVBackCapability_VulkanMemoryModel = 5345,
+	NagaSPVBackCapability_VulkanMemoryModelDeviceScope = 5346,
+	NagaSPVBackCapability_PhysicalStorageBufferAddresses = 5347,
+	NagaSPVBackCapability_ComputeDerivativeGroupLinearNV = 5350,
+	NagaSPVBackCapability_RayTracingProvisionalKHR = 5353,
+	NagaSPVBackCapability_CooperativeMatrixNV = 5357,
+	NagaSPVBackCapability_FragmentShaderSampleInterlockEXT = 5363,
+	NagaSPVBackCapability_FragmentShaderShadingRateInterlockEXT = 5372,
+	NagaSPVBackCapability_ShaderSMBuiltinsNV = 5373,
+	NagaSPVBackCapability_FragmentShaderPixelInterlockEXT = 5378,
+	NagaSPVBackCapability_DemoteToHelperInvocation = 5379,
+	NagaSPVBackCapability_DisplacementMicromapNV = 5380,
+	NagaSPVBackCapability_RayTracingOpacityMicromapEXT = 5381,
+	NagaSPVBackCapability_ShaderInvocationReorderNV = 5383,
+	NagaSPVBackCapability_BindlessTextureNV = 5390,
+	NagaSPVBackCapability_RayQueryPositionFetchKHR = 5391,
+	NagaSPVBackCapability_RayTracingDisplacementMicromapNV = 5409,
+	NagaSPVBackCapability_SubgroupShuffleINTEL = 5568,
+	NagaSPVBackCapability_SubgroupBufferBlockIOINTEL = 5569,
+	NagaSPVBackCapability_SubgroupImageBlockIOINTEL = 5570,
+	NagaSPVBackCapability_SubgroupImageMediaBlockIOINTEL = 5579,
+	NagaSPVBackCapability_RoundToInfinityINTEL = 5582,
+	NagaSPVBackCapability_FloatingPointModeINTEL = 5583,
+	NagaSPVBackCapability_IntegerFunctions2INTEL = 5584,
+	NagaSPVBackCapability_FunctionPointersINTEL = 5603,
+	NagaSPVBackCapability_IndirectReferencesINTEL = 5604,
+	NagaSPVBackCapability_AsmINTEL = 5606,
+	NagaSPVBackCapability_AtomicFloat32MinMaxEXT = 5612,
+	NagaSPVBackCapability_AtomicFloat64MinMaxEXT = 5613,
+	NagaSPVBackCapability_AtomicFloat16MinMaxEXT = 5616,
+	NagaSPVBackCapability_VectorComputeINTEL = 5617,
+	NagaSPVBackCapability_VectorAnyINTEL = 5619,
+	NagaSPVBackCapability_ExpectAssumeKHR = 5629,
+	NagaSPVBackCapability_SubgroupAvcMotionEstimationINTEL = 5696,
+	NagaSPVBackCapability_SubgroupAvcMotionEstimationIntraINTEL = 5697,
+	NagaSPVBackCapability_SubgroupAvcMotionEstimationChromaINTEL = 5698,
+	NagaSPVBackCapability_VariableLengthArrayINTEL = 5817,
+	NagaSPVBackCapability_FunctionFloatControlINTEL = 5821,
+	NagaSPVBackCapability_FPGAMemoryAttributesINTEL = 5824,
+	NagaSPVBackCapability_FPFastMathModeINTEL = 5837,
+	NagaSPVBackCapability_ArbitraryPrecisionIntegersINTEL = 5844,
+	NagaSPVBackCapability_ArbitraryPrecisionFloatingPointINTEL = 5845,
+	NagaSPVBackCapability_UnstructuredLoopControlsINTEL = 5886,
+	NagaSPVBackCapability_FPGALoopControlsINTEL = 5888,
+	NagaSPVBackCapability_KernelAttributesINTEL = 5892,
+	NagaSPVBackCapability_FPGAKernelAttributesINTEL = 5897,
+	NagaSPVBackCapability_FPGAMemoryAccessesINTEL = 5898,
+	NagaSPVBackCapability_FPGAClusterAttributesINTEL = 5904,
+	NagaSPVBackCapability_LoopFuseINTEL = 5906,
+	NagaSPVBackCapability_FPGADSPControlINTEL = 5908,
+	NagaSPVBackCapability_MemoryAccessAliasingINTEL = 5910,
+	NagaSPVBackCapability_FPGAInvocationPipeliningAttributesINTEL = 5916,
+	NagaSPVBackCapability_FPGABufferLocationINTEL = 5920,
+	NagaSPVBackCapability_ArbitraryPrecisionFixedPointINTEL = 5922,
+	NagaSPVBackCapability_USMStorageClassesINTEL = 5935,
+	NagaSPVBackCapability_RuntimeAlignedAttributeINTEL = 5939,
+	NagaSPVBackCapability_IOPipesINTEL = 5943,
+	NagaSPVBackCapability_BlockingPipesINTEL = 5945,
+	NagaSPVBackCapability_FPGARegINTEL = 5948,
+	NagaSPVBackCapability_DotProductInputAll = 6016,
+	NagaSPVBackCapability_DotProductInput4x8Bit = 6017,
+	NagaSPVBackCapability_DotProductInput4x8BitPacked = 6018,
+	NagaSPVBackCapability_DotProduct = 6019,
+	NagaSPVBackCapability_RayCullMaskKHR = 6020,
+	NagaSPVBackCapability_CooperativeMatrixKHR = 6022,
+	NagaSPVBackCapability_BitInstructions = 6025,
+	NagaSPVBackCapability_GroupNonUniformRotateKHR = 6026,
+	NagaSPVBackCapability_AtomicFloat32AddEXT = 6033,
+	NagaSPVBackCapability_AtomicFloat64AddEXT = 6034,
+	NagaSPVBackCapability_LongConstantCompositeINTEL = 6089,
+	NagaSPVBackCapability_OptNoneINTEL = 6094,
+	NagaSPVBackCapability_AtomicFloat16AddEXT = 6095,
+	NagaSPVBackCapability_DebugInfoModuleINTEL = 6114,
+	NagaSPVBackCapability_BFloat16ConversionINTEL = 6115,
+	NagaSPVBackCapability_SplitBarrierINTEL = 6141,
+	NagaSPVBackCapability_GlobalVariableFPGADecorationsINTEL = 6146,
+	NagaSPVBackCapability_FPGAKernelAttributesv2INTEL = 6161,
+	NagaSPVBackCapability_GlobalVariableHostAccessINTEL = 6167,
+	NagaSPVBackCapability_FPMaxErrorINTEL = 6169,
+	NagaSPVBackCapability_FPGALatencyControlINTEL = 6171,
+	NagaSPVBackCapability_FPGAArgumentInterfacesINTEL = 6174,
+	NagaSPVBackCapability_GroupUniformArithmeticKHR = 6400,
+	NagaSPVBackCapability_CacheControlsINTEL = 6441,
+} NagaSPVBackCapability;
 
-typedef struct SPVBackCapabilitySet {
-	SPVBackCapability *capabilities;
+typedef struct NagaSPVBackCapabilitySet {
+	NagaSPVBackCapability *capabilities;
 	size_t capabilities_len;
-} SPVBackCapabilities;
+} NagaSPVBackCapabilities;
 
-typedef uint32_t SPVBackWriterFlagsFlags;
-typedef enum SPVBackWriterFlags {
-	SPVBackWriterFlags_DEBUG = 0x1,
-	SPVBackWriterFlags_ADJUST_COORDINATE_SPACE = 0x2,
-	SPVBackWriterFlags_LABEL_VARYINGS = 0x4,
-	SPVBackWriterFlags_FORCE_POINT_SIZE = 0x8,
-	SPVBackWriterFlags_CLAMP_FRAG_DEPTH = 0x10,
-	SPVBackWriterFlags_PRINT_ON_RAY_QUERY_INITIALIZATION_FAIL = 0x20,
-} SPVBackWriterFlags;
+typedef uint32_t NagaSPVBackWriterFlagsFlags;
+typedef enum NagaSPVBackWriterFlags {
+	NagaSPVBackWriterFlags_DEBUG = 0x1,
+	NagaSPVBackWriterFlags_ADJUST_COORDINATE_SPACE = 0x2,
+	NagaSPVBackWriterFlags_LABEL_VARYINGS = 0x4,
+	NagaSPVBackWriterFlags_FORCE_POINT_SIZE = 0x8,
+	NagaSPVBackWriterFlags_CLAMP_FRAG_DEPTH = 0x10,
+	NagaSPVBackWriterFlags_PRINT_ON_RAY_QUERY_INITIALIZATION_FAIL = 0x20,
+} NagaSPVBackWriterFlags;
 
-typedef struct SPVBackBindingInfo {
+typedef struct NagaSPVBackBindingInfo {
 	uint32_t descriptor_set;
 	uint32_t binding;
 	DEFINE_OPTIONAL(uint32_t)
 	binding_array_size;
-} SPVBackBindingInfo;
+} NagaSPVBackBindingInfo;
 
-typedef struct SPVBackBindingMapEntry {
-	ResourceBinding key;
-	SPVBackBindingInfo value;
-} SPVBackBindingMapEntry;
+typedef struct NagaSPVBackBindingMapEntry {
+	NagaResourceBinding key;
+	NagaSPVBackBindingInfo value;
+} NagaSPVBackBindingMapEntry;
 
-typedef struct SPVBackBindingMap {
-	SPVBackBindingMapEntry *entries;
+typedef struct NagaSPVBackBindingMap {
+	NagaSPVBackBindingMapEntry *entries;
 	size_t entries_len;
-} SPVBackBindingMap;
+} NagaSPVBackBindingMap;
 
-typedef enum SPVBackZeroInitializeWorkgroupMemoryMode {
-	SPVBackZeroInitializeWorkgroupMemoryMode_Native,
-	SPVBackZeroInitializeWorkgroupMemoryMode_Polyfill,
-	SPVBackZeroInitializeWorkgroupMemoryMode_None,
-} SPVBackZeroInitializeWorkgroupMemoryMode;
+typedef enum NagaSPVBackZeroInitializeWorkgroupMemoryMode {
+	NagaSPVBackZeroInitializeWorkgroupMemoryMode_Native,
+	NagaSPVBackZeroInitializeWorkgroupMemoryMode_Polyfill,
+	NagaSPVBackZeroInitializeWorkgroupMemoryMode_None,
+} NagaSPVBackZeroInitializeWorkgroupMemoryMode;
 
-typedef enum SPVBackSourceLanguage {
-	SPVBackSourceLanguage_Unknown = 0,
-	SPVBackSourceLanguage_ESSL = 1,
-	SPVBackSourceLanguage_GLSL = 2,
-	SPVBackSourceLanguage_OpenCL_C = 3,
-	SPVBackSourceLanguage_OpenCL_CPP = 4,
-	SPVBackSourceLanguage_HLSL = 5,
-	SPVBackSourceLanguage_CPP_for_OpenCL = 6,
-	SPVBackSourceLanguage_SYCL = 7,
-	SPVBackSourceLanguage_HERO_C = 8,
-	SPVBackSourceLanguage_NZSL = 9,
-	SPVBackSourceLanguage_WGSL = 10,
-	SPVBackSourceLanguage_Slang = 11,
-} SPVBackSourceLanguage;
+typedef enum NagaSPVBackSourceLanguage {
+	NagaSPVBackSourceLanguage_Unknown = 0,
+	NagaSPVBackSourceLanguage_ESSL = 1,
+	NagaSPVBackSourceLanguage_GLSL = 2,
+	NagaSPVBackSourceLanguage_OpenCL_C = 3,
+	NagaSPVBackSourceLanguage_OpenCL_CPP = 4,
+	NagaSPVBackSourceLanguage_HLSL = 5,
+	NagaSPVBackSourceLanguage_CPP_for_OpenCL = 6,
+	NagaSPVBackSourceLanguage_SYCL = 7,
+	NagaSPVBackSourceLanguage_HERO_C = 8,
+	NagaSPVBackSourceLanguage_NZSL = 9,
+	NagaSPVBackSourceLanguage_WGSL = 10,
+	NagaSPVBackSourceLanguage_Slang = 11,
+} NagaSPVBackSourceLanguage;
 
-typedef struct SPVBackDebugInfo {
+typedef struct NagaSPVBackDebugInfo {
 	char *source_code;
 	char *file_name;
-	SPVBackSourceLanguage language;
-} SPVBackDebugInfo;
+	NagaSPVBackSourceLanguage language;
+} NagaSPVBackDebugInfo;
 
-typedef struct SPVBackOptions {
+typedef struct NagaSPVBackOptions {
 	uint8_t lang_version[2];
-	SPVBackWriterFlagsFlags flags;
-	Bool fake_missing_bindings;
-	SPVBackBindingMap binding_map;
-	DEFINE_OPTIONAL(SPVBackCapabilities)
+	NagaSPVBackWriterFlagsFlags flags;
+	NagaBool fake_missing_bindings;
+	NagaSPVBackBindingMap binding_map;
+	DEFINE_OPTIONAL(NagaSPVBackCapabilities)
 	capabilities;
-	BoundsCheckPolicies bounds_check_policies;
-	SPVBackZeroInitializeWorkgroupMemoryMode zero_initialize_workgroup_memory;
-	Bool force_loop_bounding;
-	Bool ray_query_initialization_tracking;
-	Bool use_storage_input_output_16;
-	// DEFINE_OPTIONAL(SPVBackDebugInfo)
+	NagaBoundsCheckPolicies bounds_check_policies;
+	NagaSPVBackZeroInitializeWorkgroupMemoryMode zero_initialize_workgroup_memory;
+	NagaBool force_loop_bounding;
+	NagaBool ray_query_initialization_tracking;
+	NagaBool use_storage_input_output_16;
+	// DEFINE_OPTIONAL(NagaSPVBackDebugInfo)
 	// debug_info;
 	// NOTE: This type has an awkward lifetime on a borrowed string slice.
-	struct Empty *debug_info;
-} SPVBackOptions;
+	struct NagaEmpty *debug_info;
+} NagaSPVBackOptions;
 
-typedef struct SPVBackPipelineOptions {
-	ShaderStage shader_stage;
+typedef struct NagaSPVBackPipelineOptions {
+	NagaShaderStage shader_stage;
 	char *entry_point;
-} SPVBackPipelineOptions;
+} NagaSPVBackPipelineOptions;
 
-typedef enum SPVBackErrorTag {
-	SPVBackErrorTag_EntryPointNotFound,
-	SPVBackErrorTag_UnsupportedVersion,
-	SPVBackErrorTag_MissingCapabilities,
-	SPVBackErrorTag_FeatureNotImplemented,
-	SPVBackErrorTag_Validation,
-	SPVBackErrorTag_Override,
-	SPVBackErrorTag_ResolveArraySizeError,
-	SPVBackErrorTag_SpirvVersionTooLow,
-	SPVBackErrorTag_MissingBinding,
-} SPVBackErrorTag;
+typedef enum NagaSPVBackErrorTag {
+	NagaSPVBackErrorTag_EntryPointNotFound,
+	NagaSPVBackErrorTag_UnsupportedVersion,
+	NagaSPVBackErrorTag_MissingCapabilities,
+	NagaSPVBackErrorTag_FeatureNotImplemented,
+	NagaSPVBackErrorTag_Validation,
+	NagaSPVBackErrorTag_Override,
+	NagaSPVBackErrorTag_ResolveArraySizeError,
+	NagaSPVBackErrorTag_SpirvVersionTooLow,
+	NagaSPVBackErrorTag_MissingBinding,
+} NagaSPVBackErrorTag;
 
-typedef struct SPVBackError {
-	SPVBackErrorTag tag;
+typedef struct NagaSPVBackError {
+	NagaSPVBackErrorTag tag;
 	union {
 		uint8_t unsupported_version[2];
 		struct {
 			char *error;
-			SPVBackCapability *capabilities;
+			NagaSPVBackCapability *capabilities;
 			uint32_t capabilities_len;
 		} missing_capabilities;
 		char *feature_not_implemented;
 		char *validation;
-		ResolveArraySizeError resolve_array_size_error;
+		NagaResolveArraySizeError resolve_array_size_error;
 		uint8_t spirv_version_too_low[2];
-		ResourceBinding missing_binding;
+		NagaResourceBinding missing_binding;
 	} data;
-} SPVBackError;
+} NagaSPVBackError;
 
 // --- naga::back::wgsl ---
 
-typedef uint32_t WGSLBackWriterFlagsFlags;
-typedef enum WGSLBackWriterFlags {
-	WGSLBackWriterFlags_EXPLICIT_TYPES = 0x1,
-} WGSLBackWriterFlags;
+typedef uint32_t NagaWGSLBackWriterFlagsFlags;
+typedef enum NagaWGSLBackWriterFlags {
+	NagaWGSLBackWriterFlags_EXPLICIT_TYPES = 0x1,
+} NagaWGSLBackWriterFlags;
 
-typedef enum WGSLBackErrorTag {
-	WGSLBackErrorTag_FmtError,
-	WGSLBackErrorTag_Custom,
-	WGSLBackErrorTag_Unimplemented,
-	WGSLBackErrorTag_UnsupportedRelationalFunction,
-	WGSLBackErrorTag_Unsupported,
-} WGSLBackErrorTag;
+typedef enum NagaWGSLBackErrorTag {
+	NagaWGSLBackErrorTag_FmtError,
+	NagaWGSLBackErrorTag_Custom,
+	NagaWGSLBackErrorTag_Unimplemented,
+	NagaWGSLBackErrorTag_UnsupportedRelationalFunction,
+	NagaWGSLBackErrorTag_Unsupported,
+} NagaWGSLBackErrorTag;
 
-typedef struct WGSLBackError {
-	WGSLBackErrorTag tag;
+typedef struct NagaWGSLBackError {
+	NagaWGSLBackErrorTag tag;
 	union {
 		char *fmt_error;
 		char *custom;
 		char *unimplemented;
-		RelationalFunction unsupported_relational_function;
+		NagaRelationalFunction unsupported_relational_function;
 		struct {
 			char *kind;
 			char *value;
 		} unsupported;
 	} data;
-} WGSLBackError;
+} NagaWGSLBackError;
 
 // -- naga::back::pipeline_constants ---
 
-typedef struct PiplineConstant {
+typedef struct NagaPiplineConstant {
 	const char *key;
 	double value;
-} PipelineConstant;
+} NagaPipelineConstant;
 
-typedef enum PipelineConstantErrorTag {
-	PipelineConstantErrorTag_MissingValue,
-	PipelineConstantErrorTag_SrcNeedsToBeFinite,
-	PipelineConstantErrorTag_DstRangeTooSmall,
-	PipelineConstantErrorTag_ConstantEvaluatorError,
-	PipelineConstantErrorTag_ValidationError,
-	PipelineConstantErrorTag_NegativeWorkgroupSize,
-	PipelineConstantErrorTag_NegativeMeshOutputMax,
-} PipelineConstantErrorTag;
+typedef enum NagaPipelineConstantErrorTag {
+	NagaPipelineConstantErrorTag_MissingValue,
+	NagaPipelineConstantErrorTag_SrcNeedsToBeFinite,
+	NagaPipelineConstantErrorTag_DstRangeTooSmall,
+	NagaPipelineConstantErrorTag_ConstantEvaluatorError,
+	NagaPipelineConstantErrorTag_ValidationError,
+	NagaPipelineConstantErrorTag_NegativeWorkgroupSize,
+	NagaPipelineConstantErrorTag_NegativeMeshOutputMax,
+} NagaPipelineConstantErrorTag;
 
-typedef struct PipelineConstantError {
-	PipelineConstantErrorTag tag;
+typedef struct NagaPipelineConstantError {
+	NagaPipelineConstantErrorTag tag;
 	union {
 		char *missing_value;
-		ConstantEvaluatorError constant_evaluator_error;
-		struct Empty *NAGA_UNIMPLEMENTED validation_error;
+		NagaConstantEvaluatorError constant_evaluator_error;
+		struct NagaEmpty *NAGA_UNIMPLEMENTED validation_error;
 	} data;
-} PipelineConstantError;
+} NagaPipelineConstantError;
 
 // --- naga::front::atmoic_upgrade ---
 
-typedef enum AtomicUpgradeFrontError {
-	AtomicUpgradeFront_Unsupported,
-	AtomicUpgradeFront_UnexpectedEndOfIndices,
-	AtomicUpgradeFront_GlobalInitUnsupported,
-	AtomicUpgradeFront_GlobalVariableMissing,
-	AtomicUpgradeFront_CompareExchangeNonScalarBaseType,
-} AtomicUpgradeFrontError;
+typedef enum NagaAtomicUpgradeFrontError {
+	NagaAtomicUpgradeFront_Unsupported,
+	NagaAtomicUpgradeFront_UnexpectedEndOfIndices,
+	NagaAtomicUpgradeFront_GlobalInitUnsupported,
+	NagaAtomicUpgradeFront_GlobalVariableMissing,
+	NagaAtomicUpgradeFront_CompareExchangeNonScalarBaseType,
+} NagaAtomicUpgradeFrontError;
 
 // --- naga::front::glsl ---
 
-typedef struct GLSLFrontDefinesEntry {
+typedef struct NagaGLSLFrontDefinesEntry {
 	char *key;
 	char *value;
-} GLSLFrontDefinesEntry;
+} NagaGLSLFrontDefinesEntry;
 
-typedef struct GLSLFrontDefines {
-	GLSLFrontDefinesEntry *entries;
+typedef struct NagaGLSLFrontDefines {
+	NagaGLSLFrontDefinesEntry *entries;
 	size_t entries_len;
-} GLSLFrontDefines;
+} NagaGLSLFrontDefines;
 
-typedef struct GLSLFrontOptions {
-	ShaderStage stage;
-	GLSLFrontDefines defines;
-} GLSLFrontOptions;
+typedef struct NagaGLSLFrontOptions {
+	NagaShaderStage stage;
+	NagaGLSLFrontDefines defines;
+} NagaGLSLFrontOptions;
 
-typedef enum GLSLFrontPrecision {
-	Low,
-	Medium,
-	High,
-} GLSLFrontPrecision;
+typedef enum NagaGLSLFrontPrecision {
+	NagaGLSLFrontPrecision_Low,
+	NagaGLSLFrontPrecision_Medium,
+	NagaGLSLFrontPrecision_High,
+} NagaGLSLFrontPrecision;
 
-typedef struct GLSLFrontInteger {
+typedef struct NagaGLSLFrontInteger {
 	uint64_t value;
-	Bool signed_;
+	NagaBool signed_;
 	int32_t width;
 
-} GLSLFrontInteger;
+} NagaGLSLFrontInteger;
 
-typedef struct GLSLFrontFloat {
+typedef struct NagaGLSLFrontFloat {
 	float value;
 	int32_t width;
-} GLSLFrontFloat;
+} NagaGLSLFrontFloat;
 
-typedef enum GLSLFrontTokenValueTag {
-	GLSLFrontTokenValueTag_Identifier,
-	GLSLFrontTokenValueTag_FloatConstant,
-	GLSLFrontTokenValueTag_IntConstant,
-	GLSLFrontTokenValueTag_BoolConstant,
-	GLSLFrontTokenValueTag_Layout,
-	GLSLFrontTokenValueTag_In,
-	GLSLFrontTokenValueTag_Out,
-	GLSLFrontTokenValueTag_InOut,
-	GLSLFrontTokenValueTag_Uniform,
-	GLSLFrontTokenValueTag_Buffer,
-	GLSLFrontTokenValueTag_Const,
-	GLSLFrontTokenValueTag_Shared,
-	GLSLFrontTokenValueTag_Restrict,
-	GLSLFrontTokenValueTag_MemoryQualifier,
-	GLSLFrontTokenValueTag_Invariant,
-	GLSLFrontTokenValueTag_Interpolation,
-	GLSLFrontTokenValueTag_Sampling,
-	GLSLFrontTokenValueTag_Precision,
-	GLSLFrontTokenValueTag_PrecisionQualifier,
-	GLSLFrontTokenValueTag_Continue,
-	GLSLFrontTokenValueTag_Break,
-	GLSLFrontTokenValueTag_Return,
-	GLSLFrontTokenValueTag_Discard,
-	GLSLFrontTokenValueTag_If,
-	GLSLFrontTokenValueTag_Else,
-	GLSLFrontTokenValueTag_Switch,
-	GLSLFrontTokenValueTag_Case,
-	GLSLFrontTokenValueTag_Default,
-	GLSLFrontTokenValueTag_While,
-	GLSLFrontTokenValueTag_Do,
-	GLSLFrontTokenValueTag_For,
-	GLSLFrontTokenValueTag_Void,
-	GLSLFrontTokenValueTag_Struct,
-	GLSLFrontTokenValueTag_TypeName,
-	GLSLFrontTokenValueTag_Assign,
-	GLSLFrontTokenValueTag_AddAssign,
-	GLSLFrontTokenValueTag_SubAssign,
-	GLSLFrontTokenValueTag_MulAssign,
-	GLSLFrontTokenValueTag_DivAssign,
-	GLSLFrontTokenValueTag_ModAssign,
-	GLSLFrontTokenValueTag_LeftShiftAssign,
-	GLSLFrontTokenValueTag_RightShiftAssign,
-	GLSLFrontTokenValueTag_AndAssign,
-	GLSLFrontTokenValueTag_XorAssign,
-	GLSLFrontTokenValueTag_OrAssign,
-	GLSLFrontTokenValueTag_Increment,
-	GLSLFrontTokenValueTag_Decrement,
-	GLSLFrontTokenValueTag_LogicalOr,
-	GLSLFrontTokenValueTag_LogicalAnd,
-	GLSLFrontTokenValueTag_LogicalXor,
-	GLSLFrontTokenValueTag_LessEqual,
-	GLSLFrontTokenValueTag_GreaterEqual,
-	GLSLFrontTokenValueTag_Equal,
-	GLSLFrontTokenValueTag_NotEqual,
-	GLSLFrontTokenValueTag_LeftShift,
-	GLSLFrontTokenValueTag_RightShift,
-	GLSLFrontTokenValueTag_LeftBrace,
-	GLSLFrontTokenValueTag_RightBrace,
-	GLSLFrontTokenValueTag_LeftParen,
-	GLSLFrontTokenValueTag_RightParen,
-	GLSLFrontTokenValueTag_LeftBracket,
-	GLSLFrontTokenValueTag_RightBracket,
-	GLSLFrontTokenValueTag_LeftAngle,
-	GLSLFrontTokenValueTag_RightAngle,
-	GLSLFrontTokenValueTag_Comma,
-	GLSLFrontTokenValueTag_Semicolon,
-	GLSLFrontTokenValueTag_Colon,
-	GLSLFrontTokenValueTag_Dot,
-	GLSLFrontTokenValueTag_Bang,
-	GLSLFrontTokenValueTag_Dash,
-	GLSLFrontTokenValueTag_Tilde,
-	GLSLFrontTokenValueTag_Plus,
-	GLSLFrontTokenValueTag_Star,
-	GLSLFrontTokenValueTag_Slash,
-	GLSLFrontTokenValueTag_Percent,
-	GLSLFrontTokenValueTag_VerticalBar,
-	GLSLFrontTokenValueTag_Caret,
-	GLSLFrontTokenValueTag_Ampersand,
-	GLSLFrontTokenValueTag_Question,
-} GLSLFrontTokenValueTag;
+typedef enum NagaGLSLFrontTokenValueTag {
+	NagaGLSLFrontTokenValueTag_Identifier,
+	NagaGLSLFrontTokenValueTag_FloatConstant,
+	NagaGLSLFrontTokenValueTag_IntConstant,
+	NagaGLSLFrontTokenValueTag_BoolConstant,
+	NagaGLSLFrontTokenValueTag_Layout,
+	NagaGLSLFrontTokenValueTag_In,
+	NagaGLSLFrontTokenValueTag_Out,
+	NagaGLSLFrontTokenValueTag_InOut,
+	NagaGLSLFrontTokenValueTag_Uniform,
+	NagaGLSLFrontTokenValueTag_Buffer,
+	NagaGLSLFrontTokenValueTag_Const,
+	NagaGLSLFrontTokenValueTag_Shared,
+	NagaGLSLFrontTokenValueTag_Restrict,
+	NagaGLSLFrontTokenValueTag_MemoryQualifier,
+	NagaGLSLFrontTokenValueTag_Invariant,
+	NagaGLSLFrontTokenValueTag_Interpolation,
+	NagaGLSLFrontTokenValueTag_Sampling,
+	NagaGLSLFrontTokenValueTag_Precision,
+	NagaGLSLFrontTokenValueTag_PrecisionQualifier,
+	NagaGLSLFrontTokenValueTag_Continue,
+	NagaGLSLFrontTokenValueTag_Break,
+	NagaGLSLFrontTokenValueTag_Return,
+	NagaGLSLFrontTokenValueTag_Discard,
+	NagaGLSLFrontTokenValueTag_If,
+	NagaGLSLFrontTokenValueTag_Else,
+	NagaGLSLFrontTokenValueTag_Switch,
+	NagaGLSLFrontTokenValueTag_Case,
+	NagaGLSLFrontTokenValueTag_Default,
+	NagaGLSLFrontTokenValueTag_While,
+	NagaGLSLFrontTokenValueTag_Do,
+	NagaGLSLFrontTokenValueTag_For,
+	NagaGLSLFrontTokenValueTag_Void,
+	NagaGLSLFrontTokenValueTag_Struct,
+	NagaGLSLFrontTokenValueTag_TypeName,
+	NagaGLSLFrontTokenValueTag_Assign,
+	NagaGLSLFrontTokenValueTag_AddAssign,
+	NagaGLSLFrontTokenValueTag_SubAssign,
+	NagaGLSLFrontTokenValueTag_MulAssign,
+	NagaGLSLFrontTokenValueTag_DivAssign,
+	NagaGLSLFrontTokenValueTag_ModAssign,
+	NagaGLSLFrontTokenValueTag_LeftShiftAssign,
+	NagaGLSLFrontTokenValueTag_RightShiftAssign,
+	NagaGLSLFrontTokenValueTag_AndAssign,
+	NagaGLSLFrontTokenValueTag_XorAssign,
+	NagaGLSLFrontTokenValueTag_OrAssign,
+	NagaGLSLFrontTokenValueTag_Increment,
+	NagaGLSLFrontTokenValueTag_Decrement,
+	NagaGLSLFrontTokenValueTag_LogicalOr,
+	NagaGLSLFrontTokenValueTag_LogicalAnd,
+	NagaGLSLFrontTokenValueTag_LogicalXor,
+	NagaGLSLFrontTokenValueTag_LessEqual,
+	NagaGLSLFrontTokenValueTag_GreaterEqual,
+	NagaGLSLFrontTokenValueTag_Equal,
+	NagaGLSLFrontTokenValueTag_NotEqual,
+	NagaGLSLFrontTokenValueTag_LeftShift,
+	NagaGLSLFrontTokenValueTag_RightShift,
+	NagaGLSLFrontTokenValueTag_LeftBrace,
+	NagaGLSLFrontTokenValueTag_RightBrace,
+	NagaGLSLFrontTokenValueTag_LeftParen,
+	NagaGLSLFrontTokenValueTag_RightParen,
+	NagaGLSLFrontTokenValueTag_LeftBracket,
+	NagaGLSLFrontTokenValueTag_RightBracket,
+	NagaGLSLFrontTokenValueTag_LeftAngle,
+	NagaGLSLFrontTokenValueTag_RightAngle,
+	NagaGLSLFrontTokenValueTag_Comma,
+	NagaGLSLFrontTokenValueTag_Semicolon,
+	NagaGLSLFrontTokenValueTag_Colon,
+	NagaGLSLFrontTokenValueTag_Dot,
+	NagaGLSLFrontTokenValueTag_Bang,
+	NagaGLSLFrontTokenValueTag_Dash,
+	NagaGLSLFrontTokenValueTag_Tilde,
+	NagaGLSLFrontTokenValueTag_Plus,
+	NagaGLSLFrontTokenValueTag_Star,
+	NagaGLSLFrontTokenValueTag_Slash,
+	NagaGLSLFrontTokenValueTag_Percent,
+	NagaGLSLFrontTokenValueTag_VerticalBar,
+	NagaGLSLFrontTokenValueTag_Caret,
+	NagaGLSLFrontTokenValueTag_Ampersand,
+	NagaGLSLFrontTokenValueTag_Question,
+} NagaGLSLFrontTokenValueTag;
 
-typedef struct GLSLFrontTokenValue {
-	GLSLFrontTokenValueTag tag;
+typedef struct NagaGLSLFrontTokenValue {
+	NagaGLSLFrontTokenValueTag tag;
 	union {
 		char *identifier;
-		GLSLFrontFloat float_constant;
-		GLSLFrontInteger int_constant;
-		Bool bool_constant;
-		StorageAccessFlags memory_qualifier;
-		Interpolation interpolation;
-		Sampling sampling;
-		GLSLFrontPrecision precision_qualifier;
-		Type type_name;
+		NagaGLSLFrontFloat float_constant;
+		NagaGLSLFrontInteger int_constant;
+		NagaBool bool_constant;
+		NagaStorageAccessFlags memory_qualifier;
+		NagaInterpolation interpolation;
+		NagaSampling sampling;
+		NagaGLSLFrontPrecision precision_qualifier;
+		NagaType type_name;
 	} data;
-} GLSLFrontTokenValue;
+} NagaGLSLFrontTokenValue;
 
-typedef enum GLSLFrontExpectedTokenTag {
-	GLSLFrontExpectedTokenTag_Token,
-	GLSLFrontExpectedTokenTag_TypeName,
-	GLSLFrontExpectedTokenTag_Identifier,
-	GLSLFrontExpectedTokenTag_IntLiteral,
-	GLSLFrontExpectedTokenTag_FloatLiteral,
-	GLSLFrontExpectedTokenTag_BoolLiteral,
-	GLSLFrontExpectedTokenTag_Eof,
-} GLSLFrontExpectedTokenTag;
+typedef enum NagaGLSLFrontExpectedTokenTag {
+	NagaGLSLFrontExpectedTokenTag_Token,
+	NagaGLSLFrontExpectedTokenTag_TypeName,
+	NagaGLSLFrontExpectedTokenTag_Identifier,
+	NagaGLSLFrontExpectedTokenTag_IntLiteral,
+	NagaGLSLFrontExpectedTokenTag_FloatLiteral,
+	NagaGLSLFrontExpectedTokenTag_BoolLiteral,
+	NagaGLSLFrontExpectedTokenTag_Eof,
+} NagaGLSLFrontExpectedTokenTag;
 
-typedef struct GLSLFrontExpectedToken {
-	GLSLFrontExpectedTokenTag tag;
+typedef struct NagaGLSLFrontExpectedToken {
+	NagaGLSLFrontExpectedTokenTag tag;
 	union {
-		GLSLFrontTokenValue token;
+		NagaGLSLFrontTokenValue token;
 	} data;
-} GLSLFrontExpectedToken;
+} NagaGLSLFrontExpectedToken;
 
-typedef enum GLSLFrontPreprocessorError {
-	GLSLFrontPreprocessorError_IntegerOverflow,
-	GLSLFrontPreprocessorError_FloatParsingError,
-	GLSLFrontPreprocessorError_UnexpectedCharacter,
-	GLSLFrontPreprocessorError_UnexpectedToken,
-	GLSLFrontPreprocessorError_UnexpectedHash,
-	GLSLFrontPreprocessorError_UnexpectedNewLine,
-	GLSLFrontPreprocessorError_UnexpectedEndOfInput,
-	GLSLFrontPreprocessorError_TooFewDefineArguments,
-	GLSLFrontPreprocessorError_TooManyDefineArguments,
-	GLSLFrontPreprocessorError_ErrorDirective,
-	GLSLFrontPreprocessorError_DuplicateParameter,
-	GLSLFrontPreprocessorError_UnknownDirective,
-	GLSLFrontPreprocessorError_DefineRedefined,
-	GLSLFrontPreprocessorError_ElifOutsideOfBlock,
-	GLSLFrontPreprocessorError_ElseOutsideOfBlock,
-	GLSLFrontPreprocessorError_EndifOutsideOfBlock,
-	GLSLFrontPreprocessorError_ElifAfterElse,
-	GLSLFrontPreprocessorError_MoreThanOneElse,
-	GLSLFrontPreprocessorError_UnfinishedBlock,
-	GLSLFrontPreprocessorError_LineOverflow,
-	GLSLFrontPreprocessorError_NotSupported16BitLiteral,
-	GLSLFrontPreprocessorError_NotSupported64BitLiteral,
-	GLSLFrontPreprocessorError_MacroNotDefined,
-	GLSLFrontPreprocessorError_RecursionLimitReached,
-	GLSLFrontPreprocessorError_DivisionByZero,
-	GLSLFrontPreprocessorError_RemainderByZero,
-} GLSLFrontPreprocessorError;
+typedef enum NagaGLSLFrontPreprocessorError {
+	NagaGLSLFrontPreprocessorError_IntegerOverflow,
+	NagaGLSLFrontPreprocessorError_FloatParsingError,
+	NagaGLSLFrontPreprocessorError_UnexpectedCharacter,
+	NagaGLSLFrontPreprocessorError_UnexpectedToken,
+	NagaGLSLFrontPreprocessorError_UnexpectedHash,
+	NagaGLSLFrontPreprocessorError_UnexpectedNewLine,
+	NagaGLSLFrontPreprocessorError_UnexpectedEndOfInput,
+	NagaGLSLFrontPreprocessorError_TooFewDefineArguments,
+	NagaGLSLFrontPreprocessorError_TooManyDefineArguments,
+	NagaGLSLFrontPreprocessorError_ErrorDirective,
+	NagaGLSLFrontPreprocessorError_DuplicateParameter,
+	NagaGLSLFrontPreprocessorError_UnknownDirective,
+	NagaGLSLFrontPreprocessorError_DefineRedefined,
+	NagaGLSLFrontPreprocessorError_ElifOutsideOfBlock,
+	NagaGLSLFrontPreprocessorError_ElseOutsideOfBlock,
+	NagaGLSLFrontPreprocessorError_EndifOutsideOfBlock,
+	NagaGLSLFrontPreprocessorError_ElifAfterElse,
+	NagaGLSLFrontPreprocessorError_MoreThanOneElse,
+	NagaGLSLFrontPreprocessorError_UnfinishedBlock,
+	NagaGLSLFrontPreprocessorError_LineOverflow,
+	NagaGLSLFrontPreprocessorError_NotSupported16BitLiteral,
+	NagaGLSLFrontPreprocessorError_NotSupported64BitLiteral,
+	NagaGLSLFrontPreprocessorError_MacroNotDefined,
+	NagaGLSLFrontPreprocessorError_RecursionLimitReached,
+	NagaGLSLFrontPreprocessorError_DivisionByZero,
+	NagaGLSLFrontPreprocessorError_RemainderByZero,
+} NagaGLSLFrontPreprocessorError;
 
-typedef enum GLSLFrontErrorKindTag {
-	GLSLFrontErrorKindTag_EndOfFile,
-	GLSLFrontErrorKindTag_InvalidProfile,
-	GLSLFrontErrorKindTag_InvalidVersion,
-	GLSLFrontErrorKindTag_InvalidToken,
-	GLSLFrontErrorKindTag_NotImplemented,
-	GLSLFrontErrorKindTag_UnknownVariable,
-	GLSLFrontErrorKindTag_UnknownType,
-	GLSLFrontErrorKindTag_UnknownField,
-	GLSLFrontErrorKindTag_UnknownLayoutQualifier,
-	GLSLFrontErrorKindTag_UnsupportedMatrixWithTwoRowsInStd140,
-	GLSLFrontErrorKindTag_UnsupportedF16MatrixInStd140,
-	GLSLFrontErrorKindTag_VariableAlreadyDeclared,
-	GLSLFrontErrorKindTag_SemanticError,
-	GLSLFrontErrorKindTag_PreprocessorError,
-	GLSLFrontErrorKindTag_InternalError,
-} GLSLFrontErrorKindTag;
+typedef enum NagaGLSLFrontErrorKindTag {
+	NagaGLSLFrontErrorKindTag_EndOfFile,
+	NagaGLSLFrontErrorKindTag_InvalidProfile,
+	NagaGLSLFrontErrorKindTag_InvalidVersion,
+	NagaGLSLFrontErrorKindTag_InvalidToken,
+	NagaGLSLFrontErrorKindTag_NotImplemented,
+	NagaGLSLFrontErrorKindTag_UnknownVariable,
+	NagaGLSLFrontErrorKindTag_UnknownType,
+	NagaGLSLFrontErrorKindTag_UnknownField,
+	NagaGLSLFrontErrorKindTag_UnknownLayoutQualifier,
+	NagaGLSLFrontErrorKindTag_UnsupportedMatrixWithTwoRowsInStd140,
+	NagaGLSLFrontErrorKindTag_UnsupportedF16MatrixInStd140,
+	NagaGLSLFrontErrorKindTag_VariableAlreadyDeclared,
+	NagaGLSLFrontErrorKindTag_SemanticError,
+	NagaGLSLFrontErrorKindTag_PreprocessorError,
+	NagaGLSLFrontErrorKindTag_InternalError,
+} NagaGLSLFrontErrorKindTag;
 
-typedef struct GLSLFrontErrorKind {
-	GLSLFrontErrorKindTag tag;
+typedef struct NagaGLSLFrontErrorKind {
+	NagaGLSLFrontErrorKindTag tag;
 	union {
 		char *invalid_profile;
 		uint64_t invalid_version;
 		struct {
-			GLSLFrontTokenValue token;
-			GLSLFrontExpectedToken *expected;
+			NagaGLSLFrontTokenValue token;
+			NagaGLSLFrontExpectedToken *expected;
 			size_t expected_len;
 		} invalid_token;
 		char *not_implemented;
@@ -1872,123 +1872,123 @@ typedef struct GLSLFrontErrorKind {
 		char *variable_already_declared;
 		char *semantic_error;
 		// Requires questionable `pp_rs` dependency
-		struct Empty *NAGA_UNIMPLEMENTED preprocessor_error;
+		struct NagaEmpty *NAGA_UNIMPLEMENTED preprocessor_error;
 		char *internal_error;
 	} data;
-} GLSLFrontErrorKind;
+} NagaGLSLFrontErrorKind;
 
-typedef struct GLSLFrontParseError {
-	GLSLFrontErrorKind kind;
-	Span span;
-} GLSLFrontParseError;
+typedef struct NagaGLSLFrontParseError {
+	NagaGLSLFrontErrorKind kind;
+	NagaSpan span;
+} NagaGLSLFrontParseError;
 
-typedef struct GLSLFrontParseErrors {
-	GLSLFrontParseError *errors;
+typedef struct NagaGLSLFrontParseErrors {
+	NagaGLSLFrontParseError *errors;
 	size_t errors_len;
-} GLSLFrontParseErrors;
+} NagaGLSLFrontParseErrors;
 
 // --- naga::front::spv ---
 
-typedef struct SPVFrontOptions {
-	Bool adjust_coordinate_space;
-	Bool strict_capabilities;
+typedef struct NagaSPVFrontOptions {
+	NagaBool adjust_coordinate_space;
+	NagaBool strict_capabilities;
 	char *NAGA_NULLABLE block_ctx_dump_prefix;
-} SPVFrontOptions;
+} NagaSPVFrontOptions;
 
-typedef enum SPVFrontModuleState {
-	SPVFrontModuleState_Empty,
-	SPVFrontModuleState_Capability,
-	SPVFrontModuleState_Extension,
-	SPVFrontModuleState_ExtInstImport,
-	SPVFrontModuleState_MemoryModel,
-	SPVFrontModuleState_EntryPoint,
-	SPVFrontModuleState_ExecutionMode,
-	SPVFrontModuleState_Source,
-	SPVFrontModuleState_Name,
-	SPVFrontModuleState_ModuleProcessed,
-	SPVFrontModuleState_Annotation,
-	SPVFrontModuleState_Type,
-	SPVFrontModuleState_Function,
-} SPVFrontModuleState;
+typedef enum NagaSPVFrontModuleState {
+	NagaSPVFrontModuleState_Empty,
+	NagaSPVFrontModuleState_Capability,
+	NagaSPVFrontModuleState_Extension,
+	NagaSPVFrontModuleState_ExtInstImport,
+	NagaSPVFrontModuleState_MemoryModel,
+	NagaSPVFrontModuleState_EntryPoint,
+	NagaSPVFrontModuleState_ExecutionMode,
+	NagaSPVFrontModuleState_Source,
+	NagaSPVFrontModuleState_Name,
+	NagaSPVFrontModuleState_ModuleProcessed,
+	NagaSPVFrontModuleState_Annotation,
+	NagaSPVFrontModuleState_Type,
+	NagaSPVFrontModuleState_Function,
+} NagaSPVFrontModuleState;
 
 // private fields
 //
-// typedef struct SPVFrontInstruction {
+// typedef struct NagaSPVFrontInstruction {
 // 	uint16_t op;
 // 	uint16_t wc;
-// } SPVFrontInstruction;
+// } NagaSPVFrontInstruction;
 
-typedef enum SPVFrontErrorTag {
-	SPVFrontErrorTag_InvalidHeader,
-	SPVFrontErrorTag_InvalidWordCount,
-	SPVFrontErrorTag_UnknownInstruction,
-	SPVFrontErrorTag_UnknownCapability,
-	SPVFrontErrorTag_UnsupportedInstruction,
-	SPVFrontErrorTag_UnsupportedCapability,
-	SPVFrontErrorTag_UnsupportedExtension,
-	SPVFrontErrorTag_UnsupportedExtSet,
-	SPVFrontErrorTag_UnsupportedExtInstSet,
-	SPVFrontErrorTag_UnsupportedExtInst,
-	SPVFrontErrorTag_UnsupportedType,
-	SPVFrontErrorTag_UnsupportedExecutionModel,
-	SPVFrontErrorTag_UnsupportedExecutionMode,
-	SPVFrontErrorTag_UnsupportedStorageClass,
-	SPVFrontErrorTag_UnsupportedImageDim,
-	SPVFrontErrorTag_UnsupportedImageFormat,
-	SPVFrontErrorTag_UnsupportedBuiltIn,
-	SPVFrontErrorTag_UnsupportedControlFlow,
-	SPVFrontErrorTag_UnsupportedBinaryOperator,
-	SPVFrontErrorTag_UnsupportedRuntimeArrayStorageClass,
-	SPVFrontErrorTag_UnsupportedMatrixStride,
-	SPVFrontErrorTag_UnknownBinaryOperator,
-	SPVFrontErrorTag_UnknownRelationalFunction,
-	SPVFrontErrorTag_UnsupportedGroupOperation,
-	SPVFrontErrorTag_InvalidParameter,
-	SPVFrontErrorTag_InvalidOperandCount,
-	SPVFrontErrorTag_InvalidOperand,
-	SPVFrontErrorTag_InvalidId,
-	SPVFrontErrorTag_InvalidDecoration,
-	SPVFrontErrorTag_InvalidTypeWidth,
-	SPVFrontErrorTag_InvalidSign,
-	SPVFrontErrorTag_InvalidInnerType,
-	SPVFrontErrorTag_InvalidVectorSize,
-	SPVFrontErrorTag_InvalidAccessType,
-	SPVFrontErrorTag_InvalidAccess,
-	SPVFrontErrorTag_InvalidAccessIndex,
-	SPVFrontErrorTag_InvalidIndexType,
-	SPVFrontErrorTag_InvalidBinding,
-	SPVFrontErrorTag_InvalidGlobalVar,
-	SPVFrontErrorTag_InvalidImageExpression,
-	SPVFrontErrorTag_InvalidImageWriteType,
-	SPVFrontErrorTag_InvalidImageBaseType,
-	SPVFrontErrorTag_InvalidImage,
-	SPVFrontErrorTag_InvalidAsType,
-	SPVFrontErrorTag_InvalidVectorType,
-	SPVFrontErrorTag_InconsistentComparisonSampling,
-	SPVFrontErrorTag_WrongFunctionResultType,
-	SPVFrontErrorTag_WrongFunctionArgumentType,
-	SPVFrontErrorTag_MissingDecoration,
-	SPVFrontErrorTag_BadString,
-	SPVFrontErrorTag_IncompleteData,
-	SPVFrontErrorTag_InvalidTerminator,
-	SPVFrontErrorTag_InvalidEdgeClassification,
-	SPVFrontErrorTag_ControlFlowGraphCycle,
-	SPVFrontErrorTag_FunctionCallCycle,
-	SPVFrontErrorTag_InvalidArraySize,
-	SPVFrontErrorTag_InvalidBarrierScope,
-	SPVFrontErrorTag_InvalidBarrierMemorySemantics,
-	SPVFrontErrorTag_NonBindingArrayOfImageOrSamplers,
-	SPVFrontErrorTag_SpecIdTooHigh,
-	SPVFrontErrorTag_AtomicUpgradeError,
-} SPVFrontErrorTag;
+typedef enum NagaSPVFrontErrorTag {
+	NagaSPVFrontErrorTag_InvalidHeader,
+	NagaSPVFrontErrorTag_InvalidWordCount,
+	NagaSPVFrontErrorTag_UnknownInstruction,
+	NagaSPVFrontErrorTag_UnknownCapability,
+	NagaSPVFrontErrorTag_UnsupportedInstruction,
+	NagaSPVFrontErrorTag_UnsupportedCapability,
+	NagaSPVFrontErrorTag_UnsupportedExtension,
+	NagaSPVFrontErrorTag_UnsupportedExtSet,
+	NagaSPVFrontErrorTag_UnsupportedExtInstSet,
+	NagaSPVFrontErrorTag_UnsupportedExtInst,
+	NagaSPVFrontErrorTag_UnsupportedType,
+	NagaSPVFrontErrorTag_UnsupportedExecutionModel,
+	NagaSPVFrontErrorTag_UnsupportedExecutionMode,
+	NagaSPVFrontErrorTag_UnsupportedStorageClass,
+	NagaSPVFrontErrorTag_UnsupportedImageDim,
+	NagaSPVFrontErrorTag_UnsupportedImageFormat,
+	NagaSPVFrontErrorTag_UnsupportedBuiltIn,
+	NagaSPVFrontErrorTag_UnsupportedControlFlow,
+	NagaSPVFrontErrorTag_UnsupportedBinaryOperator,
+	NagaSPVFrontErrorTag_UnsupportedRuntimeArrayStorageClass,
+	NagaSPVFrontErrorTag_UnsupportedMatrixStride,
+	NagaSPVFrontErrorTag_UnknownBinaryOperator,
+	NagaSPVFrontErrorTag_UnknownRelationalFunction,
+	NagaSPVFrontErrorTag_UnsupportedGroupOperation,
+	NagaSPVFrontErrorTag_InvalidParameter,
+	NagaSPVFrontErrorTag_InvalidOperandCount,
+	NagaSPVFrontErrorTag_InvalidOperand,
+	NagaSPVFrontErrorTag_InvalidId,
+	NagaSPVFrontErrorTag_InvalidDecoration,
+	NagaSPVFrontErrorTag_InvalidTypeWidth,
+	NagaSPVFrontErrorTag_InvalidSign,
+	NagaSPVFrontErrorTag_InvalidInnerType,
+	NagaSPVFrontErrorTag_InvalidVectorSize,
+	NagaSPVFrontErrorTag_InvalidAccessType,
+	NagaSPVFrontErrorTag_InvalidAccess,
+	NagaSPVFrontErrorTag_InvalidAccessIndex,
+	NagaSPVFrontErrorTag_InvalidIndexType,
+	NagaSPVFrontErrorTag_InvalidBinding,
+	NagaSPVFrontErrorTag_InvalidGlobalVar,
+	NagaSPVFrontErrorTag_InvalidImageExpression,
+	NagaSPVFrontErrorTag_InvalidImageWriteType,
+	NagaSPVFrontErrorTag_InvalidImageBaseType,
+	NagaSPVFrontErrorTag_InvalidImage,
+	NagaSPVFrontErrorTag_InvalidAsType,
+	NagaSPVFrontErrorTag_InvalidVectorType,
+	NagaSPVFrontErrorTag_InconsistentComparisonSampling,
+	NagaSPVFrontErrorTag_WrongFunctionResultType,
+	NagaSPVFrontErrorTag_WrongFunctionArgumentType,
+	NagaSPVFrontErrorTag_MissingDecoration,
+	NagaSPVFrontErrorTag_BadString,
+	NagaSPVFrontErrorTag_IncompleteData,
+	NagaSPVFrontErrorTag_InvalidTerminator,
+	NagaSPVFrontErrorTag_InvalidEdgeClassification,
+	NagaSPVFrontErrorTag_ControlFlowGraphCycle,
+	NagaSPVFrontErrorTag_FunctionCallCycle,
+	NagaSPVFrontErrorTag_InvalidArraySize,
+	NagaSPVFrontErrorTag_InvalidBarrierScope,
+	NagaSPVFrontErrorTag_InvalidBarrierMemorySemantics,
+	NagaSPVFrontErrorTag_NonBindingArrayOfImageOrSamplers,
+	NagaSPVFrontErrorTag_SpecIdTooHigh,
+	NagaSPVFrontErrorTag_AtomicUpgradeError,
+} NagaSPVFrontErrorTag;
 
-typedef struct SPVFrontError {
-	SPVFrontErrorTag tag;
+typedef struct NagaSPVFrontError {
+	NagaSPVFrontErrorTag tag;
 	union {
 		uint16_t unknown_instruction;
 		uint32_t unknown_capability;
 		struct {
-			SPVFrontModuleState module_state;
+			NagaSPVFrontModuleState module_state;
 			uint16_t op;
 		} unsupported_instruction;
 		uint32_t unsupported_capability;
@@ -1996,7 +1996,7 @@ typedef struct SPVFrontError {
 		char *unsupported_ext_set;
 		uint32_t unsupported_ext_inst_set;
 		uint32_t unsupported_ext_inst;
-		DEFINE_HANDLE_INDEX(Type)
+		DEFINE_HANDLE_INDEX(NagaType)
 		unsupported_type;
 		uint32_t unsupported_execution_model;
 		uint32_t unsupported_execution_mode;
@@ -2027,21 +2027,21 @@ typedef struct SPVFrontError {
 		uint32_t invalid_inner_type;
 		uint32_t invalid_vector_size;
 		uint32_t invalid_access_type;
-		struct Empty *NAGA_UNIMPLEMENTED invalid_access;
+		struct NagaEmpty *NAGA_UNIMPLEMENTED invalid_access;
 		uint32_t invalid_access_index;
 		uint32_t invalid_index_type;
 		uint32_t invalid_binding;
-		struct Empty *NAGA_UNIMPLEMENTED invalid_global_var;
-		struct Empty *NAGA_UNIMPLEMENTED invalid_image_expression;
-		DEFINE_HANDLE_INDEX(Type)
+		struct NagaEmpty *NAGA_UNIMPLEMENTED invalid_global_var;
+		struct NagaEmpty *NAGA_UNIMPLEMENTED invalid_image_expression;
+		DEFINE_HANDLE_INDEX(NagaType)
 		invalid_image_base_type;
-		DEFINE_HANDLE_INDEX(Type)
+		DEFINE_HANDLE_INDEX(NagaType)
 		invalid_image;
-		DEFINE_HANDLE_INDEX(Type)
+		DEFINE_HANDLE_INDEX(NagaType)
 		invalid_as_type;
-		DEFINE_HANDLE_INDEX(Type)
+		DEFINE_HANDLE_INDEX(NagaType)
 		invalid_vector_type;
-		DEFINE_HANDLE_INDEX(GlobalVariable)
+		DEFINE_HANDLE_INDEX(NagaGlobalVariable)
 		inconsistent_comparison_sampling;
 		uint32_t wrong_function_result_type;
 		uint32_t wrong_function_argument_type;
@@ -2052,239 +2052,239 @@ typedef struct SPVFrontError {
 		uint32_t invalid_barrier_scope;
 		uint32_t invalid_barrier_memory_semantics;
 		uint32_t spec_id_too_high;
-		AtomicUpgradeFrontError atomic_upgrade_error;
+		NagaAtomicUpgradeFrontError atomic_upgrade_error;
 	} data;
-} SPVFrontError;
+} NagaSPVFrontError;
 
 // --- naga::front::wgsl ---
 
-typedef struct WGSLFrontOptions {
-	Bool parse_doc_comments;
-} WGSLFrontOptions;
+typedef struct NagaWGSLFrontOptions {
+	NagaBool parse_doc_comments;
+} NagaWGSLFrontOptions;
 
-typedef struct WGSLFrontParseErrorLabel {
-	Span span;
+typedef struct NagaWGSLFrontParseErrorLabel {
+	NagaSpan span;
 	char *message;
-} WGSLFrontParseErrorLabel;
+} NagaWGSLFrontParseErrorLabel;
 
-typedef struct WGSLFrontParseError {
+typedef struct NagaWGSLFrontParseError {
 	char *message;
-	WGSLFrontParseErrorLabel *labels;
+	NagaWGSLFrontParseErrorLabel *labels;
 	size_t labels_len;
-} WGSLFrontParseError;
+} NagaWGSLFrontParseError;
 
 // --- naga::compact
 
-typedef enum KeepUnused {
-	KeepUnused_No,
-	KeepUnused_Yes,
-} KeepUnused;
+typedef enum NagaKeepUnused {
+	NagaKeepUnused_No,
+	NagaKeepUnused_Yes,
+} NagaKeepUnused;
 
 // --- Wrapper Methods ---
 
-typedef uint32_t FrontResultOptionFlags;
-typedef enum FrontResultOption {
-	FrontResultOption_FormattedErrorOnly = 0x1
-} FrontResultOption;
+typedef uint32_t NagaFrontResultOptionFlags;
+typedef enum NagaFrontResultOption {
+	NagaFrontResultOption_FormattedErrorOnly = 0x1
+} NagaFrontResultOption;
 
-typedef struct GLSLFrontResult {
-	FrontResultOptionFlags flags;
-	Module module;
+typedef struct NagaGLSLFrontResult {
+	NagaFrontResultOptionFlags flags;
+	NagaModule module;
 	union {
-		GLSLFrontParseErrors errors;
+		NagaGLSLFrontParseErrors errors;
 		char *fmt_error;
 	};
-} GLSLFrontResult;
+} NagaGLSLFrontResult;
 
-typedef struct SPVFrontResult {
-	FrontResultOptionFlags flags;
-	Module module;
+typedef struct NagaSPVFrontResult {
+	NagaFrontResultOptionFlags flags;
+	NagaModule module;
 	union {
-		SPVFrontError error;
+		NagaSPVFrontError error;
 		char *fmt_error;
 	};
-} SPVFrontResult;
+} NagaSPVFrontResult;
 
-typedef struct WGSLFrontResult {
-	FrontResultOptionFlags flags;
-	Module module;
+typedef struct NagaWGSLFrontResult {
+	NagaFrontResultOptionFlags flags;
+	NagaModule module;
 	union {
-		WGSLFrontParseError error;
+		NagaWGSLFrontParseError error;
 		char *fmt_error;
 	};
-} WGSLFrontResult;
+} NagaWGSLFrontResult;
 
 #ifndef NAGA_FFI_NO_METHODS
 
 // Methods return true on success.
-Bool naga_front_glsl_parse(
-		GLSLFrontOptions options,
+NagaBool naga_front_glsl_parse(
+		NagaGLSLFrontOptions options,
 		const char *source,
-		ModuleFillFlags fill_flags,
-		GLSLFrontResult *out_result);
-Bool naga_front_spv_parse(
-		SPVFrontOptions options,
+		NagaModuleFillFlags fill_flags,
+		NagaGLSLFrontResult *out_result);
+NagaBool naga_front_spv_parse(
+		NagaSPVFrontOptions options,
 		const uint32_t *source,
 		uint32_t source_length,
-		ModuleFillFlags fill_flags,
-		SPVFrontResult *out_result);
-Bool naga_front_wgsl_parse(
-		WGSLFrontOptions options,
+		NagaModuleFillFlags fill_flags,
+		NagaSPVFrontResult *out_result);
+NagaBool naga_front_wgsl_parse(
+		NagaWGSLFrontOptions options,
 		const char *source,
-		ModuleFillFlags fill_flags,
-		WGSLFrontResult *out_result);
+		NagaModuleFillFlags fill_flags,
+		NagaWGSLFrontResult *out_result);
 
 #endif
 
-typedef uint32_t ValidateResultOptionFlags;
-typedef enum ValidateResultOption {
-	ValidateResultOption_FormattedErrorOnly = 0x1
-} ValidateResultOption;
+typedef uint32_t NagaValidateResultOptionFlags;
+typedef enum NagaValidateResultOption {
+	NagaValidateResultOption_FormattedErrorOnly = 0x1
+} NagaValidateResultOption;
 
-typedef struct ValidateResult {
-	ValidateResultOptionFlags flags;
-	ModuleInfo module_info;
+typedef struct NagaValidateResult {
+	NagaValidateResultOptionFlags flags;
+	NagaModuleInfo module_info;
 	union {
-		struct Empty *NAGA_UNIMPLEMENTED error;
+		struct NagaEmpty *NAGA_UNIMPLEMENTED error;
 		char *fmt_error;
 	};
-} ValidateResult;
+} NagaValidateResult;
 
 #ifndef NAGA_FFI_NO_METHODS
 
 // Methods return true on success.
-Validator naga_valid_validator_new(ValidationFlagsFlags flags, CapabilitiesFlags capabilities);
-void naga_valid_validator_reset(Validator *validator);
-Bool naga_valid_validator_validate(Validator *validator, Module *const module, ValidateResult *out_result);
-Bool naga_valid_validator_validate_resolved_overrides(Validator *validator, Module *const module, ValidateResult *out_result);
+NagaValidator naga_valid_validator_new(NagaValidationFlagsFlags flags, NagaCapabilitiesFlags capabilities);
+void naga_valid_validator_reset(NagaValidator *validator);
+NagaBool naga_valid_validator_validate(NagaValidator *validator, NagaModule *const module, NagaValidateResult *out_result);
+NagaBool naga_valid_validator_validate_resolved_overrides(NagaValidator *validator, NagaModule *const module, NagaValidateResult *out_result);
 
 #endif
 
 #ifndef NAGA_FFI_NO_METHODS
 
-void naga_compact_compact(Module *module, KeepUnused keep_unused);
+void naga_compact_compact(NagaModule *module, NagaKeepUnused keep_unused);
 
 #endif
 
-typedef uint32_t WriteResultOptionFlags;
-typedef enum WriteResultOption {
-	WriteResultOption_FormattedErrorOnly = 0x1
-} WriteResultOption;
+typedef uint32_t NagaWriteResultOptionFlags;
+typedef enum NagaWriteResultOption {
+	NagaWriteResultOption_FormattedErrorOnly = 0x1
+} NagaWriteResultOption;
 
-typedef struct DOTWriteResult {
-	WriteResultOptionFlags flags;
+typedef struct NagaDOTWriteResult {
+	NagaWriteResultOptionFlags flags;
 	char *output;
 	char *error;
-} DOTWriteResult;
+} NagaDOTWriteResult;
 
-typedef struct GLSLWriteResult {
-	WriteResultOptionFlags flags;
-	GLSLBackReflectionInfo reflection_info;
+typedef struct NagaGLSLWriteResult {
+	NagaWriteResultOptionFlags flags;
+	NagaGLSLBackReflectionInfo reflection_info;
 	char *output;
 	union {
-		GLSLBackError error;
+		NagaGLSLBackError error;
 		char *fmt_error;
 	};
-} GLSLWriteResult;
+} NagaGLSLWriteResult;
 
-typedef struct HLSLWriteResult {
-	WriteResultOptionFlags flags;
-	HLSLBackReflectionInfo reflection_info;
+typedef struct NagaHLSLWriteResult {
+	NagaWriteResultOptionFlags flags;
+	NagaHLSLBackReflectionInfo reflection_info;
 	char *output;
 	union {
-		HLSLBackError error;
+		NagaHLSLBackError error;
 		char *fmt_error;
 	};
-} HLSLWriteResult;
+} NagaHLSLWriteResult;
 
-typedef struct MSLWriteResult {
-	WriteResultOptionFlags flags;
-	MSLBackTranslationInfo translation_info;
+typedef struct NagaMSLWriteResult {
+	NagaWriteResultOptionFlags flags;
+	NagaMSLBackTranslationInfo translation_info;
 	char *output;
 	union {
-		MSLBackError error;
+		NagaMSLBackError error;
 		char *fmt_error;
 	};
-} MSLWriteResult;
+} NagaMSLWriteResult;
 
-typedef struct SPVWriteResult {
-	WriteResultOptionFlags flags;
+typedef struct NagaSPVWriteResult {
+	NagaWriteResultOptionFlags flags;
 	uint32_t *output;
 	uint32_t output_count;
 	union {
-		SPVBackError error;
+		NagaSPVBackError error;
 		char *fmt_error;
 	};
-} SPVWriteResult;
+} NagaSPVWriteResult;
 
-typedef struct WGSLWriteResult {
-	WriteResultOptionFlags flags;
+typedef struct NagaWGSLWriteResult {
+	NagaWriteResultOptionFlags flags;
 	char *output;
 	union {
-		WGSLBackError error;
+		NagaWGSLBackError error;
 		char *fmt_error;
 	};
-} WGSLWriteResult;
+} NagaWGSLWriteResult;
 
-typedef struct ProcessOverridesResult {
-	WriteResultOptionFlags flags;
-	Module *module;
-	ModuleInfo *module_info;
+typedef struct NagaProcessOverridesResult {
+	NagaWriteResultOptionFlags flags;
+	NagaModule *module;
+	NagaModuleInfo *module_info;
 	union {
-		PipelineConstantError error;
+		NagaPipelineConstantError error;
 		char *fmt_error;
 	};
-} ProcessOverridesResult;
+} NagaProcessOverridesResult;
 
 #ifndef NAGA_FFI_NO_METHODS
 
 // Methods return true on success.
-Bool naga_back_dot_write(
-		Module *const module,
-		ModuleInfo *const module_info,
-		DOTBackOptions options,
-		DOTWriteResult *out_result);
-Bool naga_back_glsl_write(
-		Module *const module,
-		ModuleInfo *const module_info,
-		GLSLBackOptions options,
-		GLSLBackPipelineOptions pipeline_options,
-		BoundsCheckPolicies policies,
-		GLSLWriteResult *out_result);
-Bool naga_back_hlsl_write(
-		Module *const module,
-		ModuleInfo *const module_info,
-		HLSLBackOptions options,
-		HLSLBackPipelineOptions pipeline_options,
-		HLSLBackFragmentEntryPoint *NAGA_NULLABLE fragment_entry_point,
-		HLSLWriteResult *out_result);
-Bool naga_back_msl_write(
-		Module *const module,
-		ModuleInfo *const module_info,
-		MSLBackOptions options,
-		MSLBackPipelineOptions pipeline_options,
-		MSLWriteResult *out_result);
-Bool naga_back_spv_write(
-		Module *const module,
-		ModuleInfo *const module_info,
-		SPVBackOptions options,
-		SPVBackPipelineOptions *NAGA_NULLABLE pipeline_options,
-		SPVWriteResult *out_result);
-Bool naga_back_wgsl_write(
-		Module *const module,
-		ModuleInfo *const module_info,
-		WGSLBackWriterFlagsFlags writer_flags,
-		WGSLWriteResult *out_result);
-Bool naga_back_process_overrides(
-		Module *const module,
-		ModuleFillFlags module_flags,
-		ModuleInfo *const module_info,
-		ModuleInfoFillFlags module_fill_flags,
-		ShaderStage NAGA_NULLABLE entry_point_stage,
+NagaBool naga_back_dot_write(
+		NagaModule *const module,
+		NagaModuleInfo *const module_info,
+		NagaDOTBackOptions options,
+		NagaDOTWriteResult *out_result);
+NagaBool naga_back_glsl_write(
+		NagaModule *const module,
+		NagaModuleInfo *const module_info,
+		NagaGLSLBackOptions options,
+		NagaGLSLBackPipelineOptions pipeline_options,
+		NagaBoundsCheckPolicies policies,
+		NagaGLSLWriteResult *out_result);
+NagaBool naga_back_hlsl_write(
+		NagaModule *const module,
+		NagaModuleInfo *const module_info,
+		NagaHLSLBackOptions options,
+		NagaHLSLBackPipelineOptions pipeline_options,
+		NagaHLSLBackFragmentEntryPoint *NAGA_NULLABLE fragment_entry_point,
+		NagaHLSLWriteResult *out_result);
+NagaBool naga_back_msl_write(
+		NagaModule *const module,
+		NagaModuleInfo *const module_info,
+		NagaMSLBackOptions options,
+		NagaMSLBackPipelineOptions pipeline_options,
+		NagaMSLWriteResult *out_result);
+NagaBool Naganaga_back_spv_write(
+		NagaModule *const module,
+		NagaModuleInfo *const module_info,
+		NagaSPVBackOptions options,
+		NagaSPVBackPipelineOptions *NAGA_NULLABLE pipeline_options,
+		NagaSPVWriteResult *out_result);
+NagaBool naga_back_wgsl_write(
+		NagaModule *const module,
+		NagaModuleInfo *const module_info,
+		NagaWGSLBackWriterFlagsFlags writer_flags,
+		NagaWGSLWriteResult *out_result);
+NagaBool naga_back_process_overrides(
+		NagaModule *const module,
+		NagaModuleFillFlags module_flags,
+		NagaModuleInfo *const module_info,
+		NagaModuleInfoFillFlags module_fill_flags,
+		NagaShaderStage NAGA_NULLABLE entry_point_stage,
 		const char *NAGA_NULLABLE entry_point_name,
-		PipelineConstant *const constants,
+		NagaPipelineConstant *const constants,
 		uint32_t constants_count,
-		ProcessOverridesResult *out_result);
+		NagaProcessOverridesResult *out_result);
 
 #endif
 

@@ -2,41 +2,81 @@ use super::*;
 
 pub fn hlsl_back_shader_model_to_ffi(
     model: &naga::back::hlsl::ShaderModel,
-) -> ffi::HLSLBackShaderModel {
+) -> ffi::NagaHLSLBackShaderModel {
     match model {
-        naga::back::hlsl::ShaderModel::V5_0 => ffi::HLSLBackShaderModel_HLSLBackShaderModel_V5_0,
-        naga::back::hlsl::ShaderModel::V5_1 => ffi::HLSLBackShaderModel_HLSLBackShaderModel_V5_1,
-        naga::back::hlsl::ShaderModel::V6_0 => ffi::HLSLBackShaderModel_HLSLBackShaderModel_V6_0,
-        naga::back::hlsl::ShaderModel::V6_1 => ffi::HLSLBackShaderModel_HLSLBackShaderModel_V6_1,
-        naga::back::hlsl::ShaderModel::V6_2 => ffi::HLSLBackShaderModel_HLSLBackShaderModel_V6_2,
-        naga::back::hlsl::ShaderModel::V6_3 => ffi::HLSLBackShaderModel_HLSLBackShaderModel_V6_3,
-        naga::back::hlsl::ShaderModel::V6_4 => ffi::HLSLBackShaderModel_HLSLBackShaderModel_V6_4,
-        naga::back::hlsl::ShaderModel::V6_5 => ffi::HLSLBackShaderModel_HLSLBackShaderModel_V6_5,
-        naga::back::hlsl::ShaderModel::V6_6 => ffi::HLSLBackShaderModel_HLSLBackShaderModel_V6_6,
-        naga::back::hlsl::ShaderModel::V6_7 => ffi::HLSLBackShaderModel_HLSLBackShaderModel_V6_7,
+        naga::back::hlsl::ShaderModel::V5_0 => {
+            ffi::NagaHLSLBackShaderModel_NagaHLSLBackShaderModel_V5_0
+        }
+        naga::back::hlsl::ShaderModel::V5_1 => {
+            ffi::NagaHLSLBackShaderModel_NagaHLSLBackShaderModel_V5_1
+        }
+        naga::back::hlsl::ShaderModel::V6_0 => {
+            ffi::NagaHLSLBackShaderModel_NagaHLSLBackShaderModel_V6_0
+        }
+        naga::back::hlsl::ShaderModel::V6_1 => {
+            ffi::NagaHLSLBackShaderModel_NagaHLSLBackShaderModel_V6_1
+        }
+        naga::back::hlsl::ShaderModel::V6_2 => {
+            ffi::NagaHLSLBackShaderModel_NagaHLSLBackShaderModel_V6_2
+        }
+        naga::back::hlsl::ShaderModel::V6_3 => {
+            ffi::NagaHLSLBackShaderModel_NagaHLSLBackShaderModel_V6_3
+        }
+        naga::back::hlsl::ShaderModel::V6_4 => {
+            ffi::NagaHLSLBackShaderModel_NagaHLSLBackShaderModel_V6_4
+        }
+        naga::back::hlsl::ShaderModel::V6_5 => {
+            ffi::NagaHLSLBackShaderModel_NagaHLSLBackShaderModel_V6_5
+        }
+        naga::back::hlsl::ShaderModel::V6_6 => {
+            ffi::NagaHLSLBackShaderModel_NagaHLSLBackShaderModel_V6_6
+        }
+        naga::back::hlsl::ShaderModel::V6_7 => {
+            ffi::NagaHLSLBackShaderModel_NagaHLSLBackShaderModel_V6_7
+        }
     }
 }
 
 pub fn hlsl_back_shader_model_to_naga(
-    model: ffi::HLSLBackShaderModel,
+    model: ffi::NagaHLSLBackShaderModel,
 ) -> naga::back::hlsl::ShaderModel {
     match model {
-        ffi::HLSLBackShaderModel_HLSLBackShaderModel_V5_0 => naga::back::hlsl::ShaderModel::V5_0,
-        ffi::HLSLBackShaderModel_HLSLBackShaderModel_V5_1 => naga::back::hlsl::ShaderModel::V5_1,
-        ffi::HLSLBackShaderModel_HLSLBackShaderModel_V6_0 => naga::back::hlsl::ShaderModel::V6_0,
-        ffi::HLSLBackShaderModel_HLSLBackShaderModel_V6_1 => naga::back::hlsl::ShaderModel::V6_1,
-        ffi::HLSLBackShaderModel_HLSLBackShaderModel_V6_2 => naga::back::hlsl::ShaderModel::V6_2,
-        ffi::HLSLBackShaderModel_HLSLBackShaderModel_V6_3 => naga::back::hlsl::ShaderModel::V6_3,
-        ffi::HLSLBackShaderModel_HLSLBackShaderModel_V6_4 => naga::back::hlsl::ShaderModel::V6_4,
-        ffi::HLSLBackShaderModel_HLSLBackShaderModel_V6_5 => naga::back::hlsl::ShaderModel::V6_5,
-        ffi::HLSLBackShaderModel_HLSLBackShaderModel_V6_6 => naga::back::hlsl::ShaderModel::V6_6,
-        ffi::HLSLBackShaderModel_HLSLBackShaderModel_V6_7 => naga::back::hlsl::ShaderModel::V6_7,
+        ffi::NagaHLSLBackShaderModel_NagaHLSLBackShaderModel_V5_0 => {
+            naga::back::hlsl::ShaderModel::V5_0
+        }
+        ffi::NagaHLSLBackShaderModel_NagaHLSLBackShaderModel_V5_1 => {
+            naga::back::hlsl::ShaderModel::V5_1
+        }
+        ffi::NagaHLSLBackShaderModel_NagaHLSLBackShaderModel_V6_0 => {
+            naga::back::hlsl::ShaderModel::V6_0
+        }
+        ffi::NagaHLSLBackShaderModel_NagaHLSLBackShaderModel_V6_1 => {
+            naga::back::hlsl::ShaderModel::V6_1
+        }
+        ffi::NagaHLSLBackShaderModel_NagaHLSLBackShaderModel_V6_2 => {
+            naga::back::hlsl::ShaderModel::V6_2
+        }
+        ffi::NagaHLSLBackShaderModel_NagaHLSLBackShaderModel_V6_3 => {
+            naga::back::hlsl::ShaderModel::V6_3
+        }
+        ffi::NagaHLSLBackShaderModel_NagaHLSLBackShaderModel_V6_4 => {
+            naga::back::hlsl::ShaderModel::V6_4
+        }
+        ffi::NagaHLSLBackShaderModel_NagaHLSLBackShaderModel_V6_5 => {
+            naga::back::hlsl::ShaderModel::V6_5
+        }
+        ffi::NagaHLSLBackShaderModel_NagaHLSLBackShaderModel_V6_6 => {
+            naga::back::hlsl::ShaderModel::V6_6
+        }
+        ffi::NagaHLSLBackShaderModel_NagaHLSLBackShaderModel_V6_7 => {
+            naga::back::hlsl::ShaderModel::V6_7
+        }
         _ => panic!("Unknown HLSLBackShaderModel"),
     }
 }
 
 pub fn hlsl_back_bind_target_to_naga(
-    target: &ffi::HLSLBackBindTarget,
+    target: &ffi::NagaHLSLBackBindTarget,
 ) -> naga::back::hlsl::BindTarget {
     naga::back::hlsl::BindTarget {
         space: target.space,
@@ -58,7 +98,7 @@ pub fn hlsl_back_bind_target_to_naga(
 }
 
 pub fn hlsl_back_binding_map_to_naga(
-    map: &ffi::HLSLBackBindingMap,
+    map: &ffi::NagaHLSLBackBindingMap,
 ) -> naga::back::hlsl::BindingMap {
     unsafe {
         std::slice::from_raw_parts(map.entries, map.entries_len)
@@ -74,7 +114,7 @@ pub fn hlsl_back_binding_map_to_naga(
 }
 
 pub fn hlsl_back_sampler_heap_bind_targets_to_naga(
-    targets: &ffi::HLSLBackSamplerHeapBindTargets,
+    targets: &ffi::NagaHLSLBackSamplerHeapBindTargets,
 ) -> naga::back::hlsl::SamplerHeapBindTargets {
     naga::back::hlsl::SamplerHeapBindTargets {
         standard_samplers: hlsl_back_bind_target_to_naga(&targets.standard_samplers),
@@ -83,13 +123,13 @@ pub fn hlsl_back_sampler_heap_bind_targets_to_naga(
 }
 
 pub fn hlsl_back_sampler_index_buffer_key_to_naga(
-    key: &ffi::HLSLBackSamplerIndexBufferKey,
+    key: &ffi::NagaHLSLBackSamplerIndexBufferKey,
 ) -> naga::back::hlsl::SamplerIndexBufferKey {
     naga::back::hlsl::SamplerIndexBufferKey { group: key.group }
 }
 
 pub fn hlsl_back_sampler_index_buffer_binding_map_to_naga(
-    map: &ffi::HLSLBackSamplerIndexBufferBindingMap,
+    map: &ffi::NagaHLSLBackSamplerIndexBufferBindingMap,
 ) -> naga::back::hlsl::SamplerIndexBufferBindingMap {
     unsafe {
         std::slice::from_raw_parts(map.entries, map.entries_len)
@@ -105,7 +145,7 @@ pub fn hlsl_back_sampler_index_buffer_binding_map_to_naga(
 }
 
 pub fn hlsl_back_offsets_bind_target_to_naga(
-    target: &ffi::HLSLBackOffsetsBindTarget,
+    target: &ffi::NagaHLSLBackOffsetsBindTarget,
 ) -> naga::back::hlsl::OffsetsBindTarget {
     naga::back::hlsl::OffsetsBindTarget {
         space: target.space,
@@ -115,7 +155,7 @@ pub fn hlsl_back_offsets_bind_target_to_naga(
 }
 
 pub fn hlsl_back_dynamic_storage_buffer_offsets_targets_to_naga(
-    targets: &ffi::HLSLBackDynamicStorageBufferOffsetsTargets,
+    targets: &ffi::NagaHLSLBackDynamicStorageBufferOffsetsTargets,
 ) -> naga::back::hlsl::DynamicStorageBufferOffsetsTargets {
     unsafe {
         std::slice::from_raw_parts(targets.entries, targets.entries_len)
@@ -131,7 +171,7 @@ pub fn hlsl_back_dynamic_storage_buffer_offsets_targets_to_naga(
 }
 
 pub fn hlsl_back_external_texture_bind_target_to_naga(
-    target: &ffi::HLSLBackExternalTextureBindTarget,
+    target: &ffi::NagaHLSLBackExternalTextureBindTarget,
 ) -> naga::back::hlsl::ExternalTextureBindTarget {
     naga::back::hlsl::ExternalTextureBindTarget {
         planes: [
@@ -144,7 +184,7 @@ pub fn hlsl_back_external_texture_bind_target_to_naga(
 }
 
 pub fn hlsl_back_external_texture_binding_map_to_naga(
-    map: &ffi::HLSLBackExternalTextureBindingMap,
+    map: &ffi::NagaHLSLBackExternalTextureBindingMap,
 ) -> naga::back::hlsl::ExternalTextureBindingMap {
     unsafe {
         std::slice::from_raw_parts(map.entries, map.entries_len)
@@ -159,7 +199,7 @@ pub fn hlsl_back_external_texture_binding_map_to_naga(
     }
 }
 
-pub fn hlsl_back_options_to_naga(options: &ffi::HLSLBackOptions) -> naga::back::hlsl::Options {
+pub fn hlsl_back_options_to_naga(options: &ffi::NagaHLSLBackOptions) -> naga::back::hlsl::Options {
     naga::back::hlsl::Options {
         shader_model: hlsl_back_shader_model_to_naga(options.shader_model),
         binding_map: hlsl_back_binding_map_to_naga(&options.binding_map),
@@ -199,7 +239,7 @@ pub fn hlsl_back_options_to_naga(options: &ffi::HLSLBackOptions) -> naga::back::
 }
 
 pub fn hlsl_back_pipeline_options_to_naga(
-    options: &ffi::HLSLBackPipelineOptions,
+    options: &ffi::NagaHLSLBackPipelineOptions,
 ) -> naga::back::hlsl::PipelineOptions {
     naga::back::hlsl::PipelineOptions {
         entry_point: if bool_to_naga(options.entry_point.some) {
@@ -213,78 +253,69 @@ pub fn hlsl_back_pipeline_options_to_naga(
     }
 }
 
-pub fn hlsl_back_error_to_ffi(error: &naga::back::hlsl::Error) -> ffi::HLSLBackError {
-    let default_data = ffi::HLSLBackError__bindgen_ty_1 {
+pub fn hlsl_back_error_to_ffi(error: &naga::back::hlsl::Error) -> ffi::NagaHLSLBackError {
+    let default_data = ffi::NagaHLSLBackError__bindgen_ty_1 {
         io_error: std::ptr::null_mut(),
     };
 
     match error {
-        naga::back::hlsl::Error::IoError(error) => ffi::HLSLBackError {
-            tag: ffi::HLSLBackErrorTag_HLSLBackErrorTag_IoError,
-            data: ffi::HLSLBackError__bindgen_ty_1 {
+        naga::back::hlsl::Error::IoError(error) => ffi::NagaHLSLBackError {
+            tag: ffi::NagaHLSLBackErrorTag_NagaHLSLBackErrorTag_IoError,
+            data: ffi::NagaHLSLBackError__bindgen_ty_1 {
                 io_error: unsafe { string_to_ffi(&error.to_string()) },
             },
         },
-        naga::back::hlsl::Error::UnsupportedScalar(scalar) => ffi::HLSLBackError {
-            tag: ffi::HLSLBackErrorTag_HLSLBackErrorTag_UnsupportedScalar,
-            data: ffi::HLSLBackError__bindgen_ty_1 {
+        naga::back::hlsl::Error::UnsupportedScalar(scalar) => ffi::NagaHLSLBackError {
+            tag: ffi::NagaHLSLBackErrorTag_NagaHLSLBackErrorTag_UnsupportedScalar,
+            data: ffi::NagaHLSLBackError__bindgen_ty_1 {
                 unsupported_scalar: scalar_to_ffi(scalar),
             },
         },
-        naga::back::hlsl::Error::Unimplemented(error) => ffi::HLSLBackError {
-            tag: ffi::HLSLBackErrorTag_HLSLBackErrorTag_Unimplemented,
-            data: ffi::HLSLBackError__bindgen_ty_1 {
+        naga::back::hlsl::Error::Unimplemented(error) => ffi::NagaHLSLBackError {
+            tag: ffi::NagaHLSLBackErrorTag_NagaHLSLBackErrorTag_Unimplemented,
+            data: ffi::NagaHLSLBackError__bindgen_ty_1 {
                 unimplemented: unsafe { string_to_ffi(error) },
             },
         },
-        naga::back::hlsl::Error::Custom(error) => ffi::HLSLBackError {
-            tag: ffi::HLSLBackErrorTag_HLSLBackErrorTag_Custom,
-            data: ffi::HLSLBackError__bindgen_ty_1 {
+        naga::back::hlsl::Error::Custom(error) => ffi::NagaHLSLBackError {
+            tag: ffi::NagaHLSLBackErrorTag_NagaHLSLBackErrorTag_Custom,
+            data: ffi::NagaHLSLBackError__bindgen_ty_1 {
                 custom: unsafe { string_to_ffi(error) },
             },
         },
-        naga::back::hlsl::Error::Override => ffi::HLSLBackError {
-            tag: ffi::HLSLBackErrorTag_HLSLBackErrorTag_Override,
+        naga::back::hlsl::Error::Override => ffi::NagaHLSLBackError {
+            tag: ffi::NagaHLSLBackErrorTag_NagaHLSLBackErrorTag_Override,
             data: default_data,
         },
         naga::back::hlsl::Error::ResolveArraySizeError(resolve_array_size_error) => {
-            ffi::HLSLBackError {
-                tag: ffi::HLSLBackErrorTag_HLSLBackErrorTag_ResolveArraySizeError,
-                data: ffi::HLSLBackError__bindgen_ty_1 {
+            ffi::NagaHLSLBackError {
+                tag: ffi::NagaHLSLBackErrorTag_NagaHLSLBackErrorTag_ResolveArraySizeError,
+                data: ffi::NagaHLSLBackError__bindgen_ty_1 {
                     resolve_array_size_error: resolve_array_size_error_to_ffi(
                         resolve_array_size_error,
                     ),
                 },
             }
         }
-        naga::back::hlsl::Error::EntryPointNotFound(shader_stage, name) => ffi::HLSLBackError {
-            tag: ffi::HLSLBackErrorTag_HLSLBackErrorTag_EntryPointNotFound,
-            data: ffi::HLSLBackError__bindgen_ty_1 {
-                entry_point_not_found: ffi::HLSLBackError__bindgen_ty_1__bindgen_ty_1 {
+        naga::back::hlsl::Error::EntryPointNotFound(shader_stage, name) => ffi::NagaHLSLBackError {
+            tag: ffi::NagaHLSLBackErrorTag_NagaHLSLBackErrorTag_EntryPointNotFound,
+            data: ffi::NagaHLSLBackError__bindgen_ty_1 {
+                entry_point_not_found: ffi::NagaHLSLBackError__bindgen_ty_1__bindgen_ty_1 {
                     stage: shader_stage_to_ffi(shader_stage),
                     name: unsafe { string_to_ffi(name) },
                 },
             },
         },
-        naga::back::hlsl::Error::ShaderModelTooLow(message, shader_model) => ffi::HLSLBackError {
-            tag: ffi::HLSLBackErrorTag_HLSLBackErrorTag_ShaderModelTooLow,
-            data: ffi::HLSLBackError__bindgen_ty_1 {
-                shader_model_too_low: ffi::HLSLBackError__bindgen_ty_1__bindgen_ty_2 {
-                    message: unsafe { string_to_ffi(message) },
-                    model: hlsl_back_shader_model_to_ffi(shader_model),
+        naga::back::hlsl::Error::ShaderModelTooLow(message, shader_model) => {
+            ffi::NagaHLSLBackError {
+                tag: ffi::NagaHLSLBackErrorTag_NagaHLSLBackErrorTag_ShaderModelTooLow,
+                data: ffi::NagaHLSLBackError__bindgen_ty_1 {
+                    shader_model_too_low: ffi::NagaHLSLBackError__bindgen_ty_1__bindgen_ty_2 {
+                        message: unsafe { string_to_ffi(message) },
+                        model: hlsl_back_shader_model_to_ffi(shader_model),
+                    },
                 },
-            },
-        },
+            }
+        }
     }
 }
-
-// We need a `to_naga` implementation of this
-//
-// fn hlsl_back_fragment_entry_point_to_ffi(
-//     entry_point: &naga::back::hlsl::FragmentEntryPoint,
-// ) -> ffi::HLSLBackFragmentEntryPoint {
-//     ffi::HLSLBackFragmentEntryPoint {
-//         module: EMPTY_MUT,
-//         func: EMPTY_MUT,
-//     }
-// }

@@ -1,11 +1,11 @@
 use super::*;
 
-pub fn glsl_back_version_to_naga(version: &ffi::GLSLBackVersion) -> naga::back::glsl::Version {
+pub fn glsl_back_version_to_naga(version: &ffi::NagaGLSLBackVersion) -> naga::back::glsl::Version {
     match version.tag {
-        ffi::GLSLBackVersionTag_GLSLBackVersionTag_Desktop => {
+        ffi::NagaGLSLBackVersionTag_NagaGLSLBackVersionTag_Desktop => {
             naga::back::glsl::Version::Desktop(unsafe { version.data.desktop })
         }
-        ffi::GLSLBackVersionTag_GLSLBackVersionTag_Embedded => {
+        ffi::NagaGLSLBackVersionTag_NagaGLSLBackVersionTag_Embedded => {
             naga::back::glsl::Version::Embedded {
                 version: unsafe { version.data.embedded.version },
                 is_webgl: bool_to_naga(unsafe { version.data.embedded.is_webgl }),
@@ -16,23 +16,23 @@ pub fn glsl_back_version_to_naga(version: &ffi::GLSLBackVersion) -> naga::back::
 }
 
 pub fn glsl_back_writer_flags_to_naga(
-    flags: ffi::GLSLBackWriterFlagsFlags,
+    flags: ffi::NagaGLSLBackWriterFlagsFlags,
 ) -> naga::back::glsl::WriterFlags {
     let mut result = naga::back::glsl::WriterFlags::empty();
 
-    if flags & ffi::GLSLBackWriterFlags_GLSLBackWriterFlags_ADJUST_COORDINATE_SPACE != 0 {
+    if flags & ffi::NagaGLSLBackWriterFlags_NagaGLSLBackWriterFlags_ADJUST_COORDINATE_SPACE != 0 {
         result |= naga::back::glsl::WriterFlags::ADJUST_COORDINATE_SPACE;
     }
-    if flags & ffi::GLSLBackWriterFlags_GLSLBackWriterFlags_TEXTURE_SHADOW_LOD != 0 {
+    if flags & ffi::NagaGLSLBackWriterFlags_NagaGLSLBackWriterFlags_TEXTURE_SHADOW_LOD != 0 {
         result |= naga::back::glsl::WriterFlags::TEXTURE_SHADOW_LOD;
     }
-    if flags & ffi::GLSLBackWriterFlags_GLSLBackWriterFlags_DRAW_PARAMETERS != 0 {
+    if flags & ffi::NagaGLSLBackWriterFlags_NagaGLSLBackWriterFlags_DRAW_PARAMETERS != 0 {
         result |= naga::back::glsl::WriterFlags::DRAW_PARAMETERS;
     }
-    if flags & ffi::GLSLBackWriterFlags_GLSLBackWriterFlags_INCLUDE_UNUSED_ITEMS != 0 {
+    if flags & ffi::NagaGLSLBackWriterFlags_NagaGLSLBackWriterFlags_INCLUDE_UNUSED_ITEMS != 0 {
         result |= naga::back::glsl::WriterFlags::INCLUDE_UNUSED_ITEMS;
     }
-    if flags & ffi::GLSLBackWriterFlags_GLSLBackWriterFlags_FORCE_POINT_SIZE != 0 {
+    if flags & ffi::NagaGLSLBackWriterFlags_NagaGLSLBackWriterFlags_FORCE_POINT_SIZE != 0 {
         result |= naga::back::glsl::WriterFlags::FORCE_POINT_SIZE;
     }
 
@@ -48,7 +48,7 @@ pub fn glsl_back_writer_flags_to_naga(
     result
 }
 
-pub fn glsl_back_options_to_naga(options: &ffi::GLSLBackOptions) -> naga::back::glsl::Options {
+pub fn glsl_back_options_to_naga(options: &ffi::NagaGLSLBackOptions) -> naga::back::glsl::Options {
     naga::back::glsl::Options {
         version: glsl_back_version_to_naga(&options.version),
         writer_flags: glsl_back_writer_flags_to_naga(options.writer_flags),
@@ -58,7 +58,7 @@ pub fn glsl_back_options_to_naga(options: &ffi::GLSLBackOptions) -> naga::back::
 }
 
 pub fn glsl_back_binding_map_to_naga(
-    map: &ffi::GLSLBackBindingMap,
+    map: &ffi::NagaGLSLBackBindingMap,
 ) -> naga::back::glsl::BindingMap {
     unsafe {
         std::slice::from_raw_parts(map.entries, map.entries_len)
@@ -69,7 +69,7 @@ pub fn glsl_back_binding_map_to_naga(
 }
 
 pub fn glsl_back_pipeline_options_to_naga(
-    options: &ffi::GLSLBackPipelineOptions,
+    options: &ffi::NagaGLSLBackPipelineOptions,
 ) -> naga::back::glsl::PipelineOptions {
     naga::back::glsl::PipelineOptions {
         shader_stage: shader_stage_to_naga(&options.shader_stage),
@@ -84,86 +84,86 @@ pub fn glsl_back_pipeline_options_to_naga(
 
 pub fn glsl_back_features_to_ffi(
     features: naga::back::glsl::Features,
-) -> ffi::GLSLBackFeaturesFlags {
-    let mut result: ffi::GLSLBackFeaturesFlags = 0;
+) -> ffi::NagaGLSLBackFeaturesFlags {
+    let mut result: ffi::NagaGLSLBackFeaturesFlags = 0;
 
     if features.contains(naga::back::glsl::Features::BUFFER_STORAGE) {
-        result |= ffi::GLSLBackFeatures_GLSLBackFeatures_BUFFER_STORAGE;
+        result |= ffi::NagaGLSLBackFeatures_NagaGLSLBackFeatures_BUFFER_STORAGE;
     }
     if features.contains(naga::back::glsl::Features::ARRAY_OF_ARRAYS) {
-        result |= ffi::GLSLBackFeatures_GLSLBackFeatures_ARRAY_OF_ARRAYS;
+        result |= ffi::NagaGLSLBackFeatures_NagaGLSLBackFeatures_ARRAY_OF_ARRAYS;
     }
     if features.contains(naga::back::glsl::Features::DOUBLE_TYPE) {
-        result |= ffi::GLSLBackFeatures_GLSLBackFeatures_DOUBLE_TYPE;
+        result |= ffi::NagaGLSLBackFeatures_NagaGLSLBackFeatures_DOUBLE_TYPE;
     }
     if features.contains(naga::back::glsl::Features::FULL_IMAGE_FORMATS) {
-        result |= ffi::GLSLBackFeatures_GLSLBackFeatures_FULL_IMAGE_FORMATS;
+        result |= ffi::NagaGLSLBackFeatures_NagaGLSLBackFeatures_FULL_IMAGE_FORMATS;
     }
     if features.contains(naga::back::glsl::Features::MULTISAMPLED_TEXTURES) {
-        result |= ffi::GLSLBackFeatures_GLSLBackFeatures_MULTISAMPLED_TEXTURES;
+        result |= ffi::NagaGLSLBackFeatures_NagaGLSLBackFeatures_MULTISAMPLED_TEXTURES;
     }
     if features.contains(naga::back::glsl::Features::MULTISAMPLED_TEXTURE_ARRAYS) {
-        result |= ffi::GLSLBackFeatures_GLSLBackFeatures_MULTISAMPLED_TEXTURE_ARRAYS;
+        result |= ffi::NagaGLSLBackFeatures_NagaGLSLBackFeatures_MULTISAMPLED_TEXTURE_ARRAYS;
     }
     if features.contains(naga::back::glsl::Features::CUBE_TEXTURES_ARRAY) {
-        result |= ffi::GLSLBackFeatures_GLSLBackFeatures_CUBE_TEXTURES_ARRAY;
+        result |= ffi::NagaGLSLBackFeatures_NagaGLSLBackFeatures_CUBE_TEXTURES_ARRAY;
     }
     if features.contains(naga::back::glsl::Features::COMPUTE_SHADER) {
-        result |= ffi::GLSLBackFeatures_GLSLBackFeatures_COMPUTE_SHADER;
+        result |= ffi::NagaGLSLBackFeatures_NagaGLSLBackFeatures_COMPUTE_SHADER;
     }
     if features.contains(naga::back::glsl::Features::IMAGE_LOAD_STORE) {
-        result |= ffi::GLSLBackFeatures_GLSLBackFeatures_IMAGE_LOAD_STORE;
+        result |= ffi::NagaGLSLBackFeatures_NagaGLSLBackFeatures_IMAGE_LOAD_STORE;
     }
     if features.contains(naga::back::glsl::Features::CONSERVATIVE_DEPTH) {
-        result |= ffi::GLSLBackFeatures_GLSLBackFeatures_CONSERVATIVE_DEPTH;
+        result |= ffi::NagaGLSLBackFeatures_NagaGLSLBackFeatures_CONSERVATIVE_DEPTH;
     }
     if features.contains(naga::back::glsl::Features::NOPERSPECTIVE_QUALIFIER) {
-        result |= ffi::GLSLBackFeatures_GLSLBackFeatures_NOPERSPECTIVE_QUALIFIER;
+        result |= ffi::NagaGLSLBackFeatures_NagaGLSLBackFeatures_NOPERSPECTIVE_QUALIFIER;
     }
     if features.contains(naga::back::glsl::Features::SAMPLE_QUALIFIER) {
-        result |= ffi::GLSLBackFeatures_GLSLBackFeatures_SAMPLE_QUALIFIER;
+        result |= ffi::NagaGLSLBackFeatures_NagaGLSLBackFeatures_SAMPLE_QUALIFIER;
     }
     if features.contains(naga::back::glsl::Features::CLIP_DISTANCE) {
-        result |= ffi::GLSLBackFeatures_GLSLBackFeatures_CLIP_DISTANCE;
+        result |= ffi::NagaGLSLBackFeatures_NagaGLSLBackFeatures_CLIP_DISTANCE;
     }
     if features.contains(naga::back::glsl::Features::CULL_DISTANCE) {
-        result |= ffi::GLSLBackFeatures_GLSLBackFeatures_CULL_DISTANCE;
+        result |= ffi::NagaGLSLBackFeatures_NagaGLSLBackFeatures_CULL_DISTANCE;
     }
     if features.contains(naga::back::glsl::Features::SAMPLE_VARIABLES) {
-        result |= ffi::GLSLBackFeatures_GLSLBackFeatures_SAMPLE_VARIABLES;
+        result |= ffi::NagaGLSLBackFeatures_NagaGLSLBackFeatures_SAMPLE_VARIABLES;
     }
     if features.contains(naga::back::glsl::Features::DYNAMIC_ARRAY_SIZE) {
-        result |= ffi::GLSLBackFeatures_GLSLBackFeatures_DYNAMIC_ARRAY_SIZE;
+        result |= ffi::NagaGLSLBackFeatures_NagaGLSLBackFeatures_DYNAMIC_ARRAY_SIZE;
     }
     if features.contains(naga::back::glsl::Features::MULTI_VIEW) {
-        result |= ffi::GLSLBackFeatures_GLSLBackFeatures_MULTI_VIEW;
+        result |= ffi::NagaGLSLBackFeatures_NagaGLSLBackFeatures_MULTI_VIEW;
     }
     if features.contains(naga::back::glsl::Features::TEXTURE_SAMPLES) {
-        result |= ffi::GLSLBackFeatures_GLSLBackFeatures_TEXTURE_SAMPLES;
+        result |= ffi::NagaGLSLBackFeatures_NagaGLSLBackFeatures_TEXTURE_SAMPLES;
     }
     if features.contains(naga::back::glsl::Features::TEXTURE_LEVELS) {
-        result |= ffi::GLSLBackFeatures_GLSLBackFeatures_TEXTURE_LEVELS;
+        result |= ffi::NagaGLSLBackFeatures_NagaGLSLBackFeatures_TEXTURE_LEVELS;
     }
     if features.contains(naga::back::glsl::Features::IMAGE_SIZE) {
-        result |= ffi::GLSLBackFeatures_GLSLBackFeatures_IMAGE_SIZE;
+        result |= ffi::NagaGLSLBackFeatures_NagaGLSLBackFeatures_IMAGE_SIZE;
     }
     if features.contains(naga::back::glsl::Features::DUAL_SOURCE_BLENDING) {
-        result |= ffi::GLSLBackFeatures_GLSLBackFeatures_DUAL_SOURCE_BLENDING;
+        result |= ffi::NagaGLSLBackFeatures_NagaGLSLBackFeatures_DUAL_SOURCE_BLENDING;
     }
     if features.contains(naga::back::glsl::Features::INSTANCE_INDEX) {
-        result |= ffi::GLSLBackFeatures_GLSLBackFeatures_INSTANCE_INDEX;
+        result |= ffi::NagaGLSLBackFeatures_NagaGLSLBackFeatures_INSTANCE_INDEX;
     }
     if features.contains(naga::back::glsl::Features::TEXTURE_SHADOW_LOD) {
-        result |= ffi::GLSLBackFeatures_GLSLBackFeatures_TEXTURE_SHADOW_LOD;
+        result |= ffi::NagaGLSLBackFeatures_NagaGLSLBackFeatures_TEXTURE_SHADOW_LOD;
     }
     if features.contains(naga::back::glsl::Features::SUBGROUP_OPERATIONS) {
-        result |= ffi::GLSLBackFeatures_GLSLBackFeatures_SUBGROUP_OPERATIONS;
+        result |= ffi::NagaGLSLBackFeatures_NagaGLSLBackFeatures_SUBGROUP_OPERATIONS;
     }
     if features.contains(naga::back::glsl::Features::TEXTURE_ATOMICS) {
-        result |= ffi::GLSLBackFeatures_GLSLBackFeatures_TEXTURE_ATOMICS;
+        result |= ffi::NagaGLSLBackFeatures_NagaGLSLBackFeatures_TEXTURE_ATOMICS;
     }
     if features.contains(naga::back::glsl::Features::SHADER_BARYCENTRICS) {
-        result |= ffi::GLSLBackFeatures_GLSLBackFeatures_SHADER_BARYCENTRICS;
+        result |= ffi::NagaGLSLBackFeatures_NagaGLSLBackFeatures_SHADER_BARYCENTRICS;
     }
 
     sa::const_assert_eq!(
@@ -199,68 +199,68 @@ pub fn glsl_back_features_to_ffi(
     result
 }
 
-pub fn glsl_back_error_to_ffi(error: &naga::back::glsl::Error) -> ffi::GLSLBackError {
-    let default_data = ffi::GLSLBackError__bindgen_ty_1::default();
+pub fn glsl_back_error_to_ffi(error: &naga::back::glsl::Error) -> ffi::NagaGLSLBackError {
+    let default_data = ffi::NagaGLSLBackError__bindgen_ty_1::default();
 
     match error {
-        naga::back::glsl::Error::FmtError(error) => ffi::GLSLBackError {
-            tag: ffi::GLSLBackErrorTag_GLSLBackErrorTag_FmtError,
-            data: ffi::GLSLBackError__bindgen_ty_1 {
+        naga::back::glsl::Error::FmtError(error) => ffi::NagaGLSLBackError {
+            tag: ffi::NagaGLSLBackErrorTag_NagaGLSLBackErrorTag_FmtError,
+            data: ffi::NagaGLSLBackError__bindgen_ty_1 {
                 fmt_error: unsafe { string_to_ffi(&error.to_string()) },
             },
         },
-        naga::back::glsl::Error::MissingFeatures(features) => ffi::GLSLBackError {
-            tag: ffi::GLSLBackErrorTag_GLSLBackErrorTag_MissingFeatures,
-            data: ffi::GLSLBackError__bindgen_ty_1 {
+        naga::back::glsl::Error::MissingFeatures(features) => ffi::NagaGLSLBackError {
+            tag: ffi::NagaGLSLBackErrorTag_NagaGLSLBackErrorTag_MissingFeatures,
+            data: ffi::NagaGLSLBackError__bindgen_ty_1 {
                 missing_features: glsl_back_features_to_ffi(*features),
             },
         },
-        naga::back::glsl::Error::MultipleImmediateData => ffi::GLSLBackError {
-            tag: ffi::GLSLBackErrorTag_GLSLBackErrorTag_MultipleImmediateData,
+        naga::back::glsl::Error::MultipleImmediateData => ffi::NagaGLSLBackError {
+            tag: ffi::NagaGLSLBackErrorTag_NagaGLSLBackErrorTag_MultipleImmediateData,
             data: default_data,
         },
-        naga::back::glsl::Error::VersionNotSupported => ffi::GLSLBackError {
-            tag: ffi::GLSLBackErrorTag_GLSLBackErrorTag_VersionNotSupported,
+        naga::back::glsl::Error::VersionNotSupported => ffi::NagaGLSLBackError {
+            tag: ffi::NagaGLSLBackErrorTag_NagaGLSLBackErrorTag_VersionNotSupported,
             data: default_data,
         },
-        naga::back::glsl::Error::EntryPointNotFound => ffi::GLSLBackError {
-            tag: ffi::GLSLBackErrorTag_GLSLBackErrorTag_EntryPointNotFound,
+        naga::back::glsl::Error::EntryPointNotFound => ffi::NagaGLSLBackError {
+            tag: ffi::NagaGLSLBackErrorTag_NagaGLSLBackErrorTag_EntryPointNotFound,
             data: default_data,
         },
-        naga::back::glsl::Error::UnsupportedExternal(external) => ffi::GLSLBackError {
-            tag: ffi::GLSLBackErrorTag_GLSLBackErrorTag_UnsupportedExternal,
-            data: ffi::GLSLBackError__bindgen_ty_1 {
+        naga::back::glsl::Error::UnsupportedExternal(external) => ffi::NagaGLSLBackError {
+            tag: ffi::NagaGLSLBackErrorTag_NagaGLSLBackErrorTag_UnsupportedExternal,
+            data: ffi::NagaGLSLBackError__bindgen_ty_1 {
                 unsupported_external: unsafe { string_to_ffi(external) },
             },
         },
-        naga::back::glsl::Error::UnsupportedScalar(scalar) => ffi::GLSLBackError {
-            tag: ffi::GLSLBackErrorTag_GLSLBackErrorTag_UnsupportedScalar,
-            data: ffi::GLSLBackError__bindgen_ty_1 {
+        naga::back::glsl::Error::UnsupportedScalar(scalar) => ffi::NagaGLSLBackError {
+            tag: ffi::NagaGLSLBackErrorTag_NagaGLSLBackErrorTag_UnsupportedScalar,
+            data: ffi::NagaGLSLBackError__bindgen_ty_1 {
                 unsupported_scalar: scalar_to_ffi(scalar),
             },
         },
-        naga::back::glsl::Error::ImageMultipleSamplers => ffi::GLSLBackError {
-            tag: ffi::GLSLBackErrorTag_GLSLBackErrorTag_ImageMultipleSamplers,
+        naga::back::glsl::Error::ImageMultipleSamplers => ffi::NagaGLSLBackError {
+            tag: ffi::NagaGLSLBackErrorTag_NagaGLSLBackErrorTag_ImageMultipleSamplers,
             data: default_data,
         },
-        naga::back::glsl::Error::Custom(custom) => ffi::GLSLBackError {
-            tag: ffi::GLSLBackErrorTag_GLSLBackErrorTag_Custom,
-            data: ffi::GLSLBackError__bindgen_ty_1 {
+        naga::back::glsl::Error::Custom(custom) => ffi::NagaGLSLBackError {
+            tag: ffi::NagaGLSLBackErrorTag_NagaGLSLBackErrorTag_Custom,
+            data: ffi::NagaGLSLBackError__bindgen_ty_1 {
                 custom: unsafe { string_to_ffi(custom) },
             },
         },
-        naga::back::glsl::Error::Override => ffi::GLSLBackError {
-            tag: ffi::GLSLBackErrorTag_GLSLBackErrorTag_Override,
+        naga::back::glsl::Error::Override => ffi::NagaGLSLBackError {
+            tag: ffi::NagaGLSLBackErrorTag_NagaGLSLBackErrorTag_Override,
             data: default_data,
         },
-        naga::back::glsl::Error::FirstSamplingNotSupported => ffi::GLSLBackError {
-            tag: ffi::GLSLBackErrorTag_GLSLBackErrorTag_FirstSamplingNotSupported,
+        naga::back::glsl::Error::FirstSamplingNotSupported => ffi::NagaGLSLBackError {
+            tag: ffi::NagaGLSLBackErrorTag_NagaGLSLBackErrorTag_FirstSamplingNotSupported,
             data: default_data,
         },
         naga::back::glsl::Error::ResolveArraySizeError(resolve_array_size_error) => {
-            ffi::GLSLBackError {
-                tag: ffi::GLSLBackErrorTag_GLSLBackErrorTag_ResolveArraySizeError,
-                data: ffi::GLSLBackError__bindgen_ty_1 {
+            ffi::NagaGLSLBackError {
+                tag: ffi::NagaGLSLBackErrorTag_NagaGLSLBackErrorTag_ResolveArraySizeError,
+                data: ffi::NagaGLSLBackError__bindgen_ty_1 {
                     resolve_array_size_error: resolve_array_size_error_to_ffi(
                         resolve_array_size_error,
                     ),
@@ -272,6 +272,6 @@ pub fn glsl_back_error_to_ffi(error: &naga::back::glsl::Error) -> ffi::GLSLBackE
 
 pub fn glsl_back_reflection_info_to_ffi(
     _info: &naga::back::glsl::ReflectionInfo,
-) -> ffi::GLSLBackReflectionInfo {
-    ffi::GLSLBackReflectionInfo::default()
+) -> ffi::NagaGLSLBackReflectionInfo {
+    ffi::NagaGLSLBackReflectionInfo::default()
 }
